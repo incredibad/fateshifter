@@ -1,3 +1,13 @@
+## [0.8.10] — 2026-05-25
+
+### Added
+
+- Result card(s) pulse continuously after the reel settles — gentle 2.8 s ease-in-out scale (×1.018) + brightness cycle applied to the frame container so pair cards move as a unit
+
+### Changed
+
+- LTR shimmer delay reduced from 0.8 s to 0.55 s so it overlaps the tail of the RTL sweep by ~0.2 s
+
 ## [0.8.9] — 2026-05-25
 
 ### Changed
