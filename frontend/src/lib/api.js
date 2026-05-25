@@ -19,10 +19,21 @@ export const api = {
   logout: () => req('POST', '/auth/logout'),
   changePassword: (currentPassword, newPassword) => req('POST', '/auth/change-password', { currentPassword, newPassword }),
 
-  getCommanders: () => req('GET', '/commanders'),
-  createCommander: (data) => req('POST', '/commanders', data),
-  updateCommander: (id, data) => req('PUT', `/commanders/${id}`, data),
-  deleteCommander: (id) => req('DELETE', `/commanders/${id}`),
+  // Lists
+  getLists: () => req('GET', '/lists'),
+  createList: (name) => req('POST', '/lists', { name }),
+  updateList: (id, name) => req('PUT', `/lists/${id}`, { name }),
+  deleteList: (id) => req('DELETE', `/lists/${id}`),
 
-  generate: (colors) => req('GET', `/generate?colors=${colors.join(',')}`),
+  // Commanders within a list
+  getCommanders: (listId) => req('GET', `/lists/${listId}/commanders`),
+  createCommander: (listId, data) => req('POST', `/lists/${listId}/commanders`, data),
+  deleteCommander: (listId, id) => req('DELETE', `/lists/${listId}/commanders/${id}`),
+
+  // Bulk import
+  previewImport: (listId, names) => req('POST', `/lists/${listId}/import/preview`, { names }),
+  confirmImport: (listId, commanders) => req('POST', `/lists/${listId}/import`, { commanders }),
+
+  // Generate
+  generate: (listId, colors) => req('GET', `/generate?listId=${listId}&colors=${colors.join(',')}`),
 };
