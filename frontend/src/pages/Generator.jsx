@@ -516,6 +516,9 @@ export default function Generator() {
               : 'No commanders in this list exactly match the selected colours.'}
           </div>
         ) : null}
+        {phase === 'done' && reelFrames.length > 0 && !noResults && (
+          <div className={styles.revealShimmer} />
+        )}
       </div>
     </div>
   );
