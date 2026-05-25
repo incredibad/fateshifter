@@ -30,6 +30,7 @@ function ScryfallInput({ onSelect }) {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [open, setOpen] = useState(false);
+  const [searching, setSearching] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const timerRef = useRef(null);
@@ -48,11 +49,14 @@ function ScryfallInput({ onSelect }) {
     setSelectedCard(null);
     onSelect(null);
     clearTimeout(timerRef.current);
+    setSearching(false);
     if (val.length < 2) { setSuggestions([]); setOpen(false); return; }
     timerRef.current = setTimeout(async () => {
+      setSearching(true);
+      setOpen(true);
       const results = await scryfallAutocomplete(val);
       setSuggestions(results);
-      setOpen(results.length > 0);
+      setSearching(false);
     }, 280);
   }
 
@@ -75,15 +79,24 @@ function ScryfallInput({ onSelect }) {
           placeholder="Type a commander name…"
           autoFocus
         />
-        {fetching && (
+        {(searching || fetching) && (
           <span className="spin" style={{ width: 14, height: 14, border: '2px solid var(--border)', borderTopColor: 'var(--accent)', borderRadius: '50%', display: 'inline-block', flexShrink: 0 }} />
         )}
       </div>
       {open && (
         <div className={styles.suggestions}>
-          {suggestions.map(s => (
-            <button key={s} className={styles.suggestion} onMouseDown={() => handlePick(s)}>{s}</button>
-          ))}
+          {searching ? (
+            <div className={styles.suggestionMeta}>
+              <span className="spin" style={{ width: 12, height: 12, border: '2px solid var(--border)', borderTopColor: 'var(--accent)', borderRadius: '50%', display: 'inline-block', flexShrink: 0 }} />
+              Searching…
+            </div>
+          ) : suggestions.length > 0 ? (
+            suggestions.map(s => (
+              <button key={s} className={styles.suggestion} onMouseDown={() => handlePick(s)}>{s}</button>
+            ))
+          ) : (
+            <div className={styles.suggestionMeta}>No results</div>
+          )}
         </div>
       )}
       {selectedCard && (
