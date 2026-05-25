@@ -1,3 +1,9 @@
+## [0.3.0] — 2026-05-25
+
+### Added
+
+- Export List button on list detail page — opens a modal with all commander names one per line and a Copy to Clipboard button
+
 ## [0.2.1] — 2026-05-25
 
 ### Fixed

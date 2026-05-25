@@ -308,6 +308,46 @@ function ImportModal({ listId, onImported, onClose }) {
   );
 }
 
+// ── Export modal ──────────────────────────────────────────────────────
+
+function ExportModal({ commanders, onClose }) {
+  const text = commanders.map(c => c.name).join('\n');
+  const [copied, setCopied] = useState(false);
+
+  function handleCopy() {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  return (
+    <div className="modal-backdrop" onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="modal-sheet" style={{ maxWidth: 480 }}>
+        <div className="modal-header">
+          <span className="modal-title">Export List</span>
+          <button className={styles.closeBtn} onClick={onClose}>✕</button>
+        </div>
+        <div className="modal-body">
+          <textarea
+            className={styles.importTextarea}
+            value={text}
+            readOnly
+            rows={12}
+            onFocus={e => e.target.select()}
+          />
+        </div>
+        <div className="modal-footer">
+          <button className={styles.cancelBtn} onClick={onClose}>Close</button>
+          <button className={styles.saveBtn} onClick={handleCopy}>
+            {copied ? 'Copied!' : 'Copy to Clipboard'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Main page ──────────────────────────────────────────────────────────
 
 export default function ListDetail() {
@@ -349,6 +389,7 @@ export default function ListDetail() {
           <p className={styles.sub}>{commanders.length} commander{commanders.length !== 1 ? 's' : ''}</p>
         </div>
         <div className={styles.actions}>
+          <button className={styles.importBtn} onClick={() => setModal('export')}>Export List</button>
           <button className={styles.importBtn} onClick={() => setModal('import')}>Bulk Import</button>
           <button className={styles.addBtn} onClick={() => setModal('add')}>+ Add Commander</button>
         </div>
@@ -400,6 +441,7 @@ export default function ListDetail() {
 
       {modal === 'add' && <AddModal listId={id} onAdded={load} onClose={() => setModal(null)} />}
       {modal === 'import' && <ImportModal listId={id} onImported={load} onClose={() => setModal(null)} />}
+      {modal === 'export' && <ExportModal commanders={commanders} onClose={() => setModal(null)} />}
 
       {deleteId && (
         <div className="modal-backdrop" onClick={e => e.target === e.currentTarget && setDeleteId(null)}>
