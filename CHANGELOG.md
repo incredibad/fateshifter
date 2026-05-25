@@ -1,3 +1,9 @@
+## [0.4.1] — 2026-05-25
+
+### Fixed
+
+- Autocomplete dropdown in Add Commander modal no longer gets clipped by the modal's overflow boundary
+
 ## [0.4.0] — 2026-05-25
 
 ### Added

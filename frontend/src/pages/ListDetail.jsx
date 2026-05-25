@@ -122,12 +122,12 @@ function AddModal({ listId, onAdded, onClose }) {
 
   return (
     <div className="modal-backdrop" onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="modal-sheet">
+      <div className="modal-sheet" style={{ overflow: 'visible' }}>
         <div className="modal-header">
           <span className="modal-title">Add Commander</span>
           <button className={styles.closeBtn} onClick={onClose}>✕</button>
         </div>
-        <div className="modal-body">
+        <div className="modal-body" style={{ overflow: 'visible' }}>
           <ScryfallInput onSelect={setSelectedCard} />
           {error && <div className={styles.error}>{error}</div>}
         </div>
