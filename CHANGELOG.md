@@ -1,3 +1,9 @@
+## [0.8.34] — 2026-05-25
+
+### Fixed
+
+- Shimmer skew direction corrected: card skewX(-30deg) sweeps top-left→bottom-right; window skewX(30deg) sweeps bottom-right→top-left
+
 ## [0.8.33] — 2026-05-25
 
 ### Changed
