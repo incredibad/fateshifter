@@ -1,3 +1,10 @@
+## [0.8.29] — 2026-05-25
+
+### Changed
+
+- Reel spins downward (cards fall from above); result is now at the start of the strip
+- Bounce direction flipped to match — card overshoots downward then springs up to rest
+
 ## [0.8.28] — 2026-05-25
 
 ### Changed

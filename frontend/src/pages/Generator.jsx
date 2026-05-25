@@ -81,7 +81,7 @@ function buildReel(candidates, result, scrollFrames) {
   const pool = shuffle(candidates);
   const scroll = [];
   while (scroll.length < scrollFrames) scroll.push(...pool);
-  return [...scroll.slice(0, scrollFrames), result];
+  return [result, ...scroll.slice(0, scrollFrames)];
 }
 
 function getImageUrls(frame) {
@@ -353,19 +353,19 @@ export default function Generator() {
     reelViewportRef.current.style.setProperty('--frame-height', `${vh}px`);
     const el = stripRef.current;
     el.style.transition = 'none';
-    el.style.transform = 'translateY(0)';
+    el.style.transform = `translateY(-${(reelFrames.length - 1) * vh}px)`;
     void el.offsetHeight;
     el.style.transition = `transform ${spinDuration}s linear`;
-    el.style.transform = `translateY(-${(reelFrames.length - 1) * vh}px)`;
+    el.style.transform = 'translateY(0)';
     function onEnd() {
-      const lastFrame = el.lastElementChild;
+      const lastFrame = el.firstElementChild;
       if (lastFrame && reelViewportRef.current) {
         const cardW = parseFloat(getComputedStyle(reelViewportRef.current).getPropertyValue('--card-w')) || 300;
         animate(lastFrame, { y: 0 }, {
           type: 'spring',
           stiffness: 400,
           damping: 10,
-          from: -(cardW * 26 / 63),
+          from: cardW * 26 / 63,
         });
       }
     }
