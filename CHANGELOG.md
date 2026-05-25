@@ -1,3 +1,9 @@
+## [0.1.1] — 2026-05-25
+
+### Changed
+
+- Bundled PostgreSQL into the app container; single-container deployment, no separate postgres service required
+
 ## [0.1.0] — 2026-05-25
 
 ### Added

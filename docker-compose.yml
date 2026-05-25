@@ -1,33 +1,16 @@
 services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: fateshifter-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: fateshifter
-      POSTGRES_USER: fateshifter
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fateshifter_secret}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U fateshifter"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   fateshifter:
     image: incredibad/fateshifter:latest
-    container_name: fateshifter-app
+    container_name: fateshifter
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgres://fateshifter:${POSTGRES_PASSWORD:-fateshifter_secret}@postgres:5432/fateshifter
       NODE_ENV: production
       SESSION_SECRET: ${SESSION_SECRET:-change-this-secret-in-production}
-    depends_on:
-      postgres:
-        condition: service_healthy
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fateshifter_secret}
     ports:
       - "7283:7283"
+    volumes:
+      - fateshifter_data:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  fateshifter_data:

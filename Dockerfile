@@ -8,10 +8,18 @@ RUN npm run build
 
 # Stage 2: Production
 FROM node:20-alpine
+RUN apk add --no-cache postgresql16 su-exec && \
+    mkdir -p /var/lib/postgresql/data && \
+    chown -R postgres:postgres /var/lib/postgresql
+
 WORKDIR /app
 COPY backend/package.json .
 RUN npm install --production
 COPY backend/src ./src
 COPY --from=frontend-builder /app/dist ./public
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 EXPOSE 7283
-CMD ["node", "src/index.js"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
