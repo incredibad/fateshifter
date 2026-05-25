@@ -308,6 +308,22 @@ export default function Generator() {
   }, []);
 
   useEffect(() => {
+    function measure() {
+      const el = reelViewportRef.current;
+      if (!el) return;
+      const w = el.clientWidth;
+      const h = el.clientHeight;
+      const cardW = Math.floor(Math.min(w - 60, (h - 60) * 63 / 88));
+      el.style.setProperty('--frame-height', `${h}px`);
+      el.style.setProperty('--card-w', `${cardW}px`);
+    }
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (reelViewportRef.current) ro.observe(reelViewportRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
     if (phase !== 'spinning' || !stripRef.current || !reelFrames.length || !reelViewportRef.current) return;
     const vh = reelViewportRef.current.clientHeight;
     reelViewportRef.current.style.setProperty('--frame-height', `${vh}px`);
