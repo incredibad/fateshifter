@@ -1,3 +1,9 @@
+## [0.4.3] — 2026-05-25
+
+### Fixed
+
+- Generator crash "Cannot access 'pool' before initialization" — local variable named `pool` inside the route handler shadowed the imported db pool via temporal dead zone
+
 ## [0.4.2] — 2026-05-25
 
 ### Fixed

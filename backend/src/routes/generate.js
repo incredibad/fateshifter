@@ -85,7 +85,7 @@ router.get('/', async (req, res) => {
 
     const { excludeType, excludeIds: excludeIdsParam } = req.query;
     const excludeIds = excludeIdsParam ? excludeIdsParam.split(',') : [];
-    let pool = candidates;
+    let pickFrom = candidates;
     if (candidates.length > 1 && excludeType) {
       const filtered = candidates.filter(c => {
         if (c.type === 'single' && excludeType === 'single')
@@ -97,10 +97,10 @@ router.get('/', async (req, res) => {
         }
         return true;
       });
-      if (filtered.length) pool = filtered;
+      if (filtered.length) pickFrom = filtered;
     }
 
-    res.json({ result: pick(pool) });
+    res.json({ result: pick(pickFrom) });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
