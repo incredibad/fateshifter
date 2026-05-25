@@ -1,3 +1,9 @@
+## [0.8.13] — 2026-05-25
+
+### Changed
+
+- First card pulse shortened to 0.3 s and scaled up to ×1.08 (brightness 120%) for a sharper snap; continuous pulse follows at 0.65 s
+
 ## [0.8.12] — 2026-05-25
 
 ### Changed

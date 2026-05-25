@@ -443,7 +443,7 @@
 
 @keyframes cardPulseFirst {
   0%, 100% { transform: scale(1);     filter: brightness(1); }
-  50%       { transform: scale(1.04); filter: brightness(1.15); }
+  50%       { transform: scale(1.08); filter: brightness(1.2); }
 }
 @keyframes cardPulse {
   0%, 100% { transform: scale(1);      filter: brightness(1); }
@@ -452,8 +452,8 @@
 
 .framePulsing {
   animation:
-    cardPulseFirst 1.2s ease-in-out 0.35s 1 both,
-    cardPulse      2.8s ease-in-out 1.55s infinite;
+    cardPulseFirst 0.3s ease-in-out 0.35s 1 both,
+    cardPulse      2.8s ease-in-out 0.65s infinite;
   transform-origin: center;
 }
 
