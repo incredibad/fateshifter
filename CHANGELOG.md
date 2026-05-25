@@ -1,3 +1,9 @@
+## [0.8.38] — 2026-05-25
+
+### Changed
+
+- Tempt Fate button rewritten: dark background with static dots border using CSS gradient-border technique (`conic-gradient border-box` + `linear-gradient padding-box`); no z-index complexity; animation to follow
+
 ## [0.8.37] — 2026-05-25
 
 ### Fixed
