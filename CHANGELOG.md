@@ -1,3 +1,17 @@
+## [0.9.0] — 2026-05-25
+
+### Changed
+
+- **Theme overhaul — dungeon / arcane aesthetic**
+  - Color palette shifted from cool blue-black to warm stone charcoal; borders and elevation rings tinted warm gold instead of white
+  - Accent color changed from purple (#a855f7) to aged gold (#c9a84c) — affects nav active states, input focus rings, dropdowns, and all interactive highlights
+  - Text palette updated to parchment tones (#e8dcc8 / #9a896a / #5a4a32)
+  - Google Fonts: Black Ops One replaced with Cinzel + Cinzel Decorative; Cinzel applied to nav items, section labels, modal titles, and the roll button; Cinzel Decorative on the wordmark logo
+  - Logo wordmark color changed to gold with a soft glow
+  - Roll button redesigned: dark carved-stone base, gold text, gold-tinted border, gold shimmer sweep, amber glow pulse
+  - Reel viewport background shifted to warmer deep dark with a subtle purple-stone core
+  - Logo SVG slice strokes updated to match new nav background
+
 ## [0.8.46] — 2026-05-25
 
 ### Fixed

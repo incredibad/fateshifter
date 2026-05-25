@@ -78,10 +78,11 @@
 }
 
 .sectionLabel {
-  font-size: 11px;
+  font-family: var(--font-heading);
+  font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   color: var(--text3);
 }
 
@@ -206,8 +207,17 @@
 
 /* ─── Roll button ─── */
 @keyframes rollBtnPulse {
-  0%, 100% { box-shadow: 0 4px 28px rgba(168,85,247,0.55), 0 1px 0 rgba(255,255,255,0.12) inset; }
-  50%       { box-shadow: 0 4px 52px rgba(168,85,247,0.9), 0 0 72px rgba(192,38,211,0.35), 0 1px 0 rgba(255,255,255,0.18) inset; }
+  0%, 100% {
+    box-shadow: 0 4px 24px rgba(180,140,40,0.45),
+                0 0 0 1px rgba(201,168,76,0.25),
+                0 1px 0 rgba(255,220,100,0.10) inset;
+  }
+  50% {
+    box-shadow: 0 4px 48px rgba(200,155,50,0.75),
+                0 0 64px rgba(150,110,20,0.25),
+                0 0 0 1px rgba(201,168,76,0.50),
+                0 1px 0 rgba(255,220,100,0.20) inset;
+  }
 }
 @keyframes rollBtnShimmer {
   0%   { background-position: -200% center; }
@@ -220,12 +230,14 @@
   justify-content: center;
   gap: 10px;
   padding: 16px 36px;
-  background: linear-gradient(135deg, #c026d3 0%, #9333ea 38%, #7c3aed 68%, #4f46e5 100%);
-  color: white;
-  border-radius: 8px;
-  font-size: 17px;
+  background: linear-gradient(150deg, #221508 0%, #160e05 45%, #1e1808 100%);
+  color: #e6c55a;
+  border: 1px solid rgba(201,168,76,0.45);
+  border-radius: 4px;
+  font-family: var(--font-heading);
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   transition: box-shadow 0.2s, transform 0.15s;
   align-self: flex-start;
@@ -237,13 +249,16 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%);
+  background: linear-gradient(105deg, transparent 40%, rgba(230,197,90,0.28) 50%, transparent 60%);
   background-size: 200% 100%;
   animation: rollBtnShimmer 3s linear infinite;
   pointer-events: none;
 }
 .rollBtn:hover {
-  box-shadow: 0 8px 48px rgba(168,85,247,0.8), 0 0 72px rgba(192,38,211,0.4), 0 1px 0 rgba(255,255,255,0.2) inset;
+  box-shadow: 0 8px 48px rgba(200,160,50,0.80),
+              0 0 72px rgba(160,120,20,0.35),
+              0 0 0 1px rgba(201,168,76,0.65),
+              0 1px 0 rgba(255,220,100,0.25) inset;
   transform: translateY(-2px);
   animation: none;
 }
@@ -253,10 +268,10 @@
 .rollBtn:disabled::after { display: none; }
 
 .rollBtnSparkle {
-  width: 1.4em;
+  width: 1.3em;
   flex-shrink: 0;
   fill: none;
-  stroke: rgba(255,255,255,0.9);
+  stroke: rgba(230,197,90,0.85);
   stroke-width: 1.5;
   stroke-linejoin: round;
   stroke-linecap: round;
@@ -270,8 +285,8 @@
   min-height: 200px;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  background: radial-gradient(ellipse at 50% 50%, #0f0a1e 0%, #06060e 100%);
-  border: 1px solid var(--border);
+  background: radial-gradient(ellipse at 50% 45%, #0c0916 0%, #080608 55%, #050304 100%);
+  border: 1px solid rgba(210,175,100,0.14);
   transition: box-shadow 0.4s ease;
 }
 
