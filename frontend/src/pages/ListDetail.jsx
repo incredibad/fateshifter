@@ -308,6 +308,108 @@ function ImportModal({ listId, onImported, onClose }) {
   );
 }
 
+// ── Art picker modal ──────────────────────────────────────────────────
+
+const SCRYFALL_API = 'https://api.scryfall.com';
+
+function ArtPickerModal({ commander, listId, onUpdated, onClose }) {
+  const [prints, setPrints] = useState([]);
+  const [nextUrl, setNextUrl] = useState(null);
+  const [hasMore, setHasMore] = useState(false);
+  const [fetching, setFetching] = useState(false);
+  const [saving, setSaving] = useState(null);
+  const sentinelRef = useRef(null);
+
+  async function fetchPrints(url) {
+    setFetching(true);
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return;
+      const data = await res.json();
+      const items = data.data.map(card => ({
+        scryfallId: card.id,
+        imageUri: card.image_uris?.border_crop ?? card.card_faces?.[0]?.image_uris?.border_crop ?? null,
+        setName: card.set_name,
+        year: card.released_at?.slice(0, 4),
+      })).filter(p => p.imageUri);
+      setPrints(prev => [...prev, ...items]);
+      setHasMore(data.has_more);
+      setNextUrl(data.next_page ?? null);
+    } catch {}
+    setFetching(false);
+  }
+
+  useEffect(() => {
+    const q = encodeURIComponent(`!"${commander.name}"`);
+    fetchPrints(`${SCRYFALL_API}/cards/search?q=${q}&unique=prints&order=released`);
+  }, []);
+
+  useEffect(() => {
+    if (!sentinelRef.current) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && hasMore && !fetching && nextUrl) fetchPrints(nextUrl);
+    }, { rootMargin: '200px' });
+    obs.observe(sentinelRef.current);
+    return () => obs.disconnect();
+  }, [hasMore, fetching, nextUrl]);
+
+  async function handleSelect(print) {
+    setSaving(print.scryfallId);
+    try {
+      await api.updateCommander(listId, commander.id, {
+        scryfall_id: print.scryfallId,
+        image_uri: print.imageUri,
+      });
+      onUpdated(commander.id, { scryfall_id: print.scryfallId, image_uri: print.imageUri });
+      onClose();
+    } catch {}
+    setSaving(null);
+  }
+
+  return (
+    <div className="modal-backdrop" onClick={e => e.target === e.currentTarget && onClose()}>
+      <div
+        className="modal-sheet"
+        style={{ maxWidth: 520, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+      >
+        <div className="modal-header">
+          <span className="modal-title">Select Artwork — {commander.name}</span>
+          <button className={styles.closeBtn} onClick={onClose}>✕</button>
+        </div>
+        <div className={styles.artScrollArea}>
+          <div className={styles.artPrintGrid}>
+            {prints.map(p => (
+              <button
+                key={p.scryfallId}
+                className={`${styles.artPrint} ${commander.scryfall_id === p.scryfallId ? styles.artPrintSelected : ''}`}
+                onClick={() => handleSelect(p)}
+                disabled={!!saving}
+              >
+                {saving === p.scryfallId ? (
+                  <div className={styles.artPrintSaving}>
+                    <span className="spin" style={{ width: 20, height: 20, border: '2px solid var(--border)', borderTopColor: 'var(--accent)', borderRadius: '50%', display: 'inline-block' }} />
+                  </div>
+                ) : (
+                  <>
+                    <img src={p.imageUri} alt={p.setName} className={styles.artPrintImg} loading="lazy" />
+                    <div className={styles.artPrintLabel}>{p.setName} · {p.year}</div>
+                  </>
+                )}
+              </button>
+            ))}
+          </div>
+          {fetching && (
+            <div className={styles.artFetching}>
+              <span className="spin" style={{ width: 18, height: 18, border: '2px solid var(--border)', borderTopColor: 'var(--accent)', borderRadius: '50%', display: 'inline-block' }} />
+            </div>
+          )}
+          <div ref={sentinelRef} style={{ height: 1 }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Export modal ──────────────────────────────────────────────────────
 
 function ExportModal({ commanders, onClose }) {
@@ -355,8 +457,9 @@ export default function ListDetail() {
   const [listName, setListName] = useState('');
   const [commanders, setCommanders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [modal, setModal] = useState(null); // null | 'add' | 'import'
+  const [modal, setModal] = useState(null); // null | 'add' | 'import' | 'export'
   const [deleteId, setDeleteId] = useState(null);
+  const [artPicker, setArtPicker] = useState(null); // commander object
   const [search, setSearch] = useState('');
 
   async function load() {
@@ -373,6 +476,10 @@ export default function ListDetail() {
 
   async function handleDelete(cid) {
     try { await api.deleteCommander(id, cid); setDeleteId(null); await load(); } catch {}
+  }
+
+  function handleArtUpdated(cid, data) {
+    setCommanders(prev => prev.map(c => c.id === cid ? { ...c, ...data } : c));
   }
 
   const filtered = commanders.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
@@ -416,6 +523,7 @@ export default function ListDetail() {
       ) : (
         <div className={styles.table}>
           <div className={styles.tableHead}>
+            <div />
             <div>Name</div>
             <div>Colours</div>
             <div>Partner</div>
@@ -423,6 +531,14 @@ export default function ListDetail() {
           </div>
           {filtered.map(c => (
             <div key={c.id} className={styles.tableRow}>
+              <div>
+                <button className={styles.rowArt} onClick={() => setArtPicker(c)} title="Change artwork">
+                  {c.image_uri
+                    ? <img src={c.image_uri} alt="" className={styles.rowArtImg} loading="lazy" />
+                    : <div className={styles.rowArtPlaceholder} />
+                  }
+                </button>
+              </div>
               <div className={styles.rowName}>{c.name}</div>
               <div><ManaPips colors={c.color_identity} /></div>
               <div className={styles.rowPartner}>
@@ -442,6 +558,14 @@ export default function ListDetail() {
       {modal === 'add' && <AddModal listId={id} onAdded={load} onClose={() => setModal(null)} />}
       {modal === 'import' && <ImportModal listId={id} onImported={load} onClose={() => setModal(null)} />}
       {modal === 'export' && <ExportModal commanders={commanders} onClose={() => setModal(null)} />}
+      {artPicker && (
+        <ArtPickerModal
+          commander={artPicker}
+          listId={id}
+          onUpdated={handleArtUpdated}
+          onClose={() => setArtPicker(null)}
+        />
+      )}
 
       {deleteId && (
         <div className="modal-backdrop" onClick={e => e.target === e.currentTarget && setDeleteId(null)}>
