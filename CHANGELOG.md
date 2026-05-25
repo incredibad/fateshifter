@@ -1,3 +1,13 @@
+## [0.9.7] — 2026-05-26
+
+### Changed
+
+- Roll button: replace three-in-a-row rune glyphs with a 2D scattered cluster of 6 runes at varying positions, sizes, and opacities
+
+### Fixed
+
+- "Colour Identity" label visible when filters accordion is collapsed — add `overflow: hidden` to the outer `.accordion` grid container
+
 ## [0.9.6] — 2026-05-26
 
 ### Changed
