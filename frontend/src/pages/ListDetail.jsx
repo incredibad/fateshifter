@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { api } from '../lib/api.js';
-import { scryfallAutocomplete, scryfallNamed } from '../lib/scryfall.js';
+import { scryfallSearch, scryfallNamed } from '../lib/scryfall.js';
 import styles from './ListDetail.module.css';
 
 const FILTER_PRESETS = [
@@ -63,7 +63,6 @@ function ScryfallInput({ onSelect }) {
   const [suggestions, setSuggestions] = useState([]);
   const [open, setOpen] = useState(false);
   const [searching, setSearching] = useState(false);
-  const [fetching, setFetching] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const timerRef = useRef(null);
   const wrapRef = useRef(null);
@@ -86,19 +85,17 @@ function ScryfallInput({ onSelect }) {
     timerRef.current = setTimeout(async () => {
       setSearching(true);
       setOpen(true);
-      const results = await scryfallAutocomplete(val);
+      const results = await scryfallSearch(val);
       setSuggestions(results);
       setSearching(false);
     }, 280);
   }
 
-  async function handlePick(name) {
+  function handlePick(card) {
     setOpen(false);
-    setQuery(name);
-    setFetching(true);
-    const card = await scryfallNamed(name);
-    setFetching(false);
-    if (card) { setSelectedCard(card); onSelect(card); }
+    setQuery(card.name);
+    setSelectedCard(card);
+    onSelect(card);
   }
 
   return (
@@ -111,7 +108,7 @@ function ScryfallInput({ onSelect }) {
           placeholder="Type a commander name…"
           autoFocus
         />
-        {(searching || fetching) && (
+        {searching && (
           <span className="spin" style={{ width: 14, height: 14, border: '2px solid var(--border)', borderTopColor: 'var(--accent)', borderRadius: '50%', display: 'inline-block', flexShrink: 0 }} />
         )}
       </div>
@@ -123,8 +120,11 @@ function ScryfallInput({ onSelect }) {
               Searching…
             </div>
           ) : suggestions.length > 0 ? (
-            suggestions.map(s => (
-              <button key={s} className={styles.suggestion} onMouseDown={() => handlePick(s)}>{s}</button>
+            suggestions.map(card => (
+              <button key={card.scryfall_id || card.name} className={styles.suggestion} onMouseDown={() => handlePick(card)}>
+                {card.image_uri && <img src={card.image_uri} alt="" className={styles.suggestionArt} loading="lazy" />}
+                {card.name}
+              </button>
             ))
           ) : (
             <div className={styles.suggestionMeta}>No results</div>
@@ -133,7 +133,9 @@ function ScryfallInput({ onSelect }) {
       )}
       {selectedCard && (
         <div className={styles.cardPreview}>
-          <ManaPips colors={selectedCard.color_identity} />
+          {selectedCard.image_uri && (
+            <img src={selectedCard.image_uri} alt={selectedCard.name} className={styles.cardPreviewImg} />
+          )}
           {PARTNER_LABELS[selectedCard.partner_type] && (
             <span className={styles.partnerBadge}>{PARTNER_LABELS[selectedCard.partner_type]}</span>
           )}
@@ -290,8 +292,11 @@ function ImportModal({ listId, onImported, onClose }) {
                   <div className={styles.matchedList}>
                     {matched.map(c => (
                       <div key={c.name} className={styles.matchedItem}>
+                        {c.image_uri
+                          ? <img src={c.image_uri} alt="" className={styles.matchedArt} loading="lazy" />
+                          : <div className={styles.matchedArtPlaceholder} />
+                        }
                         <span className={styles.matchedName}>{c.name}</span>
-                        <ManaPips colors={c.color_identity} />
                       </div>
                     ))}
                   </div>
@@ -307,6 +312,9 @@ function ImportModal({ listId, onImported, onClose }) {
                     {unmatched.map(item => (
                       <div key={item.input} className={styles.unmatchedItem}>
                         <div className={styles.unmatchedInput}>{item.input}</div>
+                        {resolutions[item.input] && resolutions[item.input] !== 'skip' && resolutions[item.input].image_uri && (
+                          <img src={resolutions[item.input].image_uri} alt="" className={styles.resolvedArt} loading="lazy" />
+                        )}
                         <div className={styles.unmatchedActions}>
                           {item.suggestions.length > 0 ? (
                             <div className={styles.suggestionBtns}>

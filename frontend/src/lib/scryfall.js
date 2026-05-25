@@ -1,11 +1,14 @@
 const SCRYFALL = 'https://api.scryfall.com';
 
-export async function scryfallAutocomplete(query) {
+export async function scryfallSearch(query) {
   if (!query || query.length < 2) return [];
   try {
-    const res = await fetch(`${SCRYFALL}/cards/autocomplete?q=${encodeURIComponent(query)}&include_extras=false`);
+    const res = await fetch(
+      `${SCRYFALL}/cards/search?q=name:${encodeURIComponent(query)}+type:legendary&unique=names&order=name`
+    );
     if (!res.ok) return [];
-    return (await res.json()).data?.slice(0, 8) || [];
+    const data = await res.json();
+    return (data.data || []).slice(0, 8).map(parseCard);
   } catch { return []; }
 }
 
