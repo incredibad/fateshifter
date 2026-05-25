@@ -400,12 +400,12 @@
 }
 
 @keyframes shimmerLTR {
-  from { transform: translateX(-150%) skewX(30deg); }
-  to   { transform: translateX(300%)  skewX(30deg); }
+  from { transform: translateX(-150%) skewX(-30deg); }
+  to   { transform: translateX(300%)  skewX(-30deg); }
 }
 @keyframes shimmerRTL {
-  from { transform: translateX(250%)  skewX(-30deg); }
-  to   { transform: translateX(-200%) skewX(-30deg); }
+  from { transform: translateX(250%)  skewX(30deg); }
+  to   { transform: translateX(-200%) skewX(30deg); }
 }
 
 /* ambient window sweep */
