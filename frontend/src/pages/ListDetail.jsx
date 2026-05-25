@@ -4,6 +4,37 @@ import { api } from '../lib/api.js';
 import { scryfallAutocomplete, scryfallNamed } from '../lib/scryfall.js';
 import styles from './ListDetail.module.css';
 
+const FILTER_PRESETS = [
+  { label: 'Any', colors: null },
+  { label: 'Colorless', colors: [] },
+  { label: 'Mono-W', colors: ['W'] }, { label: 'Mono-U', colors: ['U'] },
+  { label: 'Mono-B', colors: ['B'] }, { label: 'Mono-R', colors: ['R'] }, { label: 'Mono-G', colors: ['G'] },
+  { label: 'Azorius', colors: ['W','U'] }, { label: 'Dimir', colors: ['U','B'] },
+  { label: 'Rakdos', colors: ['B','R'] }, { label: 'Gruul', colors: ['R','G'] },
+  { label: 'Selesnya', colors: ['G','W'] }, { label: 'Orzhov', colors: ['W','B'] },
+  { label: 'Izzet', colors: ['U','R'] }, { label: 'Golgari', colors: ['B','G'] },
+  { label: 'Boros', colors: ['R','W'] }, { label: 'Simic', colors: ['G','U'] },
+  { label: 'Bant', colors: ['G','W','U'] }, { label: 'Esper', colors: ['W','U','B'] },
+  { label: 'Grixis', colors: ['U','B','R'] }, { label: 'Jund', colors: ['B','R','G'] },
+  { label: 'Naya', colors: ['R','G','W'] }, { label: 'Abzan', colors: ['W','B','G'] },
+  { label: 'Jeskai', colors: ['U','R','W'] }, { label: 'Sultai', colors: ['B','G','U'] },
+  { label: 'Mardu', colors: ['R','W','B'] }, { label: 'Temur', colors: ['G','U','R'] },
+  { label: 'Non-Green', colors: ['W','U','B','R'] }, { label: 'Non-White', colors: ['U','B','R','G'] },
+  { label: 'Non-Blue', colors: ['W','B','R','G'] }, { label: 'Non-Black', colors: ['W','U','R','G'] },
+  { label: 'Non-Red', colors: ['W','U','B','G'] }, { label: 'Five-Color', colors: ['W','U','B','R','G'] },
+];
+
+function serializeColors(colors) {
+  if (colors === null || colors === undefined) return 'any';
+  return [...colors].sort().join(',');
+}
+
+function deserializeColors(val) {
+  if (val === 'any') return null;
+  if (val === '') return [];
+  return val.split(',');
+}
+
 const PARTNER_LABELS = {
   none: null,
   partner: 'Partner',
@@ -16,10 +47,11 @@ const PARTNER_LABELS = {
 };
 
 function ManaPips({ colors }) {
-  if (!colors || colors.length === 0) return <span className={`mana-pip mana-C ${styles.pip}`}>C</span>;
+  if (!colors || colors.length === 0)
+    return <i className={`ms ms-c ms-cost ${styles.pip}`} />;
   return (
     <span className={styles.pips}>
-      {colors.map(c => <span key={c} className={`mana-pip mana-${c} ${styles.pip}`}>{c}</span>)}
+      {colors.map(c => <i key={c} className={`ms ms-${c.toLowerCase()} ms-cost ${styles.pip}`} />)}
     </span>
   );
 }
@@ -474,15 +506,25 @@ export default function ListDetail() {
   const [deleteId, setDeleteId] = useState(null);
   const [artPicker, setArtPicker] = useState(null); // commander object
   const [search, setSearch] = useState('');
+  const [defaultColors, setDefaultColors] = useState(null);
 
   async function load() {
     try {
       const [lists, cmds] = await Promise.all([api.getLists(), api.getCommanders(id)]);
       const list = lists.find(l => String(l.id) === String(id));
-      if (list) setListName(list.name);
+      if (list) {
+        setListName(list.name);
+        setDefaultColors(list.default_colors ?? null);
+      }
       setCommanders(cmds);
     } catch {}
     setLoading(false);
+  }
+
+  async function handleDefaultColorsChange(val) {
+    const colors = deserializeColors(val);
+    setDefaultColors(colors);
+    try { await api.setListDefaultColors(id, colors); } catch {}
   }
 
   useEffect(() => { load(); }, [id]);
@@ -513,6 +555,19 @@ export default function ListDetail() {
           <button className={styles.importBtn} onClick={() => setModal('import')}>Bulk Import</button>
           <button className={styles.addBtn} onClick={() => setModal('add')}>+ Add Commander</button>
         </div>
+      </div>
+
+      <div className={styles.defaultFilterRow}>
+        <span className={styles.defaultFilterLabel}>Default Filter</span>
+        <select
+          className={styles.defaultFilterSelect}
+          value={serializeColors(defaultColors)}
+          onChange={e => handleDefaultColorsChange(e.target.value)}
+        >
+          {FILTER_PRESETS.map(p => (
+            <option key={p.label} value={serializeColors(p.colors)}>{p.label}</option>
+          ))}
+        </select>
       </div>
 
       <input

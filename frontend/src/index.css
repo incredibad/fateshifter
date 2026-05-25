@@ -71,19 +71,13 @@ input:focus, select:focus, textarea:focus {
 }
 select option { background: var(--bg3); }
 
-/* Mana pip */
+/* Mana pip — sized wrapper for mana-font icons */
 .mana-pip {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 20px; height: 20px; border-radius: 50%;
-  font-size: 10px; font-weight: 700; letter-spacing: 0; line-height: 1;
+  font-size: 20px;
+  display: inline-block;
   flex-shrink: 0;
+  line-height: 1;
 }
-.mana-W { background: var(--mana-w-bg); color: var(--mana-w); }
-.mana-U { background: var(--mana-u-bg); color: var(--mana-u); }
-.mana-B { background: var(--mana-b-bg); color: var(--mana-b); border: 1px solid rgba(255,255,255,0.15); }
-.mana-R { background: var(--mana-r-bg); color: var(--mana-r); }
-.mana-G { background: var(--mana-g-bg); color: var(--mana-g); }
-.mana-C { background: var(--bg4); color: var(--text2); border: 1px solid var(--border); }
 
 /* Animations */
 @keyframes fadeUp  { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
