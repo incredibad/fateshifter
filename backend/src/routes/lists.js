@@ -63,14 +63,26 @@ router.get('/:id/commanders', async (req, res) => {
 
 router.post('/:id/commanders', async (req, res) => {
   try {
-    const { name, color_identity, partner_type, partner_with_name, scryfall_id } = req.body;
+    const { name, color_identity, partner_type, partner_with_name, scryfall_id, image_uri } = req.body;
     if (!name?.trim()) return res.status(400).json({ error: 'Name is required' });
     const { rows } = await pool.query(
-      `INSERT INTO commanders (name, color_identity, partner_type, partner_with_name, scryfall_id, list_id)
-       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [name.trim(), color_identity || [], partner_type || 'none', partner_with_name || null, scryfall_id || null, req.params.id]
+      `INSERT INTO commanders (name, color_identity, partner_type, partner_with_name, scryfall_id, image_uri, list_id)
+       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+      [name.trim(), color_identity || [], partner_type || 'none', partner_with_name || null, scryfall_id || null, image_uri || null, req.params.id]
     );
     res.status(201).json(rows[0]);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+router.put('/:id/commanders/:cid', async (req, res) => {
+  try {
+    const { scryfall_id, image_uri } = req.body;
+    const { rows } = await pool.query(
+      `UPDATE commanders SET scryfall_id=$1, image_uri=$2, updated_at=NOW() WHERE id=$3 AND list_id=$4 RETURNING *`,
+      [scryfall_id || null, image_uri || null, req.params.cid, req.params.id]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Commander not found' });
+    res.json(rows[0]);
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
@@ -116,9 +128,9 @@ router.post('/:id/import', async (req, res) => {
     for (const c of commanders) {
       if (!c.name?.trim()) continue;
       await pool.query(
-        `INSERT INTO commanders (name, color_identity, partner_type, partner_with_name, scryfall_id, list_id)
-         VALUES ($1, $2, $3, $4, $5, $6)`,
-        [c.name.trim(), c.color_identity || [], c.partner_type || 'none', c.partner_with_name || null, c.scryfall_id || null, req.params.id]
+        `INSERT INTO commanders (name, color_identity, partner_type, partner_with_name, scryfall_id, image_uri, list_id)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [c.name.trim(), c.color_identity || [], c.partner_type || 'none', c.partner_with_name || null, c.scryfall_id || null, c.image_uri || null, req.params.id]
       );
       added++;
     }

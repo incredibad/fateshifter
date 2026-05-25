@@ -61,6 +61,7 @@ export async function initDb() {
   // Add columns to existing installs that predate this schema
   await pool.query(`ALTER TABLE commanders ADD COLUMN IF NOT EXISTS scryfall_id TEXT;`);
   await pool.query(`ALTER TABLE commanders ADD COLUMN IF NOT EXISTS list_id INTEGER REFERENCES lists(id) ON DELETE CASCADE;`);
+  await pool.query(`ALTER TABLE commanders ADD COLUMN IF NOT EXISTS image_uri TEXT;`);
 
   console.log('Database initialized');
 }

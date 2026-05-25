@@ -1,3 +1,11 @@
+## [0.4.0] — 2026-05-25
+
+### Added
+
+- Card artwork stored in database (`image_uri`) at import/add time from Scryfall border_crop (handles double-faced commanders)
+- Art thumbnail column in list detail table — click any thumbnail to change artwork
+- Artwork picker modal: infinite-scroll grid of all Scryfall printings for that card, set name and year shown below each, current printing highlighted, saves immediately on selection
+
 ## [0.3.1] — 2026-05-25
 
 ### Changed

@@ -29,6 +29,7 @@ export const api = {
   getCommanders: (listId) => req('GET', `/lists/${listId}/commanders`),
   createCommander: (listId, data) => req('POST', `/lists/${listId}/commanders`, data),
   deleteCommander: (listId, id) => req('DELETE', `/lists/${listId}/commanders/${id}`),
+  updateCommander: (listId, id, data) => req('PUT', `/lists/${listId}/commanders/${id}`, data),
 
   // Bulk import
   previewImport: (listId, names) => req('POST', `/lists/${listId}/import/preview`, { names }),

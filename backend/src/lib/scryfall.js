@@ -27,12 +27,17 @@ function parseCard(card) {
     partner_type = 'partner';
   }
 
+  const image_uri = card.image_uris?.border_crop
+    ?? card.card_faces?.[0]?.image_uris?.border_crop
+    ?? null;
+
   return {
     name: card.name,
     scryfall_id: card.id,
     color_identity: card.color_identity || [],
     partner_type,
     partner_with_name,
+    image_uri,
   };
 }
 
