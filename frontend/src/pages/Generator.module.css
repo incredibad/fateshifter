@@ -67,6 +67,7 @@
 .accordion {
   display: grid;
   grid-template-rows: 0fr;
+  overflow: hidden;
   transition: grid-template-rows 0.25s ease;
   margin-top: -4px;
 }
@@ -291,13 +292,17 @@
 .rollBtn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; animation: none; }
 .rollBtn:disabled::after { display: none; }
 
-.rollBtnRunes {
-  font-family: serif;
-  font-size: 1.15em;
-  line-height: 1;
-  letter-spacing: 0.1em;
-  color: rgba(196,176,240,0.80);
+.rollBtnRuneCluster {
+  position: relative;
+  width: 38px;
+  height: 30px;
   flex-shrink: 0;
+}
+.rollBtnRuneCluster span {
+  position: absolute;
+  font-family: serif;
+  line-height: 1;
+  color: rgba(196,176,240,0.9);
   user-select: none;
 }
 
