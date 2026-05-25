@@ -1,3 +1,9 @@
+## [0.9.4] — 2026-05-26
+
+### Changed
+
+- Replace dashed-gradient borders with SVG turbulence displacement filter (`feTurbulence + feDisplacementMap`) on pseudo-elements — borders now look genuinely rough and organic rather than geometric dashed lines. Applied to colour buttons, filter toggle, reel viewport frame, modal sheet, and nav sidebar right edge.
+
 ## [0.9.3] — 2026-05-26
 
 ### Changed
