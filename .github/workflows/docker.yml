@@ -33,7 +33,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: docker/metadata-action@v5
         with:
-          images: incredibad/espergen
+          images: incredibad/fateshifter
           tags: |
             type=raw,value=latest
             type=raw,value=v${{ steps.version.outputs.version }}
@@ -44,7 +44,7 @@ jobs:
         if: github.ref == 'refs/heads/dev'
         uses: docker/metadata-action@v5
         with:
-          images: incredibad/espergen
+          images: incredibad/fateshifter
           tags: |
             type=raw,value=dev
             type=sha,prefix=dev-,format=short

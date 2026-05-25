@@ -1,4 +1,4 @@
-# EsperGen
+# Fateshifter
 
 Random Commander generator for Magic: The Gathering Commander format.
 

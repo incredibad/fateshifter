@@ -9,7 +9,7 @@ export default function AppNav() {
     <div className={styles.nav}>
       <div className={styles.logo}>
         <span className={styles.logoIcon}>⚄</span>
-        <span className={styles.logoText}>EsperGen</span>
+        <span className={styles.logoText}>Fateshifter</span>
       </div>
       <div className={styles.divider} />
       <nav className={styles.links}>

@@ -3,22 +3,22 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: espergen
-      POSTGRES_USER: espergen
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-espergen_secret}
+      POSTGRES_DB: fateshifter
+      POSTGRES_USER: fateshifter
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fateshifter_secret}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U espergen"]
+      test: ["CMD-SHELL", "pg_isready -U fateshifter"]
       interval: 5s
       timeout: 5s
       retries: 5
 
-  espergen:
-    image: incredibad/espergen:latest
+  fateshifter:
+    image: incredibad/fateshifter:latest
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgres://espergen:${POSTGRES_PASSWORD:-espergen_secret}@postgres:5432/espergen
+      DATABASE_URL: postgres://fateshifter:${POSTGRES_PASSWORD:-fateshifter_secret}@postgres:5432/fateshifter
       NODE_ENV: production
       SESSION_SECRET: ${SESSION_SECRET:-change-this-secret-in-production}
     depends_on:
