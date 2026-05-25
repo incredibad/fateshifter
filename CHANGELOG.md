@@ -1,3 +1,10 @@
+## [0.8.12] — 2026-05-25
+
+### Changed
+
+- Vignette reduced from 28% to 10% on each edge so it no longer overlaps card art
+- Card pulse: first pulse is larger (scale ×1.04, brightness 115%) and timed to peak at ~0.95 s — aligned with the LTR card shimmer peak; subsequent pulses revert to the gentle continuous loop (scale ×1.018, brightness 107%)
+
 ## [0.8.11] — 2026-05-25
 
 ### Changed

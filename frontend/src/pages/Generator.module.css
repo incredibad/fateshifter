@@ -378,8 +378,8 @@
   background: linear-gradient(
     to bottom,
     var(--bg) 0%,
-    transparent 28%,
-    transparent 72%,
+    transparent 10%,
+    transparent 90%,
     var(--bg) 100%
   );
 }
@@ -441,13 +441,19 @@
   animation: shimmerLTR 0.75s ease-in-out 0.55s both;
 }
 
+@keyframes cardPulseFirst {
+  0%, 100% { transform: scale(1);     filter: brightness(1); }
+  50%       { transform: scale(1.04); filter: brightness(1.15); }
+}
 @keyframes cardPulse {
   0%, 100% { transform: scale(1);      filter: brightness(1); }
   50%       { transform: scale(1.018); filter: brightness(1.07); }
 }
 
 .framePulsing {
-  animation: cardPulse 2.8s ease-in-out infinite;
+  animation:
+    cardPulseFirst 1.2s ease-in-out 0.35s 1 both,
+    cardPulse      2.8s ease-in-out 1.55s infinite;
   transform-origin: center;
 }
 
