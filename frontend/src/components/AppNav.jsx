@@ -7,14 +7,14 @@ import styles from './AppNav.module.css';
 function LogoSVG() {
   return (
     <svg viewBox="0 0 40 40" width="36" height="36" className={styles.logoSvg}>
-      <path d="M20,20 L20,2 A18,18,0,0,1,35.59,11 Z" fill="#b8996e" stroke="rgba(0,0,0,0.55)" strokeWidth="0.75"/>
-      <path d="M20,20 L35.59,11 A18,18,0,0,1,35.59,29 Z" fill="#2563eb" stroke="rgba(0,0,0,0.55)" strokeWidth="0.75"/>
-      <path d="M20,20 L35.59,29 A18,18,0,0,1,20,38 Z" fill="#1a1a1a" stroke="rgba(0,0,0,0.55)" strokeWidth="0.75"/>
-      <path d="M20,20 L20,38 A18,18,0,0,1,4.41,29 Z" fill="#dc2626" stroke="rgba(0,0,0,0.55)" strokeWidth="0.75"/>
-      <path d="M20,20 L4.41,29 A18,18,0,0,1,4.41,11 Z" fill="#16a34a" stroke="rgba(0,0,0,0.55)" strokeWidth="0.75"/>
-      <path d="M20,20 L4.41,11 A18,18,0,0,1,20,2 Z" fill="#6b7280" stroke="rgba(0,0,0,0.55)" strokeWidth="0.75"/>
-      <circle cx="20" cy="20" r="18" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1"/>
-      <circle cx="20" cy="20" r="2.5" fill="rgba(0,0,0,0.6)"/>
+      <path d="M20,20 L20,2 A18,18,0,0,1,35.59,11 Z" fill="#F8F6D8" stroke="#0d0d14" strokeWidth="2"/>
+      <path d="M20,20 L35.59,11 A18,18,0,0,1,35.59,29 Z" fill="#0E68AB" stroke="#0d0d14" strokeWidth="2"/>
+      <path d="M20,20 L35.59,29 A18,18,0,0,1,20,38 Z" fill="#150B00" stroke="#0d0d14" strokeWidth="2"/>
+      <path d="M20,20 L20,38 A18,18,0,0,1,4.41,29 Z" fill="#D3202A" stroke="#0d0d14" strokeWidth="2"/>
+      <path d="M20,20 L4.41,29 A18,18,0,0,1,4.41,11 Z" fill="#00733E" stroke="#0d0d14" strokeWidth="2"/>
+      <path d="M20,20 L4.41,11 A18,18,0,0,1,20,2 Z" fill="#CAC5C0" stroke="#0d0d14" strokeWidth="2"/>
+      <circle cx="20" cy="20" r="18" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="0.75"/>
+      <circle cx="20" cy="20" r="3" fill="#0d0d14"/>
     </svg>
   );
 }

@@ -1,6 +1,6 @@
 {
   "name": "fateshifter-frontend",
-  "version": "0.7.2",
+  "version": "0.7.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
