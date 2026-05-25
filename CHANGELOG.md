@@ -1,3 +1,10 @@
+## [0.8.33] — 2026-05-25
+
+### Changed
+
+- Card shimmer: skewX(30deg) — band runs top-left to bottom-right, sweeps left→right
+- Window shimmer: skewX(-30deg) — band runs bottom-right to top-left, sweeps right→left; both at 30° from vertical
+
 ## [0.8.32] — 2026-05-25
 
 ### Changed
