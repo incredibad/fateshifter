@@ -1,3 +1,9 @@
+## [0.9.5] — 2026-05-26
+
+### Fixed
+
+- Container startup time: use `pg_ctl start -w` instead of a `sleep 1` poll loop; trap SIGTERM to gracefully stop Postgres on container shutdown, eliminating crash recovery on the next start
+
 ## [0.9.4] — 2026-05-26
 
 ### Changed
