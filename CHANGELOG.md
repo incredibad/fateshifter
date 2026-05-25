@@ -1,3 +1,9 @@
+## [0.8.40] — 2026-05-25
+
+### Changed
+
+- Tempt Fate button: replaced conic-gradient border (creates wedge shapes on rectangles) with simple `dashed` border — matches reference appearance, can be swapped for rotating animation later
+
 ## [0.8.39] — 2026-05-25
 
 ### Fixed
