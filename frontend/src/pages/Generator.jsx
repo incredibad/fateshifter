@@ -262,8 +262,8 @@ function RuneField() {
         size,
         color,
         glow,
-        opLo:       (rnd(0.1) + 0.04).toFixed(2),
-        opHi:       (rnd(0.45) + 0.3).toFixed(2),
+        opLo:       (rnd(0.06) + 0.02).toFixed(2),
+        opHi:       (rnd(0.25) + 0.15).toFixed(2),
         dur:        (rnd(2.5) + 2).toFixed(1),
         delay:      (rnd(6)).toFixed(1),
         spin:       size > 19,
@@ -342,7 +342,7 @@ export default function Generator() {
       if (!el) return;
       const w = el.clientWidth;
       const h = el.clientHeight;
-      const cardW = Math.floor(Math.min(w - 120, (h - 120) * 63 / 88));
+      const cardW = Math.floor(Math.min(w - 60, (h - 60) * 63 / 88));
       el.style.setProperty('--frame-height', `${h}px`);
       el.style.setProperty('--card-w', `${cardW}px`);
     }

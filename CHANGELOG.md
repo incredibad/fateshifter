@@ -1,3 +1,11 @@
+## [0.8.45] — 2026-05-25
+
+### Fixed
+
+- Rune drift animations now work: keyframes moved to global `index.css` so inline `animation:` strings can reference them by name (CSS Modules scopes keyframes defined inside module files)
+- Card size restored to original clearance (60 px) — 120 px clearance was too aggressive
+- Rune opacity reduced further for subtlety (peak 0.15–0.40, floor 0.02–0.08)
+
 ## [0.8.44] — 2026-05-25
 
 ### Changed

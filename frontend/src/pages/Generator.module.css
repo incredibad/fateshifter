@@ -276,51 +276,7 @@
 }
 
 
-/* ─── Rune field ─── */
-@keyframes runePulse {
-  0%, 100% { opacity: var(--sop-lo, 0.12); scale: 0.85; }
-  50%       { opacity: var(--sop-hi, 0.85); scale: 1.15; }
-}
-@keyframes runeSpin {
-  from { rotate: 0deg; }
-  to   { rotate: 360deg; }
-}
-@keyframes runeDrift1 {
-  0%   { translate: 0px   0px; }
-  25%  { translate: 14px -10px; }
-  50%  { translate: 6px   18px; }
-  75%  { translate: -12px  8px; }
-  100% { translate: 0px   0px; }
-}
-@keyframes runeDrift2 {
-  0%   { translate: 0px   0px; }
-  30%  { translate: -16px 12px; }
-  55%  { translate: 10px  20px; }
-  80%  { translate: 18px  -7px; }
-  100% { translate: 0px   0px; }
-}
-@keyframes runeDrift3 {
-  0%   { translate: 0px   0px; }
-  20%  { translate: -10px -16px; }
-  45%  { translate: 20px  -10px; }
-  70%  { translate: 8px   14px; }
-  100% { translate: 0px   0px; }
-}
-@keyframes runeDrift4 {
-  0%   { translate: 0px   0px; }
-  35%  { translate: 12px  15px; }
-  65%  { translate: -18px  6px; }
-  85%  { translate: -6px -12px; }
-  100% { translate: 0px   0px; }
-}
-@keyframes runeDrift5 {
-  0%   { translate: 0px   0px; }
-  40%  { translate: -8px -18px; }
-  70%  { translate: 16px  -8px; }
-  90%  { translate: 4px   16px; }
-  100% { translate: 0px   0px; }
-}
-
+/* ─── Rune field (keyframes are global in index.css) ─── */
 .rune {
   position: absolute;
   user-select: none;
