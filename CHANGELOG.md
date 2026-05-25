@@ -1,3 +1,9 @@
+## [0.8.21] — 2026-05-25
+
+### Changed
+
+- Reel scroll speed is now constant (4 cards/sec) regardless of spin duration — frame count scales with duration so longer spins show more cards, not slower cards
+
 ## [0.8.20] — 2026-05-25
 
 ### Changed

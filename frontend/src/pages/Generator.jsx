@@ -46,7 +46,7 @@ const ANY_PRESET = { label: 'Any', colors: null };
 const ALL_PRESETS = [ANY_PRESET, ...PRESETS];
 
 const FRAME_HEIGHT = 450;
-const SCROLL_FRAMES = 20;
+const FRAMES_PER_SECOND = 4;
 
 function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -76,11 +76,11 @@ function pickExcluding(candidates, prev) {
   return pick(filtered.length ? filtered : candidates);
 }
 
-function buildReel(candidates, result) {
+function buildReel(candidates, result, scrollFrames) {
   const pool = shuffle(candidates);
   const scroll = [];
-  while (scroll.length < SCROLL_FRAMES) scroll.push(...pool);
-  return [...scroll.slice(0, SCROLL_FRAMES), result];
+  while (scroll.length < scrollFrames) scroll.push(...pool);
+  return [...scroll.slice(0, scrollFrames), result];
 }
 
 function getImageUrls(frame) {
@@ -379,7 +379,7 @@ export default function Generator() {
       }
 
       const result = pickExcluding(candidates, prevResult);
-      const frames = buildReel(candidates, result);
+      const frames = buildReel(candidates, result, Math.max(8, Math.round(spinDuration * FRAMES_PER_SECOND)));
 
       await preloadImages(frames);
 
