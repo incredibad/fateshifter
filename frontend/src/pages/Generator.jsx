@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api.js';
@@ -242,6 +242,34 @@ function ReelFrame({ frame }) {
   );
 }
 
+function StarField() {
+  const layers = useMemo(() => {
+    const W = 700, H = 700;
+    const cols = [
+      '#fff','#fff','#fff','#fff','#fff',
+      '#c4b5fd','#c4b5fd','#a78bfa',
+      '#93c5fd','#7dd3fc',
+      '#fde68a','#fbbf24',
+      '#f9a8d4','#a5f3fc',
+    ];
+    function rnd(n) { return Math.floor(Math.random() * n); }
+    function make(count, blur) {
+      return Array.from({ length: count }, () =>
+        `${rnd(W)}px ${rnd(H)}px ${blur}px ${cols[rnd(cols.length)]}`
+      ).join(',');
+    }
+    return [make(110, 0), make(100, 0), make(80, 0), make(50, 1), make(20, 2)];
+  }, []);
+
+  return (
+    <>
+      {layers.map((shadow, i) => (
+        <div key={i} className={`${styles.starLayer} ${styles[`star${i}`]}`} style={{ boxShadow: shadow }} />
+      ))}
+    </>
+  );
+}
+
 export default function Generator() {
   const [lists, setLists] = useState([]);
   const [selectedListId, setSelectedListId] = useState('');
@@ -452,7 +480,8 @@ export default function Generator() {
 
       {error && <div className={styles.error}>{error}</div>}
 
-      <div className={styles.reelViewport} ref={reelViewportRef}>
+      <div className={`${styles.reelViewport} ${phase === 'spinning' ? styles.reelSpinning : ''}`} ref={reelViewportRef}>
+        <StarField />
         {showReel ? (
           <>
             <div className={styles.reelStrip} ref={stripRef}>

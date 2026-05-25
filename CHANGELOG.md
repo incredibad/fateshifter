@@ -1,3 +1,11 @@
+## [0.8.5] — 2026-05-25
+
+### Added
+
+- Star field background in the slot window: 360 twinkling stars across 5 independent layers, each with its own animation timing, mixing white and MTG-accent colours (purple, gold, cyan, pink); large stars have a soft glow blur
+- Slot window background changed from flat dark to a deep-space radial gradient
+- Pulsing purple inset glow on the slot window during a spin
+
 ## [0.8.4] — 2026-05-25
 
 ### Changed
