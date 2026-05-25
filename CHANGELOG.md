@@ -1,3 +1,20 @@
+## [0.7.4] — 2026-05-25
+
+### Changed
+
+- Logo pie uses correct MTG colour codes (White #F8F6D8, Blue #0E68AB, Black #150B00, Red #D3202A, Green #00733E, Colorless #CAC5C0) with wider gaps between slices
+- Logo wordmark font changed to Black Ops One (bold, subtly distressed, sans-serif)
+- Favicon updated to match the pie logo
+- Page title updated to "Fateshifter"
+
+## [0.7.3] — 2026-05-25
+
+### Changed
+
+- Slot window is now 1.5× taller (450 px); card art scaled up to match
+- "Tempt Fate" button has a gradient, glow, and lift-on-hover effect; full width on mobile
+- Removed page heading from the Fateshifter page
+
 ## [0.7.2] — 2026-05-25
 
 ### Changed

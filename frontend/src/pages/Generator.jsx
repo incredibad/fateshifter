@@ -44,7 +44,7 @@ const PRESETS = [
 const ANY_PRESET = { label: 'Any', colors: null };
 const ALL_PRESETS = [ANY_PRESET, ...PRESETS];
 
-const FRAME_HEIGHT = 300;
+const FRAME_HEIGHT = 450;
 const SCROLL_FRAMES = 20;
 
 function pick(arr) {
@@ -360,10 +360,6 @@ export default function Generator() {
 
   return (
     <div className={styles.page} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-      <h1 className={styles.heading}>Fateshifter</h1>
-
-      <hr className={styles.divider} />
-
       <section className={styles.section}>
         <div className={styles.listRow}>
           {listsLoading ? (

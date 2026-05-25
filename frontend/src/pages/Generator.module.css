@@ -69,13 +69,6 @@
   padding-bottom: 4px;
 }
 
-/* ─── Headings ─── */
-.heading {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
 .section {
   display: flex;
   flex-direction: column;
@@ -218,26 +211,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 14px 32px;
-  background: var(--accent);
+  gap: 9px;
+  padding: 16px 36px;
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 55%, #5b21b6 100%);
   color: white;
   border-radius: var(--radius);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  transition: opacity 0.15s, transform 0.1s;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: box-shadow 0.2s, transform 0.15s;
   align-self: flex-start;
-  box-shadow: 0 4px 16px rgba(168,85,247,0.35);
+  box-shadow: 0 4px 24px rgba(139,92,246,0.5), 0 1px 0 rgba(255,255,255,0.12) inset;
 }
-.rollBtn:hover { opacity: 0.88; }
-.rollBtn:active { transform: scale(0.98); }
-.rollBtn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.rollBtn:hover {
+  box-shadow: 0 8px 36px rgba(139,92,246,0.7), 0 1px 0 rgba(255,255,255,0.16) inset;
+  transform: translateY(-2px);
+}
+.rollBtn:active { transform: scale(0.97) translateY(0); }
+.rollBtn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
 
 /* ─── Reel ─── */
 .reelViewport {
   position: relative;
-  height: 300px;
+  height: 450px;
   overflow: hidden;
   border-radius: var(--radius-lg);
   background: var(--bg2);
@@ -251,7 +248,7 @@
 }
 
 .reelFrame {
-  height: 300px;
+  height: 450px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -266,13 +263,13 @@
 
 .pairFrame {
   position: relative;
-  width: 240px;
-  height: 260px;
+  width: 320px;
+  height: 370px;
 }
 
 .cardImg {
-  width: 200px;
-  border-radius: 10px;
+  width: 270px;
+  border-radius: 13px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   display: block;
   user-select: none;
@@ -281,35 +278,35 @@
 
 .cardFront {
   position: absolute;
-  width: 155px;
-  left: 8px;
-  top: 5px;
+  width: 210px;
+  left: 10px;
+  top: 6px;
   z-index: 2;
   transform: rotate(-4deg);
   transform-origin: bottom center;
   box-shadow: 0 6px 28px rgba(0, 0, 0, 0.65);
-  border-radius: 9px;
+  border-radius: 12px;
 }
 
 .cardBack {
   position: absolute;
-  width: 155px;
-  right: 8px;
-  top: 22px;
+  width: 210px;
+  right: 10px;
+  top: 28px;
   z-index: 1;
   transform: rotate(4deg);
   transform-origin: bottom center;
   opacity: 0.88;
   box-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
-  border-radius: 9px;
+  border-radius: 12px;
 }
 
 .cardPlaceholder {
-  width: 200px;
-  height: 279px;
+  width: 270px;
+  height: 376px;
   background: var(--bg3);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -396,9 +393,10 @@
 }
 
 @media (max-width: 600px) {
-  .cardImg { width: 170px; }
-  .cardFront { width: 130px; }
-  .cardBack { width: 130px; }
-  .pairFrame { width: 200px; height: 220px; }
+  .rollBtn { align-self: stretch; }
+  .cardImg { width: 220px; }
+  .cardFront { width: 170px; }
+  .cardBack { width: 170px; }
+  .pairFrame { width: 260px; height: 300px; }
   .resultName { font-size: 17px; }
 }
