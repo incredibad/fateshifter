@@ -1,3 +1,9 @@
+## [0.7.1] — 2026-05-25
+
+### Fixed
+
+- Colorless filter now correctly returns only colorless commanders; previously an empty colour array serialised to an empty string which the backend misread as "any"
+
 ## [0.7.0] — 2026-05-25
 
 ### Added
