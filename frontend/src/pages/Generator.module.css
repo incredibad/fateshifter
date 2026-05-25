@@ -442,14 +442,14 @@
 }
 
 @keyframes cardBounce {
-  0%   { transform: translateY(0); }
-  20%  { transform: translateY(calc(var(--card-w, 300px) * 26 / 63)); }
-  37%  { transform: translateY(calc(var(--card-w, 300px) * -14 / 63)); }
-  51%  { transform: translateY(calc(var(--card-w, 300px) * 8 / 63)); }
-  62%  { transform: translateY(calc(var(--card-w, 300px) * -4 / 63)); }
-  71%  { transform: translateY(calc(var(--card-w, 300px) * 2 / 63)); }
-  79%  { transform: translateY(calc(var(--card-w, 300px) * -1 / 63)); }
-  86%  { transform: translateY(calc(var(--card-w, 300px) * 1 / 63)); }
+  0%   { transform: translateY(0);                                          animation-timing-function: ease-in; }
+  20%  { transform: translateY(calc(var(--card-w, 300px) * 26 / 63));      animation-timing-function: ease-out; }
+  37%  { transform: translateY(calc(var(--card-w, 300px) * -14 / 63));     animation-timing-function: ease-in; }
+  51%  { transform: translateY(calc(var(--card-w, 300px) * 8 / 63));       animation-timing-function: ease-out; }
+  62%  { transform: translateY(calc(var(--card-w, 300px) * -4 / 63));      animation-timing-function: ease-in; }
+  71%  { transform: translateY(calc(var(--card-w, 300px) * 2 / 63));       animation-timing-function: ease-out; }
+  79%  { transform: translateY(calc(var(--card-w, 300px) * -1 / 63));      animation-timing-function: ease-in; }
+  86%  { transform: translateY(calc(var(--card-w, 300px) * 1 / 63));       animation-timing-function: ease-out; }
   100% { transform: translateY(0); }
 }
 
