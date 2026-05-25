@@ -18,7 +18,7 @@ function setUnion(a, b) {
 }
 
 function parseColors(colorsParam) {
-  if (!colorsParam || colorsParam === 'any') return null;
+  if (colorsParam == null || colorsParam === 'any') return null;
   return colorsParam.split(',').filter(c => ['W', 'U', 'B', 'R', 'G'].includes(c));
 }
 
