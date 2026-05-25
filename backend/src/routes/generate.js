@@ -7,6 +7,16 @@ function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function setsEqual(a, b) {
+  if (a.length !== b.length) return false;
+  const s = new Set(a);
+  return b.every(x => s.has(x));
+}
+
+function setUnion(a, b) {
+  return [...new Set([...a, ...b])];
+}
+
 router.get('/', async (req, res) => {
   try {
     const { listId, colors: colorsParam } = req.query;
@@ -21,56 +31,59 @@ router.get('/', async (req, res) => {
       [listId, selectedColors]
     );
 
-    if (!eligible.length) return res.json({ single: null, partners: null });
+    if (!eligible.length) return res.json({ result: null });
 
-    const single = pick(eligible);
-    const validPairs = [];
+    // Singles must exactly match the selected colours
+    const validSingles = eligible.filter(c => setsEqual(c.color_identity, selectedColors));
+
+    // Build all mechanically-legal partner pairs
+    const allPairs = [];
 
     const genericPartners = eligible.filter(c => c.partner_type === 'partner');
-    for (let i = 0; i < genericPartners.length; i++) {
-      for (let j = i + 1; j < genericPartners.length; j++) {
-        validPairs.push([genericPartners[i], genericPartners[j]]);
-      }
-    }
+    for (let i = 0; i < genericPartners.length; i++)
+      for (let j = i + 1; j < genericPartners.length; j++)
+        allPairs.push([genericPartners[i], genericPartners[j]]);
 
     const friendsForever = eligible.filter(c => c.partner_type === 'friends_forever');
-    for (let i = 0; i < friendsForever.length; i++) {
-      for (let j = i + 1; j < friendsForever.length; j++) {
-        validPairs.push([friendsForever[i], friendsForever[j]]);
-      }
-    }
+    for (let i = 0; i < friendsForever.length; i++)
+      for (let j = i + 1; j < friendsForever.length; j++)
+        allPairs.push([friendsForever[i], friendsForever[j]]);
 
     const partnerWithList = eligible.filter(c => c.partner_type === 'partner_with' && c.partner_with_name);
-    for (const commander of partnerWithList) {
+    for (const cmd of partnerWithList) {
       const partner = eligible.find(
         c => c.partner_type === 'partner_with' &&
-          c.name.toLowerCase() === commander.partner_with_name.toLowerCase() &&
-          c.id !== commander.id
+          c.name.toLowerCase() === cmd.partner_with_name.toLowerCase() &&
+          c.id !== cmd.id
       );
-      if (partner && partner.id > commander.id) validPairs.push([commander, partner]);
+      if (partner && partner.id > cmd.id) allPairs.push([cmd, partner]);
     }
 
     const chooseBackgroundCmds = eligible.filter(c => c.partner_type === 'choose_a_background');
     const backgroundCards = eligible.filter(c => c.partner_type === 'background');
-    for (const cmd of chooseBackgroundCmds) {
-      for (const bg of backgroundCards) {
-        validPairs.push([cmd, bg]);
-      }
-    }
+    for (const cmd of chooseBackgroundCmds)
+      for (const bg of backgroundCards)
+        allPairs.push([cmd, bg]);
 
     const doctorCompanions = eligible.filter(c => c.partner_type === 'doctor_companion');
     const timeLordDoctors = eligible.filter(c => c.partner_type === 'time_lord_doctor');
-    for (const comp of doctorCompanions) {
-      for (const doc of timeLordDoctors) {
-        validPairs.push([comp, doc]);
-      }
-    }
+    for (const comp of doctorCompanions)
+      for (const doc of timeLordDoctors)
+        allPairs.push([comp, doc]);
 
-    const partners = validPairs.length
-      ? (() => { const [a, b] = pick(validPairs); return { a, b }; })()
-      : null;
+    // Pairs must union to exactly the selected colours
+    const validPairs = allPairs.filter(([a, b]) =>
+      setsEqual(setUnion(a.color_identity, b.color_identity), selectedColors)
+    );
 
-    res.json({ single, partners });
+    if (!validSingles.length && !validPairs.length) return res.json({ result: null });
+
+    const candidates = [
+      ...validSingles.map(c => ({ type: 'single', commander: c })),
+      ...validPairs.map(([a, b]) => ({ type: 'pair', a, b })),
+    ];
+
+    res.json({ result: pick(candidates) });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
