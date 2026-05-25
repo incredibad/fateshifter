@@ -1,6 +1,6 @@
 {
   "name": "fateshifter-backend",
-  "version": "0.8.44",
+  "version": "0.8.45",
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
