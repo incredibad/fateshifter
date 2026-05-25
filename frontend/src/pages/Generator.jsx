@@ -243,48 +243,53 @@ function ReelFrame({ frame }) {
   );
 }
 
-function StarField() {
-  const stars = useMemo(() => {
-    const chars = ['✦', '✦', '✦', '✧', '✧', '✩', '✦'];
-    const cols  = ['#fff','#fff','#fff','#c4b5fd','#a78bfa','#fde68a','#93c5fd','#f9a8d4'];
+const RUNE_CHARS = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ','ᚲ','ᚷ','ᚹ','ᚺ','ᛃ','ᛇ','ᛈ','ᛉ','ᛊ','ᛏ','ᛒ','ᛖ','ᛗ','ᛚ','ᛜ','ᛞ','ᛟ'];
+const RUNE_COLS  = ['#f8f6d8','#4a9ede','#c4b5fd','#a78bfa','#fde68a','#f9a8d4','#6ee7b7','#67e8f9','#fca5a5'];
+
+function RuneField() {
+  const runes = useMemo(() => {
     function rnd(n) { return Math.random() * n; }
     function rndI(n) { return Math.floor(Math.random() * n); }
-    return Array.from({ length: 65 }, (_, id) => {
-      const size = rnd(13) + 7;
+    return Array.from({ length: 45 }, (_, id) => {
+      const size  = rnd(14) + 10;
+      const color = RUNE_COLS[rndI(RUNE_COLS.length)];
+      const glow  = Math.round(size * 0.9);
       return {
         id,
-        char:    chars[rndI(chars.length)],
-        x:       rnd(97) + 1,
-        y:       rnd(97) + 1,
+        char:       RUNE_CHARS[rndI(RUNE_CHARS.length)],
+        x:          rnd(94) + 2,
+        y:          rnd(94) + 2,
         size,
-        color:   cols[rndI(cols.length)],
-        opLo:    (rnd(0.15) + 0.05).toFixed(2),
-        opHi:    (rnd(0.55) + 0.45).toFixed(2),
-        dur:     (rnd(2.5)  + 1.5).toFixed(1),
-        delay:   (rnd(5)        ).toFixed(1),
-        spin:    size > 15,
-        spinDur: (rnd(7) + 5).toFixed(1),
+        color,
+        glow,
+        opLo:       (rnd(0.1) + 0.04).toFixed(2),
+        opHi:       (rnd(0.45) + 0.3).toFixed(2),
+        dur:        (rnd(2.5) + 2).toFixed(1),
+        delay:      (rnd(6)).toFixed(1),
+        spin:       size > 19,
+        spinDur:    (rnd(10) + 10).toFixed(1),
+        drift:      rndI(5) + 1,
+        driftDur:   (rnd(6) + 8).toFixed(1),
+        driftDelay: (rnd(4)).toFixed(1),
       };
     });
   }, []);
 
   return (
     <>
-      {stars.map(s => (
+      {runes.map(s => (
         <span
           key={s.id}
-          className={s.spin ? `${styles.star} ${styles.starSpinning}` : styles.star}
+          className={styles.rune}
           style={{
             left:       `${s.x}%`,
             top:        `${s.y}%`,
             fontSize:   `${s.size}px`,
             color:      s.color,
-            textShadow: `0 0 ${Math.round(s.size * 0.6)}px ${s.color}`,
-            '--sdur':   `${s.dur}s`,
-            '--sdel':   `${s.delay}s`,
-            '--srdur':  `${s.spinDur}s`,
+            textShadow: `0 0 ${s.glow}px ${s.color}, 0 0 ${s.glow * 2}px ${s.color}80`,
             '--sop-lo': s.opLo,
             '--sop-hi': s.opHi,
+            animation:  `runePulse ${s.dur}s ease-in-out ${s.delay}s infinite, runeDrift${s.drift} ${s.driftDur}s ease-in-out ${s.driftDelay}s infinite${s.spin ? `, runeSpin ${s.spinDur}s linear 0s infinite` : ''}`,
           }}
         >
           {s.char}
@@ -337,7 +342,7 @@ export default function Generator() {
       if (!el) return;
       const w = el.clientWidth;
       const h = el.clientHeight;
-      const cardW = Math.floor(Math.min(w - 60, (h - 60) * 63 / 88));
+      const cardW = Math.floor(Math.min(w - 120, (h - 120) * 63 / 88));
       el.style.setProperty('--frame-height', `${h}px`);
       el.style.setProperty('--card-w', `${cardW}px`);
     }
@@ -539,8 +544,8 @@ export default function Generator() {
 
       {error && <div className={styles.error}>{error}</div>}
 
-      <div className={`${styles.reelViewport} ${phase === 'spinning' ? styles.reelSpinning : ''}`} ref={reelViewportRef}>
-        <StarField />
+      <div className={styles.reelViewport} ref={reelViewportRef}>
+        <RuneField />
         {showReel ? (
           <>
             <div className={styles.reelStrip} ref={stripRef}>
@@ -562,10 +567,23 @@ export default function Generator() {
         {phase === 'done' && reelFrames.length > 0 && !noResults && (
           <>
             <div className={`${styles.revealShimmer} ${styles.revealShimmerRTL}`} />
-            <div className={styles.revealShimmerCardWrap}>
-              <div className={`${styles.revealShimmer} ${styles.revealShimmerLTR}`} />
-              <div className={`${styles.revealShimmer} ${styles.revealShimmerLTR2}`} />
-            </div>
+            {currentResult?.type === 'pair' ? (
+              <>
+                <div className={styles.revealShimmerPairFront}>
+                  <div className={`${styles.revealShimmer} ${styles.revealShimmerLTR}`} />
+                  <div className={`${styles.revealShimmer} ${styles.revealShimmerLTR2}`} />
+                </div>
+                <div className={styles.revealShimmerPairBack}>
+                  <div className={`${styles.revealShimmer} ${styles.revealShimmerLTR}`} />
+                  <div className={`${styles.revealShimmer} ${styles.revealShimmerLTR2}`} />
+                </div>
+              </>
+            ) : (
+              <div className={styles.revealShimmerCardWrap}>
+                <div className={`${styles.revealShimmer} ${styles.revealShimmerLTR}`} />
+                <div className={`${styles.revealShimmer} ${styles.revealShimmerLTR2}`} />
+              </div>
+            )}
           </>
         )}
       </div>

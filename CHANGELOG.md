@@ -1,3 +1,13 @@
+## [0.8.44] — 2026-05-25
+
+### Changed
+
+- Slot viewport padding increased (card clearance 60 px → 120 px)
+- Spinning glow animation on the reel viewport removed
+- Card drop shadows strengthened with a subtle purple ambient glow
+- Partner card shimmer now applies to each card individually rather than one shared overlay (prevents bleed into the blank diagonal corner)
+- Floating background elements replaced: sparkle characters (✦ ✧ ✩) replaced with 45 glowing Elder Futhark runes; each rune drifts slowly via one of five organic float-path animations, fades in and out, and larger runes slowly rotate
+
 ## [0.8.43] — 2026-05-25
 
 ### Changed
