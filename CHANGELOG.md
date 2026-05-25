@@ -1,3 +1,13 @@
+## [0.9.2] — 2026-05-25
+
+### Changed
+
+- Global grain overlay added (`body::after` fixed pseudo-element with SVG feTurbulence noise) — breaks up every smooth surface in the UI
+- Nav sidebar: layered inset shadows simulate a thick stone wall edge; logo and nav item text get a carved drop-shadow
+- Roll button: clean gradient broken up with a diagonal light/shadow overlay layer; gold text gets a carved glow+shadow
+- Section labels get a carved text-shadow
+- Reel viewport: chiseled inset border shadows; diagonal scratch-line `::before`; four-corner darkening vignette `::after` for a worn stone frame look
+
 ## [0.9.1] — 2026-05-25
 
 ### Changed
