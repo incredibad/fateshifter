@@ -1,3 +1,9 @@
+## [0.9.6] — 2026-05-26
+
+### Changed
+
+- Arcane colour palette: dark void/purple backgrounds (`#09080f` → `#211d30`), pale violet text, purple accent (`#a07ee8`) replacing warm gold throughout — backgrounds, borders, elevations, inputs, nav logo, roll button glow and shimmer
+
 ## [0.9.5] — 2026-05-26
 
 ### Fixed
