@@ -1,3 +1,9 @@
+## [0.8.31] — 2026-05-25
+
+### Changed
+
+- Card sheen now does a double pass — a second sweep follows 0.2 s behind the first at slightly lower opacity, giving a twin-flash of light
+
 ## [0.8.30] — 2026-05-25
 
 ### Changed
