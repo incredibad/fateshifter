@@ -1,3 +1,9 @@
+## [0.8.7] — 2026-05-25
+
+### Added
+
+- Shimmer reveal animation on roll completion: a white-purple diagonal streak sweeps across the slot window once as the result settles; replays automatically on each roll
+
 ## [0.8.6] — 2026-05-25
 
 ### Changed
