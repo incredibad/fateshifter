@@ -43,9 +43,9 @@
   min-width: 0;
 }
 
-.logoSvg {
+.logoImg {
   flex-shrink: 0;
-  filter: drop-shadow(0 0 6px rgba(160,126,232,0.30));
+  filter: drop-shadow(0 0 8px rgba(160,126,232,0.45));
 }
 
 .logoText {

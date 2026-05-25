@@ -24,9 +24,9 @@
   margin-bottom: 24px;
 }
 
-.logoIcon {
-  font-size: 28px;
-  filter: drop-shadow(0 0 8px rgba(168,85,247,0.7));
+.logoImg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 12px rgba(160,126,232,0.55));
 }
 
 .logoText {
