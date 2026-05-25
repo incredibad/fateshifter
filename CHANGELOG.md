@@ -1,3 +1,9 @@
+## [0.8.30] — 2026-05-25
+
+### Changed
+
+- Shimmer reworked: window sweep is now a subtle ambient pass (0.26 peak); card sheen is a smooth bell curve with a warm-white tint (0.88 peak), no flat plateau; both sweeps slowed to 0.95 s; skew reduced to 10 deg
+
 ## [0.8.29] — 2026-05-25
 
 ### Changed

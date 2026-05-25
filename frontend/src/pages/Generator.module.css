@@ -400,14 +400,15 @@
 }
 
 @keyframes shimmerLTR {
-  from { transform: translateX(-120%) skewX(-12deg); }
-  to   { transform: translateX(280%)  skewX(-12deg); }
+  from { transform: translateX(-150%) skewX(-10deg); }
+  to   { transform: translateX(300%)  skewX(-10deg); }
 }
 @keyframes shimmerRTL {
-  from { transform: translateX(220%)  skewX(12deg); }
-  to   { transform: translateX(-180%) skewX(12deg); }
+  from { transform: translateX(250%)  skewX(10deg); }
+  to   { transform: translateX(-200%) skewX(10deg); }
 }
 
+/* ambient window sweep */
 .revealShimmer {
   position: absolute;
   inset: 0;
@@ -415,16 +416,17 @@
   z-index: 4;
   background: linear-gradient(
     to right,
-    transparent 15%,
-    rgba(255, 255, 255, 0.04) 30%,
-    rgba(255, 255, 255, 0.55) 48%,
-    rgba(255, 255, 255, 0.55) 52%,
-    rgba(255, 255, 255, 0.04) 70%,
-    transparent 85%
+    transparent 20%,
+    rgba(255, 255, 255, 0.02) 34%,
+    rgba(255, 255, 255, 0.22) 46%,
+    rgba(255, 255, 255, 0.26) 50%,
+    rgba(255, 255, 255, 0.22) 54%,
+    rgba(255, 255, 255, 0.02) 66%,
+    transparent 80%
   );
 }
 .revealShimmerRTL {
-  animation: shimmerRTL 0.75s ease-in-out forwards;
+  animation: shimmerRTL 0.95s ease-in-out forwards;
 }
 .revealShimmerCardWrap {
   position: absolute;
@@ -439,8 +441,19 @@
   pointer-events: none;
   z-index: 4;
 }
+/* card-level sheen — brighter, smooth bell, slight warm tint */
 .revealShimmerLTR {
-  animation: shimmerLTR 0.75s ease-in-out 0.55s both;
+  background: linear-gradient(
+    to right,
+    transparent 20%,
+    rgba(255, 253, 240, 0.04) 33%,
+    rgba(255, 252, 235, 0.55) 45%,
+    rgba(255, 255, 250, 0.88) 50%,
+    rgba(255, 252, 235, 0.55) 55%,
+    rgba(255, 253, 240, 0.04) 67%,
+    transparent 80%
+  );
+  animation: shimmerLTR 0.95s ease-in-out 0.6s both;
 }
 
 
