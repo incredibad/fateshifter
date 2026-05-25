@@ -9,8 +9,11 @@ if [ ! -f "$PGDATA/PG_VERSION" ]; then
   su-exec postgres initdb -D "$PGDATA" --encoding=UTF8 --locale=C
 fi
 
-# Start postgres (waits until ready)
-su-exec postgres pg_ctl -D "$PGDATA" -o "-c listen_addresses=127.0.0.1" -w start
+# Start postgres
+su-exec postgres pg_ctl -D "$PGDATA" -o "-c listen_addresses=127.0.0.1" start
+
+# Wait until postgres is accepting TCP connections
+until su-exec postgres pg_isready -h 127.0.0.1 -q 2>/dev/null; do sleep 1; done
 
 # Create role/db on first run (safe to ignore if already exists)
 su-exec postgres psql -h 127.0.0.1 -c "CREATE ROLE fateshifter LOGIN PASSWORD '$PGPASS';" 2>/dev/null || true
