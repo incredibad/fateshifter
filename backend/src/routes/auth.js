@@ -56,7 +56,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/logout', (req, res) => {
   req.session.destroy(() => {
-    res.clearCookie('espergen.sid');
+    res.clearCookie('fateshifter.sid');
     res.json({ ok: true });
   });
 });

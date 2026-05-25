@@ -35,11 +35,11 @@ export default function Login() {
       <div className={styles.card}>
         <div className={styles.logo}>
           <span className={styles.logoIcon}>⚄</span>
-          <span className={styles.logoText}>EsperGen</span>
+          <span className={styles.logoText}>Fateshifter</span>
         </div>
         <h1 className={styles.title}>{isSetup ? 'Create Account' : 'Sign In'}</h1>
         <p className={styles.sub}>
-          {isSetup ? 'Set up your credentials to get started.' : 'Sign in to access EsperGen.'}
+          {isSetup ? 'Set up your credentials to get started.' : 'Sign in to access Fateshifter.'}
         </p>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>

@@ -16,14 +16,14 @@ const PORT = process.env.PORT || 7283;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicPath = join(__dirname, '../public');
 const PgSession = connectPgSimple(session);
-const SESSION_SECRET = process.env.SESSION_SECRET || 'espergen-dev-secret-change-in-production';
+const SESSION_SECRET = process.env.SESSION_SECRET || 'fateshifter-dev-secret-change-in-production';
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 app.use(session({
   store: new PgSession({ pool, tableName: 'session', createTableIfMissing: false }),
-  name: 'espergen.sid',
+  name: 'fateshifter.sid',
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
@@ -48,7 +48,7 @@ if (existsSync(publicPath)) {
 
 async function start() {
   await initDb();
-  app.listen(PORT, () => console.log(`EsperGen running on :${PORT}`));
+  app.listen(PORT, () => console.log(`Fateshifter running on :${PORT}`));
 }
 
 start().catch(err => {
