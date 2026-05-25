@@ -441,6 +441,18 @@
   animation: shimmerLTR 0.75s ease-in-out 0.55s both;
 }
 
+@keyframes cardBounce {
+  0%   { transform: translateY(0); }
+  28%  { transform: translateY(16px); }
+  56%  { transform: translateY(-5px); }
+  78%  { transform: translateY(2px); }
+  100% { transform: translateY(0); }
+}
+
+.frameBouncing {
+  animation: cardBounce 0.48s ease-out forwards;
+}
+
 @keyframes cardPulseFirst {
   0%, 100% { transform: scale(1);     filter: brightness(1); }
   50%       { transform: scale(1.08); filter: brightness(1.2); }
