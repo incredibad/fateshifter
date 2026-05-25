@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
+import { animate } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api.js';
@@ -358,7 +359,15 @@ export default function Generator() {
     el.style.transform = `translateY(-${(reelFrames.length - 1) * vh}px)`;
     function onEnd() {
       const lastFrame = el.lastElementChild;
-      if (lastFrame) lastFrame.classList.add(styles.frameBouncing);
+      if (lastFrame && reelViewportRef.current) {
+        const cardW = parseFloat(getComputedStyle(reelViewportRef.current).getPropertyValue('--card-w')) || 300;
+        animate(lastFrame, { y: 0 }, {
+          type: 'spring',
+          stiffness: 400,
+          damping: 10,
+          from: -(cardW * 26 / 63),
+        });
+      }
     }
     el.addEventListener('transitionend', onEnd, { once: true });
     return () => el.removeEventListener('transitionend', onEnd);
@@ -531,7 +540,7 @@ export default function Generator() {
           <>
             <div className={styles.reelStrip} ref={stripRef}>
               {reelFrames.map((frame, i) => (
-                <div key={i} className={`${styles.reelFrame}${phase === 'done' && i === reelFrames.length - 1 ? ` ${styles.frameBouncing}` : ''}`}>
+                <div key={i} className={styles.reelFrame}>
                   <ReelFrame frame={frame} />
                 </div>
               ))}
