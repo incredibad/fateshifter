@@ -1,3 +1,9 @@
+## [0.6.0] — 2026-05-25
+
+### Added
+
+- Configurable spin duration in Settings — a range slider (1–15 s) persisted to the database; Generator reads the saved value on load
+
 ## [0.5.0] — 2026-05-25
 
 ### Added

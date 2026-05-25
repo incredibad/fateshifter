@@ -9,6 +9,7 @@ import pool, { initDb } from './db/index.js';
 import authRouter from './routes/auth.js';
 import listsRouter from './routes/lists.js';
 import generateRouter from './routes/generate.js';
+import settingsRouter from './routes/settings.js';
 import { requireAuth } from './middleware/requireAuth.js';
 
 const app = express();
@@ -38,6 +39,7 @@ app.use(session({
 app.use('/api/auth', authRouter);
 app.use('/api/lists', requireAuth, listsRouter);
 app.use('/api/generate', requireAuth, generateRouter);
+app.use('/api/settings', requireAuth, settingsRouter);
 
 app.get('/health', (_, res) => res.json({ ok: true }));
 
