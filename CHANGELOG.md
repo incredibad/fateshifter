@@ -1,3 +1,9 @@
+## [0.9.8] — 2026-05-26
+
+### Changed
+
+- Roll button rune cluster: remove two left-edge runes, tighten remaining four
+
 ## [0.9.7] — 2026-05-26
 
 ### Changed
