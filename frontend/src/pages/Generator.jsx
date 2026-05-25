@@ -124,7 +124,7 @@ export default function Generator() {
     }
   }
 
-  const hasResult = result && (result.single || result.partners);
+  const hasResult = result?.result;
   const noLists = !listsLoading && lists.length === 0;
 
   return (
@@ -197,26 +197,26 @@ export default function Generator() {
 
       {error && <div className={styles.error}>{error}</div>}
 
-      {result && !result.single && !result.partners && (
+      {result && !result.result && (
         <div className={styles.empty}>
-          No commanders in this list match the selected colours.
+          No commanders in this list exactly match the selected colours.
         </div>
       )}
 
       {hasResult && (
         <div className={`${styles.results} fade-up`}>
-          {result.single && (
+          {result.result.type === 'single' && (
             <div className={styles.resultGroup}>
-              <CommanderCard commander={result.single} label="Single Commander" />
+              <CommanderCard commander={result.result.commander} label="Commander" />
             </div>
           )}
-          {result.partners && (
+          {result.result.type === 'pair' && (
             <div className={styles.resultGroup}>
               <div className={styles.partnerPairLabel}>Partner Pair</div>
               <div className={styles.partnerPair}>
-                <CommanderCard commander={result.partners.a} label="" />
+                <CommanderCard commander={result.result.a} label="" />
                 <div className={styles.partnerPlus}>+</div>
-                <CommanderCard commander={result.partners.b} label="" />
+                <CommanderCard commander={result.result.b} label="" />
               </div>
             </div>
           )}

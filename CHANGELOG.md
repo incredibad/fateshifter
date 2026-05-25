@@ -1,3 +1,10 @@
+## [0.2.0] — 2026-05-25
+
+### Changed
+
+- Generator now returns a single result (either a commander or a partner pair, not both)
+- Singles must exactly match the selected colour identity; partner pairs must union to exactly the selected colours
+
 ## [0.1.1] — 2026-05-25
 
 ### Changed
