@@ -1,3 +1,9 @@
+## [0.8.35] — 2026-05-25
+
+### Changed
+
+- Tempt Fate button redesigned: dark background with rotating purple dots border (idle), purple radial glow + ring on hover, sparkle SVG with staggered twinkle animation on hover; no size change on hover
+
 ## [0.8.34] — 2026-05-25
 
 ### Fixed
