@@ -1,3 +1,10 @@
+## [0.8.23] — 2026-05-25
+
+### Changed
+
+- Scroll speed increased to 12 fps (was 8)
+- Bounce reworked: 4 decaying bounces with consistent ~55% damping ratio each time; timing intervals compress proportionally; duration 0.85 s linear
+
 ## [0.8.22] — 2026-05-25
 
 ### Changed
