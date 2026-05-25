@@ -1,3 +1,9 @@
+## [0.8.36] — 2026-05-25
+
+### Fixed
+
+- Tempt Fate button CSS reworked: scoped to `#temptFateBtn` ID in global CSS, using original uiverse class names so styles apply correctly
+
 ## [0.8.35] — 2026-05-25
 
 ### Changed
