@@ -1,3 +1,14 @@
+## [0.8.4] — 2026-05-25
+
+### Changed
+
+- Autocomplete shows up to 20 results and scrolls after 10 rows
+- Selected card artwork in the add modal is larger (86×120 px)
+- Bulk import matched list: mana pips moved to the right side of each row
+- Search input is hidden and a warning shown when a list has no commanders
+- Divider added between the list controls and the search/table area
+- Mobile: action buttons and default filter select are tidier — buttons stretch to fill width, filter select is unconstrained
+
 ## [0.8.3] — 2026-05-25
 
 ### Changed

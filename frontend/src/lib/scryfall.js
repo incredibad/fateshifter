@@ -8,7 +8,7 @@ export async function scryfallSearch(query) {
     );
     if (!res.ok) return [];
     const data = await res.json();
-    return (data.data || []).slice(0, 8).map(parseCard);
+    return (data.data || []).slice(0, 20).map(parseCard);
   } catch { return []; }
 }
 
