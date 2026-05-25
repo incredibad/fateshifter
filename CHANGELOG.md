@@ -1,3 +1,9 @@
+## [0.4.2] — 2026-05-25
+
+### Fixed
+
+- Autocomplete dropdown shows a spinner while searching Scryfall and "No results" when nothing matches, instead of an empty box
+
 ## [0.4.1] — 2026-05-25
 
 ### Fixed
