@@ -333,6 +333,12 @@ export default function Generator() {
     void el.offsetHeight;
     el.style.transition = `transform ${spinDuration}s linear`;
     el.style.transform = `translateY(-${(reelFrames.length - 1) * vh}px)`;
+    function onEnd() {
+      const lastFrame = el.lastElementChild;
+      if (lastFrame) lastFrame.classList.add(styles.frameBouncing);
+    }
+    el.addEventListener('transitionend', onEnd, { once: true });
+    return () => el.removeEventListener('transitionend', onEnd);
   }, [phase, reelFrames, spinDuration]);
 
   function resetResult() {
@@ -389,13 +395,9 @@ export default function Generator() {
 
       if (spinTimerRef.current) clearTimeout(spinTimerRef.current);
       spinTimerRef.current = setTimeout(() => {
-        if (stripRef.current) {
-          const lastFrame = stripRef.current.lastElementChild;
-          if (lastFrame) lastFrame.classList.add(styles.frameBouncing);
-        }
         setPrevResult(result);
         setPhase('done');
-      }, spinDuration * 1000);
+      }, spinDuration * 1000 + 50);
 
     } catch (e) {
       setError(e.message);

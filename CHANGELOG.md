@@ -1,3 +1,10 @@
+## [0.8.24] — 2026-05-25
+
+### Fixed
+
+- Bounce timing: switched from setTimeout to `transitionend` listener so it fires at the exact frame the spin animation ends
+- Bounce physics: per-keyframe `ease-in` on downward segments (accelerating fall) and `ease-out` on upward segments (decelerating rise to apex)
+
 ## [0.8.23] — 2026-05-25
 
 ### Changed
