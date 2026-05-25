@@ -1,3 +1,9 @@
+## [0.8.2] — 2026-05-25
+
+### Changed
+
+- Mana pip icons on the list detail screen reduced to 14 px
+
 ## [0.8.1] — 2026-05-25
 
 ### Fixed
