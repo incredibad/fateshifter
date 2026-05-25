@@ -1,3 +1,9 @@
+## [0.8.19] — 2026-05-25
+
+### Changed
+
+- Bounce distance scaled to 50% of card height (dynamic via `--card-w`); spring-back overshoot scaled proportionally; duration extended to 0.6 s
+
 ## [0.8.18] — 2026-05-25
 
 ### Changed
