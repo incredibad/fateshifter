@@ -1,3 +1,17 @@
+## [0.5.0] — 2026-05-25
+
+### Added
+
+- Slot machine animation on the Generator page — all valid candidates are fetched upfront, a result is picked (excluding the previous roll), and the reel scrolls through shuffled card art before decelerating to the winner over 5 seconds
+- Partner pairs displayed as cascading overlapping cards (EDHREC style) in the reel
+- Swipe-up gesture on mobile triggers a roll
+- Result name and colour identity shown below the reel once animation completes
+- New `GET /api/generate/candidates` endpoint returns all valid singles and pairs for a list + colour filter
+
+### Changed
+
+- Roll button label changes to "Roll Again" after the first result
+
 ## [0.4.3] — 2026-05-25
 
 ### Fixed
