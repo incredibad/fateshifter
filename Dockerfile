@@ -9,8 +9,8 @@ RUN npm run build
 # Stage 2: Production
 FROM node:20-alpine
 RUN apk add --no-cache postgresql16 postgresql16-client su-exec && \
-    mkdir -p /var/lib/postgresql/data && \
-    chown -R postgres:postgres /var/lib/postgresql
+    mkdir -p /var/lib/postgresql/data /run/postgresql && \
+    chown -R postgres:postgres /var/lib/postgresql /run/postgresql
 
 WORKDIR /app
 COPY backend/package.json .
