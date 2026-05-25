@@ -1,3 +1,9 @@
+## [0.8.8] — 2026-05-25
+
+### Changed
+
+- Shimmer reveal is now two sequential white sweeps: right-to-left fires immediately on roll completion, left-to-right follows 0.65 s later; both are pure white (purple tint removed)
+
 ## [0.8.7] — 2026-05-25
 
 ### Added
