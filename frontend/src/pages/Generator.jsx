@@ -46,7 +46,7 @@ const ANY_PRESET = { label: 'Any', colors: null };
 const ALL_PRESETS = [ANY_PRESET, ...PRESETS];
 
 const FRAME_HEIGHT = 450;
-const FRAMES_PER_SECOND = 8;
+const FRAMES_PER_SECOND = 12;
 
 function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];

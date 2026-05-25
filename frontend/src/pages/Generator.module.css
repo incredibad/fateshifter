@@ -443,14 +443,18 @@
 
 @keyframes cardBounce {
   0%   { transform: translateY(0); }
-  28%  { transform: translateY(calc(var(--card-w, 300px) * 26 / 63)); }
-  56%  { transform: translateY(calc(var(--card-w, 300px) * -7 / 63)); }
-  78%  { transform: translateY(calc(var(--card-w, 300px) * 3 / 63)); }
+  20%  { transform: translateY(calc(var(--card-w, 300px) * 26 / 63)); }
+  37%  { transform: translateY(calc(var(--card-w, 300px) * -14 / 63)); }
+  51%  { transform: translateY(calc(var(--card-w, 300px) * 8 / 63)); }
+  62%  { transform: translateY(calc(var(--card-w, 300px) * -4 / 63)); }
+  71%  { transform: translateY(calc(var(--card-w, 300px) * 2 / 63)); }
+  79%  { transform: translateY(calc(var(--card-w, 300px) * -1 / 63)); }
+  86%  { transform: translateY(calc(var(--card-w, 300px) * 1 / 63)); }
   100% { transform: translateY(0); }
 }
 
 .frameBouncing {
-  animation: cardBounce 0.6s ease-out forwards;
+  animation: cardBounce 0.85s linear forwards;
 }
 
 
