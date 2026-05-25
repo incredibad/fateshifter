@@ -254,6 +254,7 @@
 
 /* ─── Reel ─── */
 .reelViewport {
+  --frame-height: 450px;
   position: relative;
   flex: 1;
   min-height: 200px;
@@ -270,6 +271,7 @@
 }
 
 .reelFrame {
+  height: var(--frame-height);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -284,12 +286,12 @@
 
 .pairFrame {
   position: relative;
-  width: 320px;
-  height: 370px;
+  width: 300px;
+  height: 420px;
 }
 
 .cardImg {
-  width: 270px;
+  width: 300px;
   border-radius: 13px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   display: block;
@@ -299,32 +301,27 @@
 
 .cardFront {
   position: absolute;
-  width: 210px;
-  left: 10px;
-  top: 6px;
+  width: 250px;
+  left: 0;
+  bottom: 0;
   z-index: 2;
-  transform: rotate(-4deg);
-  transform-origin: bottom center;
-  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
   border-radius: 12px;
 }
 
 .cardBack {
   position: absolute;
-  width: 210px;
-  right: 10px;
-  top: 28px;
+  width: 250px;
+  right: 0;
+  top: 0;
   z-index: 1;
-  transform: rotate(4deg);
-  transform-origin: bottom center;
-  opacity: 0.88;
-  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
   border-radius: 12px;
 }
 
 .cardPlaceholder {
-  width: 270px;
-  height: 376px;
+  width: 300px;
+  height: 418px;
   background: var(--bg3);
   border: 1px solid var(--border);
   border-radius: 13px;
@@ -387,9 +384,8 @@
 
 @media (max-width: 600px) {
   .rollBtn { align-self: stretch; animation: none; }
-  .cardImg { width: 220px; }
-  .cardFront { width: 170px; }
-  .cardBack { width: 170px; }
-  .pairFrame { width: 260px; height: 300px; }
-  .resultName { font-size: 17px; }
+  .cardImg { width: 230px; }
+  .cardFront { width: 195px; }
+  .cardBack { width: 195px; }
+  .pairFrame { width: 235px; height: 330px; }
 }

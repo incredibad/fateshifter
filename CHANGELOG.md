@@ -1,3 +1,14 @@
+## [0.8.1] — 2026-05-25
+
+### Fixed
+
+- Reel frame heights and animation offset now always derived from the same synchronous `clientHeight` measurement at roll time (via CSS custom property `--frame-height`), eliminating the race condition where a ResizeObserver firing mid-animation produced misaligned frames and an upward jump
+
+### Changed
+
+- Partner pair cards now stack diagonally (front card bottom-left, back card top-right) with no rotation, so both names and mana costs are visible
+- Single and partner card sizes increased to fill more of the slot window (single: 300 px wide; pair cards: 250 px wide)
+
 ## [0.8.0] — 2026-05-25
 
 ### Added
