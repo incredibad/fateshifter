@@ -443,9 +443,9 @@
 
 @keyframes cardBounce {
   0%   { transform: translateY(0); }
-  28%  { transform: translateY(calc(var(--card-w, 300px) * 44 / 63)); }
-  56%  { transform: translateY(calc(var(--card-w, 300px) * -11 / 63)); }
-  78%  { transform: translateY(calc(var(--card-w, 300px) * 4 / 63)); }
+  28%  { transform: translateY(calc(var(--card-w, 300px) * 26 / 63)); }
+  56%  { transform: translateY(calc(var(--card-w, 300px) * -7 / 63)); }
+  78%  { transform: translateY(calc(var(--card-w, 300px) * 3 / 63)); }
   100% { transform: translateY(0); }
 }
 

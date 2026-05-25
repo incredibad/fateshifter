@@ -1,3 +1,9 @@
+## [0.8.20] — 2026-05-25
+
+### Changed
+
+- Bounce distance reduced to 30% of card height (was 50%)
+
 ## [0.8.19] — 2026-05-25
 
 ### Changed
