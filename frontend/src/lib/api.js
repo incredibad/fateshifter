@@ -23,6 +23,7 @@ export const api = {
   getLists: () => req('GET', '/lists'),
   createList: (name) => req('POST', '/lists', { name }),
   updateList: (id, name) => req('PUT', `/lists/${id}`, { name }),
+  setListDefaultColors: (id, colors) => req('PUT', `/lists/${id}/default-colors`, { colors }),
   deleteList: (id) => req('DELETE', `/lists/${id}`),
 
   // Commanders within a list

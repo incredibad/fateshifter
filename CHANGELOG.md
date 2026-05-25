@@ -1,3 +1,20 @@
+## [0.8.0] — 2026-05-25
+
+### Added
+
+- Default filter per list — set a default colour identity on each list's detail page; the Generator applies it automatically when that list is selected
+
+### Changed
+
+- Slot window always fills all remaining vertical space on the Generator page (dynamic height via ResizeObserver; reel frame height matches viewport at roll time)
+- Result name and colour pips below the slot window removed — card art is the only result display
+- "Tempt Fate" button: fuchsia-to-indigo gradient, pulsing glow animation, shimmer sweep, hover lifts and kills animations
+- No-results message rendered inside the reel viewport instead of below it
+
+### Fixed
+
+- Preset dropdown panel no longer clipped by the accordion's overflow:hidden — panel now renders via React portal with fixed positioning
+
 ## [0.7.4] — 2026-05-25
 
 ### Changed

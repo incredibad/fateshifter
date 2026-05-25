@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api.js';
 import styles from './Generator.module.css';
@@ -118,13 +119,17 @@ function PresetDropdown({ selectedColors, onApply }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const containerRef = useRef(null);
+  const panelRef = useRef(null);
   const searchRef = useRef(null);
+  const [panelPos, setPanelPos] = useState(null);
 
   useEffect(() => {
     if (!open) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    setPanelPos({ top: rect.bottom + 4, left: rect.left, width: rect.width });
     searchRef.current?.focus();
     function handleClick(e) {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
+      if (!containerRef.current?.contains(e.target) && !panelRef.current?.contains(e.target)) {
         setOpen(false);
         setQuery('');
       }
@@ -138,6 +143,36 @@ function PresetDropdown({ selectedColors, onApply }) {
     ? ALL_PRESETS.filter(p => p.label.toLowerCase().includes(query.toLowerCase()))
     : ALL_PRESETS;
 
+  const panel = open && panelPos && createPortal(
+    <div
+      ref={panelRef}
+      className={styles.presetPanel}
+      style={{ position: 'fixed', top: panelPos.top, left: panelPos.left, width: panelPos.width }}
+    >
+      <input
+        ref={searchRef}
+        className={styles.presetSearch}
+        type="text"
+        placeholder="Search presets…"
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+      />
+      <div className={styles.presetList}>
+        {filtered.map(preset => (
+          <button
+            key={preset.label}
+            className={`${styles.presetOption} ${matchesPresetColors(preset, selectedColors) ? styles.presetOptionActive : ''}`}
+            onClick={() => { onApply(preset); setOpen(false); setQuery(''); }}
+          >
+            {preset.label}
+          </button>
+        ))}
+        {filtered.length === 0 && <div className={styles.presetNoResults}>No presets match</div>}
+      </div>
+    </div>,
+    document.body
+  );
+
   return (
     <div className={styles.presetDropdown} ref={containerRef}>
       <button
@@ -147,30 +182,7 @@ function PresetDropdown({ selectedColors, onApply }) {
         <span>{currentLabel}</span>
         <ChevronDown open={open} />
       </button>
-      {open && (
-        <div className={styles.presetPanel}>
-          <input
-            ref={searchRef}
-            className={styles.presetSearch}
-            type="text"
-            placeholder="Search presets…"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-          />
-          <div className={styles.presetList}>
-            {filtered.map(preset => (
-              <button
-                key={preset.label}
-                className={`${styles.presetOption} ${matchesPresetColors(preset, selectedColors) ? styles.presetOptionActive : ''}`}
-                onClick={() => { onApply(preset); setOpen(false); setQuery(''); }}
-              >
-                {preset.label}
-              </button>
-            ))}
-            {filtered.length === 0 && <div className={styles.presetNoResults}>No presets match</div>}
-          </div>
-        </div>
-      )}
+      {panel}
     </div>
   );
 }
@@ -246,13 +258,18 @@ export default function Generator() {
   const [error, setError] = useState(null);
 
   const stripRef = useRef(null);
+  const reelViewportRef = useRef(null);
+  const frameHeightRef = useRef(FRAME_HEIGHT);
   const spinTimerRef = useRef(null);
   const touchStartY = useRef(null);
 
   useEffect(() => {
     api.getLists().then(data => {
       setLists(data);
-      if (data.length > 0) setSelectedListId(String(data[0].id));
+      if (data.length > 0) {
+        setSelectedListId(String(data[0].id));
+        setSelectedColors(data[0].default_colors ?? null);
+      }
     }).catch(() => {}).finally(() => setListsLoading(false));
     api.getSettings().then(s => {
       if (s.spin_duration) setSpinDuration(parseInt(s.spin_duration, 10));
@@ -264,13 +281,22 @@ export default function Generator() {
   }, []);
 
   useEffect(() => {
+    if (!reelViewportRef.current) return;
+    const ro = new ResizeObserver(([entry]) => {
+      frameHeightRef.current = Math.round(entry.contentRect.height);
+    });
+    ro.observe(reelViewportRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
     if (phase !== 'spinning' || !stripRef.current || !reelFrames.length) return;
     const el = stripRef.current;
     el.style.transition = 'none';
     el.style.transform = 'translateY(0)';
     void el.offsetHeight;
     el.style.transition = `transform ${spinDuration}s cubic-bezier(0, 0, 0.15, 1)`;
-    el.style.transform = `translateY(-${(reelFrames.length - 1) * FRAME_HEIGHT}px)`;
+    el.style.transform = `translateY(-${(reelFrames.length - 1) * frameHeightRef.current}px)`;
   }, [phase, reelFrames, spinDuration]);
 
   function resetResult() {
@@ -354,10 +380,6 @@ export default function Generator() {
   const noLists = !listsLoading && lists.length === 0;
   const showReel = phase === 'spinning' || (phase === 'done' && reelFrames.length > 0);
 
-  const resultColors = currentResult?.type === 'pair'
-    ? [...new Set([...currentResult.a.color_identity, ...currentResult.b.color_identity])]
-    : currentResult?.commander?.color_identity;
-
   return (
     <div className={styles.page} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       <section className={styles.section}>
@@ -372,7 +394,13 @@ export default function Generator() {
             <select
               className={styles.listSelect}
               value={selectedListId}
-              onChange={e => { setSelectedListId(e.target.value); resetResult(); }}
+              onChange={e => {
+                const newId = e.target.value;
+                setSelectedListId(newId);
+                const list = lists.find(l => String(l.id) === newId);
+                setSelectedColors(list?.default_colors ?? null);
+                resetResult();
+              }}
             >
               {lists.map(l => (
                 <option key={l.id} value={l.id}>{l.name} ({l.commander_count})</option>
@@ -407,7 +435,7 @@ export default function Generator() {
                   onClick={() => toggleColor(c)}
                   title={COLOR_LABELS[c]}
                 >
-                  <span className={`mana-pip mana-${c}`}>{c}</span>
+                  <i className={`ms ms-${c.toLowerCase()} ms-cost mana-pip`} />
                   <span className={styles.colorName}>{COLOR_LABELS[c]}</span>
                 </button>
               ))}
@@ -432,42 +460,26 @@ export default function Generator() {
 
       {error && <div className={styles.error}>{error}</div>}
 
-      {showReel && (
-        <div className={styles.reelViewport}>
-          <div className={styles.reelStrip} ref={stripRef}>
-            {reelFrames.map((frame, i) => (
-              <div key={i} className={styles.reelFrame}>
-                <ReelFrame frame={frame} />
-              </div>
-            ))}
+      <div className={styles.reelViewport} ref={reelViewportRef}>
+        {showReel ? (
+          <>
+            <div className={styles.reelStrip} ref={stripRef}>
+              {reelFrames.map((frame, i) => (
+                <div key={i} className={styles.reelFrame} style={{ height: frameHeightRef.current }}>
+                  <ReelFrame frame={frame} />
+                </div>
+              ))}
+            </div>
+            <div className={styles.reelVignette} />
+          </>
+        ) : phase === 'done' && noResults ? (
+          <div className={styles.reelEmpty}>
+            {selectedColors === null
+              ? 'No commanders in this list.'
+              : 'No commanders in this list exactly match the selected colours.'}
           </div>
-          <div className={styles.reelVignette} />
-        </div>
-      )}
-
-      {phase === 'done' && noResults && (
-        <div className={styles.empty}>
-          {selectedColors === null
-            ? 'No commanders in this list.'
-            : 'No commanders in this list exactly match the selected colours.'
-          }
-        </div>
-      )}
-
-      {phase === 'done' && currentResult && (
-        <div className={`${styles.resultInfo} fade-up`}>
-          <div className={styles.resultName}>
-            {currentResult.type === 'single'
-              ? currentResult.commander.name
-              : <>{currentResult.a.name}<span className={styles.resultPlus}> + </span>{currentResult.b.name}</>
-            }
-          </div>
-          <div className={styles.resultMeta}>
-            <ManaPips colors={resultColors} />
-            {currentResult.type === 'single' && <PartnerBadge type={currentResult.commander.partner_type} />}
-          </div>
-        </div>
-      )}
+        ) : null}
+      </div>
     </div>
   );
 }

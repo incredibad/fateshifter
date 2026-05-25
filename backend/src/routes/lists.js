@@ -41,6 +41,18 @@ router.put('/:id', async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+router.put('/:id/default-colors', async (req, res) => {
+  try {
+    const { colors } = req.body; // null | string[]
+    const { rows } = await pool.query(
+      'UPDATE lists SET default_colors=$1, updated_at=NOW() WHERE id=$2 RETURNING *',
+      [colors ?? null, req.params.id]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'List not found' });
+    res.json(rows[0]);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 router.delete('/:id', async (req, res) => {
   try {
     const { rowCount } = await pool.query('DELETE FROM lists WHERE id=$1', [req.params.id]);
