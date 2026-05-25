@@ -1,3 +1,10 @@
+## [0.8.9] — 2026-05-25
+
+### Changed
+
+- Shimmer reveal: wider, softer gradient (feathers from 15%–85% rather than 30%–68%); both sweeps slowed to 0.75 s with ease-in-out
+- Second shimmer (LTR) now clips to the card area via an overflow:hidden wrapper sized/positioned to match the card, with matching border-radius
+
 ## [0.8.8] — 2026-05-25
 
 ### Changed
