@@ -1,3 +1,9 @@
+## [0.8.15] — 2026-05-25
+
+### Changed
+
+- Spin easing changed to `cubic-bezier(0,0,0.95,1)` — nearly linear with the barest hint of ease at the end; eliminates the long deceleration tail so the bounce fires almost immediately on stop
+
 ## [0.8.14] — 2026-05-25
 
 ### Changed
