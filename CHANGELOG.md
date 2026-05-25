@@ -1,3 +1,9 @@
+## [0.8.17] — 2026-05-25
+
+### Fixed
+
+- Bounce animation now fires at the exact moment the spin ends — removed 200 ms post-spin buffer and apply the bounce class directly to the DOM before the React re-render
+
 ## [0.8.16] — 2026-05-25
 
 ### Changed

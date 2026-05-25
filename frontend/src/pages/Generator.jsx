@@ -391,9 +391,13 @@ export default function Generator() {
 
       if (spinTimerRef.current) clearTimeout(spinTimerRef.current);
       spinTimerRef.current = setTimeout(() => {
+        if (stripRef.current) {
+          const lastFrame = stripRef.current.lastElementChild;
+          if (lastFrame) lastFrame.classList.add(styles.frameBouncing);
+        }
         setPrevResult(result);
         setPhase('done');
-      }, spinDuration * 1000 + 200);
+      }, spinDuration * 1000);
 
     } catch (e) {
       setError(e.message);
