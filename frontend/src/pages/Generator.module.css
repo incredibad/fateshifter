@@ -233,7 +233,7 @@
   background: linear-gradient(150deg, #221508 0%, #160e05 45%, #1e1808 100%);
   color: #e6c55a;
   border: 1px solid rgba(201,168,76,0.45);
-  border-radius: 4px;
+  border-radius: 2px;
   font-family: var(--font-heading);
   font-size: 14px;
   font-weight: 700;
@@ -267,14 +267,14 @@
 .rollBtn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; animation: none; }
 .rollBtn:disabled::after { display: none; }
 
-.rollBtnSparkle {
-  width: 1.3em;
+.rollBtnRunes {
+  font-family: serif;
+  font-size: 1.15em;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  color: rgba(230,197,90,0.80);
   flex-shrink: 0;
-  fill: none;
-  stroke: rgba(230,197,90,0.85);
-  stroke-width: 1.5;
-  stroke-linejoin: round;
-  stroke-linecap: round;
+  user-select: none;
 }
 
 /* ─── Reel ─── */
