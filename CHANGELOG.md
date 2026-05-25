@@ -1,3 +1,9 @@
+## [0.8.42] — 2026-05-25
+
+### Changed
+
+- Tempt Fate button: faithfully extracted default-state styles from original uiverse CSS — dark `::before` fill with inset bevel, dots_border ring, white sparkle stroke, gradient text; removed `✦` prefix from button label
+
 ## [0.8.41] — 2026-05-25
 
 ### Fixed
