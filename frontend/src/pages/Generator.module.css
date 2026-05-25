@@ -205,119 +205,13 @@
 }
 
 /* ─── Roll button ─── */
-@keyframes rollBtnRotate {
-  to { rotate: 360deg; }
-}
-@keyframes rollBtnPath {
-  0%, 34%, 71%, 100% { opacity: 1; }
-  17%, 48%            { opacity: 0; }
-}
-
 .rollBtn {
-  --active: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 18px 40px;
-  color: white;
+  align-self: flex-start;
   border-radius: var(--radius);
   font-size: 17px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  align-self: flex-start;
-  position: relative;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-.rollBtn::before {
-  content: '';
-  inset: 0;
-  position: absolute;
-  border-radius: inherit;
-  background: hsl(0 0% 10%);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  box-shadow:
-    inset 0 -4px 8px rgba(0, 0, 0, 0.35),
-    inset 0 2px 4px rgba(255, 255, 255, 0.1),
-    0 0 0 calc(var(--active) * 2px) rgb(168 85 247);
-}
-.rollBtn::after {
-  content: '';
-  inset: 0;
-  position: absolute;
-  border-radius: inherit;
-  background: radial-gradient(
-    50% 50% at 50% 50%,
-    hsl(270 97% 40% / 0.85),
-    hsl(270 97% 25% / 0)
-  );
-  opacity: var(--active, 0);
-  transition: opacity 0.3s ease;
-}
-.rollBtn:hover  { --active: 1; }
-.rollBtn:focus-visible { outline: none; --active: 1; }
-.rollBtn:active { transform: scale(0.97); }
-.rollBtn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-.rollBtnDots {
-  --size: calc(100% + 2px);
-  height: var(--size);
-  width: var(--size);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  border-radius: inherit;
-  background-color: transparent;
-  overflow: hidden;
-  transition: opacity 0.3s ease;
-  opacity: calc(1 - var(--active));
-  z-index: 0;
-  pointer-events: none;
-}
-.rollBtnDots::before {
-  content: '';
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  position: absolute;
-  width: 110%;
-  aspect-ratio: 1;
-  background-image: conic-gradient(
-    rgba(168, 85, 247, 0.8) 2deg,
-    transparent 2deg
-  );
-  animation: rollBtnRotate 4s linear infinite;
-}
-
-.rollBtnSparkle {
-  position: relative;
-  z-index: 10;
-  width: 1.4em;
-  fill: none;
-  stroke: #fffbee;
-  stroke-width: 1.5;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  filter: drop-shadow(0 0 2px rgba(255, 252, 220, 0.6));
-  flex-shrink: 0;
-}
-
-.rollBtnPath { animation: none; }
-.rollBtn:hover .rollBtnPath           { animation: rollBtnPath 1.5s linear 0.5s  infinite; }
-.rollBtn:hover .rollBtnPath:nth-child(2) { animation-delay: 0.75s; }
-.rollBtn:hover .rollBtnPath:nth-child(3) { animation-delay: 1s; }
-
-.rollBtnText {
-  position: relative;
-  z-index: 10;
-  background: linear-gradient(90deg, #ffffff, rgba(255,255,255,0.8));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 /* ─── Reel ─── */
@@ -560,3 +454,4 @@
 @media (max-width: 600px) {
   .rollBtn { align-self: stretch; }
 }
+
