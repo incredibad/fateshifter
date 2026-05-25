@@ -1,3 +1,9 @@
+## [0.8.22] — 2026-05-25
+
+### Changed
+
+- Scroll speed doubled to 8 cards/sec
+
 ## [0.8.21] — 2026-05-25
 
 ### Changed
