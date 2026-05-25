@@ -36,6 +36,9 @@ export const api = {
   confirmImport: (listId, commanders) => req('POST', `/lists/${listId}/import`, { commanders }),
 
   // Generate
+  generateCandidates: (listId, colors) =>
+    req('GET', `/generate/candidates?listId=${listId}&colors=${colors.join(',')}`),
+
   generate: (listId, colors, exclude) => {
     let url = `/generate?listId=${listId}&colors=${colors.join(',')}`;
     if (exclude?.type === 'single') url += `&excludeType=single&excludeIds=${exclude.id}`;
