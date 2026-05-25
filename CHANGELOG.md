@@ -1,3 +1,12 @@
+## [0.8.3] — 2026-05-25
+
+### Changed
+
+- Commander search in the add modal now uses Scryfall's search API (`name:` substring matching) instead of autocomplete, fixing cards like "Avatar Kyoshi, Earthbender" that weren't reachable by searching a non-leading word in the name
+- Autocomplete dropdown shows a card art thumbnail next to each suggestion
+- Selected card preview in the add modal shows artwork instead of mana pips
+- Bulk import matched list shows card art thumbnails instead of mana pips; resolved unmatched items show art once a suggestion is accepted
+
 ## [0.8.2] — 2026-05-25
 
 ### Changed

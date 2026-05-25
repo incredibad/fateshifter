@@ -100,11 +100,17 @@
 }
 
 .suggestion {
-  display: block; width: 100%; text-align: left;
-  padding: 9px 12px; font-size: 13px; color: var(--text2);
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; text-align: left;
+  padding: 6px 10px; font-size: 13px; color: var(--text2);
   transition: background 0.1s, color 0.1s;
 }
 .suggestion:hover { background: var(--bg4); color: var(--text); }
+
+.suggestionArt {
+  width: 22px; height: 30px; object-fit: cover;
+  border-radius: 2px; flex-shrink: 0;
+}
 
 .suggestionMeta {
   display: flex; align-items: center; gap: 8px;
@@ -112,9 +118,14 @@
 }
 
 .cardPreview {
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   padding: 8px 12px; background: var(--bg3); border-radius: var(--radius);
   border: 1px solid var(--border);
+}
+
+.cardPreviewImg {
+  width: 52px; height: 73px; object-fit: cover;
+  border-radius: 4px; flex-shrink: 0;
 }
 
 .partnerBadge {
@@ -148,11 +159,25 @@
 
 .matchedList { display: flex; flex-direction: column; gap: 6px; }
 .matchedItem {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; gap: 10px;
   padding: 8px 12px; background: var(--bg3); border-radius: var(--radius);
   border: 1px solid rgba(74,222,128,0.15);
 }
 .matchedName { font-size: 13px; font-weight: 500; }
+
+.matchedArt {
+  width: 26px; height: 36px; object-fit: cover;
+  border-radius: 3px; flex-shrink: 0;
+}
+.matchedArtPlaceholder {
+  width: 26px; height: 36px; background: var(--bg4);
+  border: 1px solid var(--border); border-radius: 3px; flex-shrink: 0;
+}
+
+.resolvedArt {
+  width: 40px; height: 56px; object-fit: cover;
+  border-radius: 3px; align-self: flex-start;
+}
 
 .unmatchedList { display: flex; flex-direction: column; gap: 10px; }
 .unmatchedItem {
