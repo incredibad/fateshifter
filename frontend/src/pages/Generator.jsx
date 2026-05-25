@@ -333,7 +333,7 @@ export default function Generator() {
     el.style.transition = 'none';
     el.style.transform = 'translateY(0)';
     void el.offsetHeight;
-    el.style.transition = `transform ${spinDuration}s cubic-bezier(0, 0, 0.4, 1)`;
+    el.style.transition = `transform ${spinDuration}s cubic-bezier(0, 0, 0.65, 1)`;
     el.style.transform = `translateY(-${(reelFrames.length - 1) * vh}px)`;
   }, [phase, reelFrames, spinDuration]);
 
@@ -504,7 +504,7 @@ export default function Generator() {
           <>
             <div className={styles.reelStrip} ref={stripRef}>
               {reelFrames.map((frame, i) => (
-                <div key={i} className={styles.reelFrame}>
+                <div key={i} className={`${styles.reelFrame}${phase === 'done' && i === reelFrames.length - 1 ? ` ${styles.frameBouncing}` : ''}`}>
                   <ReelFrame frame={frame} pulsing={phase === 'done' && i === reelFrames.length - 1} />
                 </div>
               ))}

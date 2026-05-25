@@ -1,3 +1,10 @@
+## [0.8.14] — 2026-05-25
+
+### Changed
+
+- Spin deceleration sharpened (`cubic-bezier(0,0,0.65,1)`) for a harder stop
+- Result frame bounces 16 px downward on landing then springs back (0.48 s ease-out), giving a physical impact feel; scale pulse plays simultaneously on the inner card
+
 ## [0.8.13] — 2026-05-25
 
 ### Changed
