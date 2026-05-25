@@ -259,7 +259,6 @@ export default function Generator() {
 
   const stripRef = useRef(null);
   const reelViewportRef = useRef(null);
-  const frameHeightRef = useRef(FRAME_HEIGHT);
   const spinTimerRef = useRef(null);
   const touchStartY = useRef(null);
 
@@ -281,22 +280,15 @@ export default function Generator() {
   }, []);
 
   useEffect(() => {
-    if (!reelViewportRef.current) return;
-    const ro = new ResizeObserver(([entry]) => {
-      frameHeightRef.current = Math.round(entry.contentRect.height);
-    });
-    ro.observe(reelViewportRef.current);
-    return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (phase !== 'spinning' || !stripRef.current || !reelFrames.length) return;
+    if (phase !== 'spinning' || !stripRef.current || !reelFrames.length || !reelViewportRef.current) return;
+    const vh = reelViewportRef.current.clientHeight;
+    reelViewportRef.current.style.setProperty('--frame-height', `${vh}px`);
     const el = stripRef.current;
     el.style.transition = 'none';
     el.style.transform = 'translateY(0)';
     void el.offsetHeight;
     el.style.transition = `transform ${spinDuration}s cubic-bezier(0, 0, 0.15, 1)`;
-    el.style.transform = `translateY(-${(reelFrames.length - 1) * frameHeightRef.current}px)`;
+    el.style.transform = `translateY(-${(reelFrames.length - 1) * vh}px)`;
   }, [phase, reelFrames, spinDuration]);
 
   function resetResult() {
@@ -465,7 +457,7 @@ export default function Generator() {
           <>
             <div className={styles.reelStrip} ref={stripRef}>
               {reelFrames.map((frame, i) => (
-                <div key={i} className={styles.reelFrame} style={{ height: frameHeightRef.current }}>
+                <div key={i} className={styles.reelFrame}>
                   <ReelFrame frame={frame} />
                 </div>
               ))}
