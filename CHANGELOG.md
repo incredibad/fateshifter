@@ -1,3 +1,9 @@
+## [0.8.16] — 2026-05-25
+
+### Changed
+
+- Spin easing changed to `linear` — dead stop, no deceleration at all
+
 ## [0.8.15] — 2026-05-25
 
 ### Changed
