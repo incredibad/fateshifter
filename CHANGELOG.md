@@ -1,3 +1,9 @@
+## [0.8.27] — 2026-05-25
+
+### Fixed
+
+- Bounce direction inverted — card now bounces upward (matching its direction of travel) then falls back to rest, not downward
+
 ## [0.8.26] — 2026-05-25
 
 ### Fixed
