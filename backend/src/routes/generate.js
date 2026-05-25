@@ -50,6 +50,22 @@ router.get('/', async (req, res) => {
       if (partner && partner.id > commander.id) validPairs.push([commander, partner]);
     }
 
+    const chooseBackgroundCmds = eligible.filter(c => c.partner_type === 'choose_a_background');
+    const backgroundCards = eligible.filter(c => c.partner_type === 'background');
+    for (const cmd of chooseBackgroundCmds) {
+      for (const bg of backgroundCards) {
+        validPairs.push([cmd, bg]);
+      }
+    }
+
+    const doctorCompanions = eligible.filter(c => c.partner_type === 'doctor_companion');
+    const timeLordDoctors = eligible.filter(c => c.partner_type === 'time_lord_doctor');
+    for (const comp of doctorCompanions) {
+      for (const doc of timeLordDoctors) {
+        validPairs.push([comp, doc]);
+      }
+    }
+
     const partners = validPairs.length
       ? (() => { const [a, b] = pick(validPairs); return { a, b }; })()
       : null;

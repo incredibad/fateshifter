@@ -9,6 +9,10 @@ const PARTNER_LABELS = {
   partner: 'Partner',
   partner_with: 'Partner With',
   friends_forever: 'Friends Forever',
+  choose_a_background: 'Choose a Background',
+  background: 'Background',
+  doctor_companion: "Doctor's Companion",
+  time_lord_doctor: 'Time Lord Doctor',
 };
 
 function ManaPips({ colors }) {

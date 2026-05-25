@@ -56,7 +56,15 @@ function ManaPips({ colors }) {
 
 function PartnerBadge({ type }) {
   if (!type || type === 'none') return null;
-  const labels = { partner: 'Partner', partner_with: 'Partner With', friends_forever: 'Friends Forever' };
+  const labels = {
+    partner: 'Partner',
+    partner_with: 'Partner With',
+    friends_forever: 'Friends Forever',
+    choose_a_background: 'Choose a Background',
+    background: 'Background',
+    doctor_companion: "Doctor's Companion",
+    time_lord_doctor: 'Time Lord Doctor',
+  };
   return <span className={styles.partnerBadge}>{labels[type]}</span>;
 }
 
