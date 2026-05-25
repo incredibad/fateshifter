@@ -1,3 +1,14 @@
+## [0.9.1] — 2026-05-25
+
+### Changed
+
+- Border radius reduced to near-zero (`--radius: 0px`, `--radius-lg: 1px`) for a hewn-stone / carved aesthetic
+- Inputs and text areas have a deep inset shadow (`inset 0 2px 6px rgba(0,0,0,0.55)`) so they read as chiselled slots
+- Modal sheet border updated to warm gold tint with subtle inset highlight
+- Nav sidebar has a soft inset right-edge shadow suggesting thick stone wall depth
+- Heavier elevation shadows across all panels
+- Tempt Fate button: sparkle SVG replaced with Elder Futhark rune trio `ᛉᛏᛉ` (Algiz–Tiwaz–Algiz)
+
 ## [0.9.0] — 2026-05-25
 
 ### Changed
