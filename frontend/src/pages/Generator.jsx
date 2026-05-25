@@ -559,6 +559,7 @@ export default function Generator() {
             <div className={`${styles.revealShimmer} ${styles.revealShimmerRTL}`} />
             <div className={styles.revealShimmerCardWrap}>
               <div className={`${styles.revealShimmer} ${styles.revealShimmerLTR}`} />
+              <div className={`${styles.revealShimmer} ${styles.revealShimmerLTR2}`} />
             </div>
           </>
         )}
