@@ -517,7 +517,10 @@ export default function Generator() {
           </div>
         ) : null}
         {phase === 'done' && reelFrames.length > 0 && !noResults && (
-          <div className={styles.revealShimmer} />
+          <>
+            <div className={`${styles.revealShimmer} ${styles.revealShimmerRTL}`} />
+            <div className={`${styles.revealShimmer} ${styles.revealShimmerLTR}`} />
+          </>
         )}
       </div>
     </div>
