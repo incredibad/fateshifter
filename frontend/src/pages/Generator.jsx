@@ -333,7 +333,7 @@ export default function Generator() {
     el.style.transition = 'none';
     el.style.transform = 'translateY(0)';
     void el.offsetHeight;
-    el.style.transition = `transform ${spinDuration}s cubic-bezier(0, 0, 0.65, 1)`;
+    el.style.transition = `transform ${spinDuration}s cubic-bezier(0, 0, 0.95, 1)`;
     el.style.transform = `translateY(-${(reelFrames.length - 1) * vh}px)`;
   }, [phase, reelFrames, spinDuration]);
 
