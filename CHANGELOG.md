@@ -1,3 +1,12 @@
+## [0.7.2] — 2026-05-25
+
+### Changed
+
+- Renamed "Fate Shifter" to "Fateshifter" throughout (logo, nav, page heading)
+- Roll button now reads "✦ Tempt Fate" (was "⚄ Roll Commander / Roll Again")
+- Filters accordion collapses automatically when a roll begins
+- Reduced vertical spacing on the Generator page; added dividers between sections
+
 ## [0.7.1] — 2026-05-25
 
 ### Fixed

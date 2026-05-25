@@ -77,7 +77,7 @@ export default function AppNav() {
         <div className={styles.navBar}>
           <div className={styles.logo}>
             <LogoSVG />
-            <span className={styles.logoText}>FATE SHIFTER</span>
+            <span className={styles.logoText}>FATESHIFTER</span>
           </div>
           <button
             className={styles.hamburger}
@@ -91,7 +91,7 @@ export default function AppNav() {
           <div className={styles.divider} />
           <nav className={styles.links}>
             <NavLink to="/" end className={({ isActive }) => `${styles.item} ${isActive ? styles.itemActive : ''}`}>
-              <DiceIcon /> Fate Shifter
+              <DiceIcon /> Fateshifter
             </NavLink>
             <NavLink to="/lists" className={({ isActive }) => `${styles.item} ${isActive ? styles.itemActive : ''}`}>
               <ListIcon /> Lists

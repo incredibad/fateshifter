@@ -305,6 +305,7 @@ export default function Generator() {
     setError(null);
     setNoResults(false);
     setPhase('fetching');
+    setFiltersOpen(false);
 
     try {
       const { candidates } = await api.generateCandidates(selectedListId, selectedColors);
@@ -359,7 +360,9 @@ export default function Generator() {
 
   return (
     <div className={styles.page} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-      <h1 className={styles.heading}>Fate Shifter</h1>
+      <h1 className={styles.heading}>Fateshifter</h1>
+
+      <hr className={styles.divider} />
 
       <section className={styles.section}>
         <div className={styles.listRow}>
@@ -422,10 +425,12 @@ export default function Generator() {
         </div>
       </div>
 
+      <hr className={styles.divider} />
+
       <button className={styles.rollBtn} onClick={roll} disabled={!canRoll}>
         {phase === 'fetching'
           ? <span className="spin" style={{ display: 'inline-block', width: 18, height: 18, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%' }} />
-          : <>⚄ {phase === 'done' ? 'Roll Again' : 'Roll Commander'}</>
+          : <>✦ Tempt Fate</>
         }
       </button>
 
