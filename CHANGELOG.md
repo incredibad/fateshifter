@@ -1,3 +1,10 @@
+## [0.8.18] — 2026-05-25
+
+### Changed
+
+- Removed card pulse animation — bounce only on landing
+- Default spin duration halved to 2.5 s
+
 ## [0.8.17] — 2026-05-25
 
 ### Fixed

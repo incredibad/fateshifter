@@ -453,21 +453,6 @@
   animation: cardBounce 0.48s ease-out forwards;
 }
 
-@keyframes cardPulseFirst {
-  0%, 100% { transform: scale(1);     filter: brightness(1); }
-  50%       { transform: scale(1.08); filter: brightness(1.2); }
-}
-@keyframes cardPulse {
-  0%, 100% { transform: scale(1);      filter: brightness(1); }
-  50%       { transform: scale(1.018); filter: brightness(1.07); }
-}
-
-.framePulsing {
-  animation:
-    cardPulseFirst 0.3s ease-in-out 0.35s 1 both,
-    cardPulse      2.8s ease-in-out 0.65s infinite;
-  transform-origin: center;
-}
 
 /* ─── Empty / error ─── */
 .empty {

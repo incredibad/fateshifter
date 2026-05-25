@@ -211,13 +211,11 @@ function PartnerBadge({ type }) {
   return <span className={styles.partnerBadge}>{labels[type]}</span>;
 }
 
-function ReelFrame({ frame, pulsing }) {
-  const pulseClass = pulsing ? styles.framePulsing : '';
-
+function ReelFrame({ frame }) {
   if (frame.type === 'single') {
     const { commander } = frame;
     return (
-      <div className={`${styles.singleFrame} ${pulseClass}`}>
+      <div className={styles.singleFrame}>
         {commander.image_uri
           ? <img src={commander.image_uri} className={styles.cardImg} alt={commander.name} draggable={false} />
           : <div className={styles.cardPlaceholder}><span className={styles.cardPlaceholderName}>{commander.name}</span></div>
@@ -229,7 +227,7 @@ function ReelFrame({ frame, pulsing }) {
   const { a, b } = frame;
   if (!a.image_uri && !b.image_uri) {
     return (
-      <div className={`${styles.singleFrame} ${pulseClass}`}>
+      <div className={styles.singleFrame}>
         <div className={styles.cardPlaceholder}>
           <span className={styles.cardPlaceholderName}>{a.name}<br />+<br />{b.name}</span>
         </div>
@@ -237,7 +235,7 @@ function ReelFrame({ frame, pulsing }) {
     );
   }
   return (
-    <div className={`${styles.pairFrame} ${pulseClass}`}>
+    <div className={styles.pairFrame}>
       {b.image_uri && <img src={b.image_uri} className={`${styles.cardImg} ${styles.cardBack}`} alt={b.name} draggable={false} />}
       {a.image_uri && <img src={a.image_uri} className={`${styles.cardImg} ${styles.cardFront}`} alt={a.name} draggable={false} />}
     </div>
@@ -278,7 +276,7 @@ export default function Generator() {
   const [selectedColors, setSelectedColors] = useState(null); // null = Any
   const [listsLoading, setListsLoading] = useState(true);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [spinDuration, setSpinDuration] = useState(5);
+  const [spinDuration, setSpinDuration] = useState(2.5);
 
   const [phase, setPhase] = useState('idle'); // idle | fetching | spinning | done
   const [reelFrames, setReelFrames] = useState([]);
@@ -509,7 +507,7 @@ export default function Generator() {
             <div className={styles.reelStrip} ref={stripRef}>
               {reelFrames.map((frame, i) => (
                 <div key={i} className={`${styles.reelFrame}${phase === 'done' && i === reelFrames.length - 1 ? ` ${styles.frameBouncing}` : ''}`}>
-                  <ReelFrame frame={frame} pulsing={phase === 'done' && i === reelFrames.length - 1} />
+                  <ReelFrame frame={frame} />
                 </div>
               ))}
             </div>
