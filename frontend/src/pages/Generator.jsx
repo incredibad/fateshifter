@@ -211,11 +211,13 @@ function PartnerBadge({ type }) {
   return <span className={styles.partnerBadge}>{labels[type]}</span>;
 }
 
-function ReelFrame({ frame }) {
+function ReelFrame({ frame, pulsing }) {
+  const pulseClass = pulsing ? styles.framePulsing : '';
+
   if (frame.type === 'single') {
     const { commander } = frame;
     return (
-      <div className={styles.singleFrame}>
+      <div className={`${styles.singleFrame} ${pulseClass}`}>
         {commander.image_uri
           ? <img src={commander.image_uri} className={styles.cardImg} alt={commander.name} draggable={false} />
           : <div className={styles.cardPlaceholder}><span className={styles.cardPlaceholderName}>{commander.name}</span></div>
@@ -227,7 +229,7 @@ function ReelFrame({ frame }) {
   const { a, b } = frame;
   if (!a.image_uri && !b.image_uri) {
     return (
-      <div className={styles.singleFrame}>
+      <div className={`${styles.singleFrame} ${pulseClass}`}>
         <div className={styles.cardPlaceholder}>
           <span className={styles.cardPlaceholderName}>{a.name}<br />+<br />{b.name}</span>
         </div>
@@ -235,7 +237,7 @@ function ReelFrame({ frame }) {
     );
   }
   return (
-    <div className={styles.pairFrame}>
+    <div className={`${styles.pairFrame} ${pulseClass}`}>
       {b.image_uri && <img src={b.image_uri} className={`${styles.cardImg} ${styles.cardBack}`} alt={b.name} draggable={false} />}
       {a.image_uri && <img src={a.image_uri} className={`${styles.cardImg} ${styles.cardFront}`} alt={a.name} draggable={false} />}
     </div>
@@ -503,7 +505,7 @@ export default function Generator() {
             <div className={styles.reelStrip} ref={stripRef}>
               {reelFrames.map((frame, i) => (
                 <div key={i} className={styles.reelFrame}>
-                  <ReelFrame frame={frame} />
+                  <ReelFrame frame={frame} pulsing={phase === 'done' && i === reelFrames.length - 1} />
                 </div>
               ))}
             </div>

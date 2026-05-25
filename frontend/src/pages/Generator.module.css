@@ -438,7 +438,17 @@
   z-index: 4;
 }
 .revealShimmerLTR {
-  animation: shimmerLTR 0.75s ease-in-out 0.8s both;
+  animation: shimmerLTR 0.75s ease-in-out 0.55s both;
+}
+
+@keyframes cardPulse {
+  0%, 100% { transform: scale(1);      filter: brightness(1); }
+  50%       { transform: scale(1.018); filter: brightness(1.07); }
+}
+
+.framePulsing {
+  animation: cardPulse 2.8s ease-in-out infinite;
+  transform-origin: center;
 }
 
 /* ─── Empty / error ─── */
