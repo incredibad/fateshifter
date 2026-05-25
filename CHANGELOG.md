@@ -1,3 +1,9 @@
+## [0.8.43] — 2026-05-25
+
+### Changed
+
+- Reverted Tempt Fate button to pulsing fuchsia-indigo gradient with shimmer sweep; sparkle SVG kept, ✦ prefix removed from label
+
 ## [0.8.42] — 2026-05-25
 
 ### Changed

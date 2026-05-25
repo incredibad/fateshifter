@@ -205,9 +205,61 @@
 }
 
 /* ─── Roll button ─── */
+@keyframes rollBtnPulse {
+  0%, 100% { box-shadow: 0 4px 28px rgba(168,85,247,0.55), 0 1px 0 rgba(255,255,255,0.12) inset; }
+  50%       { box-shadow: 0 4px 52px rgba(168,85,247,0.9), 0 0 72px rgba(192,38,211,0.35), 0 1px 0 rgba(255,255,255,0.18) inset; }
+}
+@keyframes rollBtnShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
 .rollBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: linear-gradient(135deg, #c026d3 0%, #9333ea 38%, #7c3aed 68%, #4f46e5 100%);
+  color: white;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: box-shadow 0.2s, transform 0.15s;
   align-self: flex-start;
-  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  animation: rollBtnPulse 2.5s ease-in-out infinite;
+}
+.rollBtn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%);
+  background-size: 200% 100%;
+  animation: rollBtnShimmer 3s linear infinite;
+  pointer-events: none;
+}
+.rollBtn:hover {
+  box-shadow: 0 8px 48px rgba(168,85,247,0.8), 0 0 72px rgba(192,38,211,0.4), 0 1px 0 rgba(255,255,255,0.2) inset;
+  transform: translateY(-2px);
+  animation: none;
+}
+.rollBtn:hover::after { animation: none; }
+.rollBtn:active { transform: scale(0.97) translateY(0); }
+.rollBtn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; animation: none; }
+.rollBtn:disabled::after { display: none; }
+
+.rollBtnSparkle {
+  width: 1.4em;
+  flex-shrink: 0;
+  fill: none;
+  stroke: rgba(255,255,255,0.9);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }
 
 /* ─── Reel ─── */
@@ -448,6 +500,6 @@
 }
 
 @media (max-width: 600px) {
-  .rollBtn { align-self: stretch; }
+  .rollBtn { align-self: stretch; animation: none; }
 }
 
