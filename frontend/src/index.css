@@ -128,10 +128,12 @@ select option { background: var(--bg3); }
   justify-content: center;
   gap: 10px;
   padding: 12px 28px;
+  border-radius: 10px;
   background:
-    linear-gradient(hsl(0 0% 12%), hsl(0 0% 12%)) padding-box,
-    conic-gradient(rgba(255, 255, 255, 0.45) 2deg, transparent 2deg) border-box;
+    linear-gradient(hsl(0 0% 13%), hsl(0 0% 10%)) padding-box,
+    repeating-conic-gradient(rgba(255, 255, 255, 0.45) 0deg 2deg, transparent 2deg 10deg) border-box;
   border: 2px solid transparent;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
   color: white;
   cursor: pointer;
   font-size: 17px;

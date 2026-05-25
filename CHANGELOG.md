@@ -1,3 +1,9 @@
+## [0.8.39] — 2026-05-25
+
+### Fixed
+
+- Tempt Fate button: border-radius increased to 10px (was inheriting 4px from `--radius`), dots switched to `repeating-conic-gradient` so they tile evenly around the border instead of a single wedge, inset bevel shadow added
+
 ## [0.8.38] — 2026-05-25
 
 ### Changed

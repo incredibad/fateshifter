@@ -207,7 +207,6 @@
 /* ─── Roll button ─── */
 .rollBtn {
   align-self: flex-start;
-  border-radius: var(--radius);
 }
 
 /* ─── Reel ─── */
