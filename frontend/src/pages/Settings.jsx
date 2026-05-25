@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { api } from '../lib/api.js';
 import { useAuth } from '../lib/authContext.jsx';
 import styles from './Settings.module.css';
@@ -67,13 +67,66 @@ function ChangePasswordModal({ onClose }) {
 export default function Settings() {
   const { auth } = useAuth();
   const [pwModal, setPwModal] = useState(false);
+  const [spinDuration, setSpinDuration] = useState(5);
+  const [spinSaving, setSpinSaving] = useState(false);
+  const [spinSaved, setSpinSaved] = useState(false);
+  const [spinError, setSpinError] = useState(null);
+
+  useEffect(() => {
+    api.getSettings().then(s => {
+      if (s.spin_duration) setSpinDuration(parseInt(s.spin_duration, 10));
+    }).catch(() => {});
+  }, []);
+
+  async function saveSpinDuration() {
+    setSpinSaving(true);
+    setSpinError(null);
+    setSpinSaved(false);
+    try {
+      await api.updateSettings({ spin_duration: spinDuration });
+      setSpinSaved(true);
+      setTimeout(() => setSpinSaved(false), 2000);
+    } catch (e) {
+      setSpinError(e.message);
+    } finally {
+      setSpinSaving(false);
+    }
+  }
 
   return (
     <div className={styles.page}>
       <div className={styles.header}>
         <h1 className={styles.heading}>Settings</h1>
-        <p className={styles.sub}>Account settings.</p>
       </div>
+
+      <section className={styles.section}>
+        <div className={styles.sectionTitle}>Generator</div>
+        <div className={styles.spinRow}>
+          <div className={styles.spinLabel}>
+            <div className={styles.spinLabelTitle}>Spin Duration</div>
+            <div className={styles.spinLabelDesc}>How long the slot machine spins before revealing the result.</div>
+          </div>
+          <div className={styles.spinControl}>
+            <input
+              type="range"
+              min={1}
+              max={15}
+              value={spinDuration}
+              onChange={e => { setSpinDuration(Number(e.target.value)); setSpinSaved(false); }}
+              className={styles.spinSlider}
+            />
+            <span className={styles.spinValue}>{spinDuration}s</span>
+            <button
+              className={styles.saveBtn}
+              onClick={saveSpinDuration}
+              disabled={spinSaving}
+            >
+              {spinSaving ? 'Saving…' : spinSaved ? 'Saved' : 'Save'}
+            </button>
+          </div>
+        </div>
+        {spinError && <div className={styles.error}>{spinError}</div>}
+      </section>
 
       <section className={styles.section}>
         <div className={styles.sectionTitle}>Account</div>

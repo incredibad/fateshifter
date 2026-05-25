@@ -63,6 +63,9 @@ export async function initDb() {
   await pool.query(`ALTER TABLE commanders ADD COLUMN IF NOT EXISTS list_id INTEGER REFERENCES lists(id) ON DELETE CASCADE;`);
   await pool.query(`ALTER TABLE commanders ADD COLUMN IF NOT EXISTS image_uri TEXT;`);
 
+  await pool.query(`CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT);`);
+  await pool.query(`INSERT INTO settings (key, value) VALUES ('spin_duration', '5') ON CONFLICT DO NOTHING;`);
+
   console.log('Database initialized');
 }
 

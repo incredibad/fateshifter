@@ -35,6 +35,10 @@ export const api = {
   previewImport: (listId, names) => req('POST', `/lists/${listId}/import/preview`, { names }),
   confirmImport: (listId, commanders) => req('POST', `/lists/${listId}/import`, { commanders }),
 
+  // Settings
+  getSettings: () => req('GET', '/settings'),
+  updateSettings: (data) => req('PUT', '/settings', data),
+
   // Generate
   generateCandidates: (listId, colors) =>
     req('GET', `/generate/candidates?listId=${listId}&colors=${colors.join(',')}`),

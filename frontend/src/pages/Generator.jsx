@@ -45,7 +45,6 @@ const PRESETS = [
   { label: 'Five-Color', colors: ['W', 'U', 'B', 'R', 'G'] },
 ];
 
-const SPIN_DURATION = 5;
 const FRAME_HEIGHT = 300;
 const SCROLL_FRAMES = 20;
 
@@ -159,6 +158,8 @@ export default function Generator() {
   const [selectedColors, setSelectedColors] = useState(['W', 'U', 'B']);
   const [listsLoading, setListsLoading] = useState(true);
 
+  const [spinDuration, setSpinDuration] = useState(5);
+
   const [phase, setPhase] = useState('idle'); // idle | fetching | spinning | done
   const [reelFrames, setReelFrames] = useState([]);
   const [currentResult, setCurrentResult] = useState(null);
@@ -175,6 +176,9 @@ export default function Generator() {
       setLists(data);
       if (data.length > 0) setSelectedListId(String(data[0].id));
     }).catch(() => {}).finally(() => setListsLoading(false));
+    api.getSettings().then(s => {
+      if (s.spin_duration) setSpinDuration(parseInt(s.spin_duration, 10));
+    }).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -188,9 +192,9 @@ export default function Generator() {
     el.style.transition = 'none';
     el.style.transform = 'translateY(0)';
     void el.offsetHeight;
-    el.style.transition = `transform ${SPIN_DURATION}s cubic-bezier(0, 0, 0.15, 1)`;
+    el.style.transition = `transform ${spinDuration}s cubic-bezier(0, 0, 0.15, 1)`;
     el.style.transform = `translateY(-${(reelFrames.length - 1) * FRAME_HEIGHT}px)`;
-  }, [phase, reelFrames]);
+  }, [phase, reelFrames, spinDuration]);
 
   function resetResult() {
     setPhase('idle');
@@ -242,7 +246,7 @@ export default function Generator() {
       spinTimerRef.current = setTimeout(() => {
         setPrevResult(result);
         setPhase('done');
-      }, SPIN_DURATION * 1000 + 200);
+      }, spinDuration * 1000 + 200);
 
     } catch (e) {
       setError(e.message);
