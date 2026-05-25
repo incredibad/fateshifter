@@ -1,3 +1,9 @@
+## [0.8.25] — 2026-05-25
+
+### Changed
+
+- Star field replaced with 65 iconic ✦ ✧ ✩ sparkle characters at varying sizes, colours (white/purple/gold/cyan/pink), and timings; larger stars slowly spin via CSS `rotate`; all twinkle with scale pulse
+
 ## [0.8.24] — 2026-05-25
 
 ### Fixed

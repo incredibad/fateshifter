@@ -243,28 +243,51 @@ function ReelFrame({ frame }) {
 }
 
 function StarField() {
-  const layers = useMemo(() => {
-    const W = 700, H = 700;
-    const cols = [
-      '#fff','#fff','#fff','#fff','#fff',
-      '#c4b5fd','#c4b5fd','#a78bfa',
-      '#93c5fd','#7dd3fc',
-      '#fde68a','#fbbf24',
-      '#f9a8d4','#a5f3fc',
-    ];
-    function rnd(n) { return Math.floor(Math.random() * n); }
-    function make(count, blur) {
-      return Array.from({ length: count }, () =>
-        `${rnd(W)}px ${rnd(H)}px ${blur}px ${cols[rnd(cols.length)]}`
-      ).join(',');
-    }
-    return [make(110, 0), make(100, 0), make(80, 0), make(50, 1), make(20, 2)];
+  const stars = useMemo(() => {
+    const chars = ['✦', '✦', '✦', '✧', '✧', '✩', '✦'];
+    const cols  = ['#fff','#fff','#fff','#c4b5fd','#a78bfa','#fde68a','#93c5fd','#f9a8d4'];
+    function rnd(n) { return Math.random() * n; }
+    function rndI(n) { return Math.floor(Math.random() * n); }
+    return Array.from({ length: 65 }, (_, id) => {
+      const size = rnd(13) + 7;
+      return {
+        id,
+        char:    chars[rndI(chars.length)],
+        x:       rnd(97) + 1,
+        y:       rnd(97) + 1,
+        size,
+        color:   cols[rndI(cols.length)],
+        opLo:    (rnd(0.15) + 0.05).toFixed(2),
+        opHi:    (rnd(0.55) + 0.45).toFixed(2),
+        dur:     (rnd(2.5)  + 1.5).toFixed(1),
+        delay:   (rnd(5)        ).toFixed(1),
+        spin:    size > 15,
+        spinDur: (rnd(7) + 5).toFixed(1),
+      };
+    });
   }, []);
 
   return (
     <>
-      {layers.map((shadow, i) => (
-        <div key={i} className={`${styles.starLayer} ${styles[`star${i}`]}`} style={{ boxShadow: shadow }} />
+      {stars.map(s => (
+        <span
+          key={s.id}
+          className={s.spin ? `${styles.star} ${styles.starSpinning}` : styles.star}
+          style={{
+            left:       `${s.x}%`,
+            top:        `${s.y}%`,
+            fontSize:   `${s.size}px`,
+            color:      s.color,
+            textShadow: `0 0 ${Math.round(s.size * 0.6)}px ${s.color}`,
+            '--sdur':   `${s.dur}s`,
+            '--sdel':   `${s.delay}s`,
+            '--srdur':  `${s.spinDur}s`,
+            '--sop-lo': s.opLo,
+            '--sop-hi': s.opHi,
+          }}
+        >
+          {s.char}
+        </span>
       ))}
     </>
   );
