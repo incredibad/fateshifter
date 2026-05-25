@@ -1,3 +1,9 @@
+## [0.8.41] — 2026-05-25
+
+### Fixed
+
+- Tempt Fate button border changed from dashed to solid
+
 ## [0.8.40] — 2026-05-25
 
 ### Changed
