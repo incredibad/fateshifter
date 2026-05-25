@@ -1,3 +1,9 @@
+## [0.8.46] — 2026-05-25
+
+### Fixed
+
+- Runes no longer flash bright on page load — `animation-fill-mode: backwards` applied so the 0% keyframe (dim opacity) is active during each rune's delay period instead of defaulting to full opacity
+
 ## [0.8.45] — 2026-05-25
 
 ### Fixed

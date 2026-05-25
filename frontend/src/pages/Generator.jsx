@@ -289,7 +289,7 @@ function RuneField() {
             textShadow: `0 0 ${s.glow}px ${s.color}, 0 0 ${s.glow * 2}px ${s.color}80`,
             '--sop-lo': s.opLo,
             '--sop-hi': s.opHi,
-            animation:  `runePulse ${s.dur}s ease-in-out ${s.delay}s infinite, runeDrift${s.drift} ${s.driftDur}s ease-in-out ${s.driftDelay}s infinite${s.spin ? `, runeSpin ${s.spinDur}s linear 0s infinite` : ''}`,
+            animation:  `runePulse ${s.dur}s ease-in-out ${s.delay}s infinite backwards, runeDrift${s.drift} ${s.driftDur}s ease-in-out ${s.driftDelay}s infinite backwards${s.spin ? `, runeSpin ${s.spinDur}s linear 0s infinite` : ''}`,
           }}
         >
           {s.char}
