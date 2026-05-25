@@ -297,6 +297,7 @@ function ImportModal({ listId, onImported, onClose }) {
                           : <div className={styles.matchedArtPlaceholder} />
                         }
                         <span className={styles.matchedName}>{c.name}</span>
+                        <ManaPips colors={c.color_identity} />
                       </div>
                     ))}
                   </div>
@@ -578,25 +579,29 @@ export default function ListDetail() {
         </select>
       </div>
 
-      <input
-        type="search"
-        placeholder="Search commanders…"
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        className={styles.search}
-      />
+      <hr className={styles.divider} />
+
+      {!loading && commanders.length === 0 && (
+        <div className={styles.empty}>No commanders yet — add one above or use Bulk Import.</div>
+      )}
+
+      {!loading && commanders.length > 0 && (
+        <input
+          type="search"
+          placeholder="Search commanders…"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className={styles.search}
+        />
+      )}
 
       {loading ? (
         <div className={styles.loading}>
           <span className="spin" style={{ width: 18, height: 18, border: '2px solid var(--border)', borderTopColor: 'var(--accent)', borderRadius: '50%', display: 'inline-block' }} />
         </div>
-      ) : filtered.length === 0 ? (
-        <div className={styles.empty}>
-          {commanders.length === 0
-            ? 'No commanders yet. Add one or use Bulk Import.'
-            : 'No commanders match your search.'}
-        </div>
-      ) : (
+      ) : commanders.length > 0 && filtered.length === 0 ? (
+        <div className={styles.empty}>No commanders match your search.</div>
+      ) : commanders.length > 0 ? (
         <div className={styles.table}>
           <div className={styles.tableHead}>
             <div />
@@ -629,7 +634,7 @@ export default function ListDetail() {
             </div>
           ))}
         </div>
-      )}
+      ) : null}
 
       {modal === 'add' && <AddModal listId={id} onAdded={load} onClose={() => setModal(null)} />}
       {modal === 'import' && <ImportModal listId={id} onImported={load} onClose={() => setModal(null)} />}
