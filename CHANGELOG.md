@@ -1,3 +1,9 @@
+## [0.8.26] — 2026-05-25
+
+### Fixed
+
+- Bounce no longer overshoots above the card's rest position — upward phases return to exactly 0
+
 ## [0.8.25] — 2026-05-25
 
 ### Changed
