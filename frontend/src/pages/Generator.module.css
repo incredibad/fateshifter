@@ -4,6 +4,17 @@
   gap: 28px;
 }
 
+/* ─── List selector ─── */
+.listSelect { max-width: 320px; }
+
+.listPlaceholder {
+  height: 38px; width: 200px; background: var(--bg3);
+  border-radius: var(--radius); border: 1px solid var(--border);
+  animation: pulse 1.5s ease infinite;
+}
+
+.noLists { font-size: 14px; color: var(--text2); }
+
 .heading {
   font-size: 22px;
   font-weight: 700;

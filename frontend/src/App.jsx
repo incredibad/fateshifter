@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './lib/authContext.jsx';
 import Layout from './components/Layout.jsx';
 import Generator from './pages/Generator.jsx';
+import Lists from './pages/Lists.jsx';
+import ListDetail from './pages/ListDetail.jsx';
 import Settings from './pages/Settings.jsx';
 import Login from './pages/Login.jsx';
 
@@ -31,6 +33,8 @@ function AppContent() {
     <Layout>
       <Routes>
         <Route path="/" element={<Generator />} />
+        <Route path="/lists" element={<Lists />} />
+        <Route path="/lists/:id" element={<ListDetail />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

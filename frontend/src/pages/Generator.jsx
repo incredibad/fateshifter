@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../lib/api.js';
 import styles from './Generator.module.css';
 
@@ -12,7 +13,7 @@ const PRESETS = [
   { label: 'Mono-B', colors: ['B'] },
   { label: 'Mono-R', colors: ['R'] },
   { label: 'Mono-G', colors: ['G'] },
-  null, // divider
+  null,
   { label: 'Azorius', colors: ['W', 'U'] },
   { label: 'Dimir', colors: ['U', 'B'] },
   { label: 'Rakdos', colors: ['B', 'R'] },
@@ -45,14 +46,10 @@ const PRESETS = [
 ];
 
 function ManaPips({ colors }) {
-  if (!colors || colors.length === 0) {
-    return <span className={`mana-pip mana-C ${styles.pip}`}>C</span>;
-  }
+  if (!colors || colors.length === 0) return <span className={`mana-pip mana-C ${styles.pip}`}>C</span>;
   return (
     <span className={styles.pips}>
-      {colors.map(c => (
-        <span key={c} className={`mana-pip mana-${c} ${styles.pip}`}>{c}</span>
-      ))}
+      {colors.map(c => <span key={c} className={`mana-pip mana-${c} ${styles.pip}`}>{c}</span>)}
     </span>
   );
 }
@@ -63,9 +60,9 @@ function PartnerBadge({ type }) {
   return <span className={styles.partnerBadge}>{labels[type]}</span>;
 }
 
-function CommanderCard({ commander, label, accent }) {
+function CommanderCard({ commander, label }) {
   return (
-    <div className={`${styles.commanderCard} ${accent ? styles.commanderCardAccent : ''}`}>
+    <div className={styles.commanderCard}>
       <div className={styles.cardLabel}>{label}</div>
       <div className={styles.cardName}>{commander.name}</div>
       <div className={styles.cardMeta}>
@@ -77,15 +74,23 @@ function CommanderCard({ commander, label, accent }) {
 }
 
 export default function Generator() {
+  const [lists, setLists] = useState([]);
+  const [selectedListId, setSelectedListId] = useState('');
   const [selectedColors, setSelectedColors] = useState(['W', 'U', 'B']);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [listsLoading, setListsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    api.getLists().then(data => {
+      setLists(data);
+      if (data.length > 0) setSelectedListId(String(data[0].id));
+    }).catch(() => {}).finally(() => setListsLoading(false));
+  }, []);
+
   function toggleColor(c) {
-    setSelectedColors(prev =>
-      prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c]
-    );
+    setSelectedColors(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c]);
     setResult(null);
   }
 
@@ -95,17 +100,15 @@ export default function Generator() {
   }
 
   function matchesPreset(preset) {
-    const sel = [...selectedColors].sort().join(',');
-    const pre = [...preset.colors].sort().join(',');
-    return sel === pre;
+    return [...selectedColors].sort().join(',') === [...preset.colors].sort().join(',');
   }
 
   async function generate() {
+    if (!selectedListId) return;
     setError(null);
     setLoading(true);
     try {
-      const data = await api.generate(selectedColors);
-      setResult(data);
+      setResult(await api.generate(selectedListId, selectedColors));
     } catch (e) {
       setError(e.message);
     } finally {
@@ -114,10 +117,32 @@ export default function Generator() {
   }
 
   const hasResult = result && (result.single || result.partners);
+  const noLists = !listsLoading && lists.length === 0;
 
   return (
     <div className={styles.page}>
       <h1 className={styles.heading}>Commander Generator</h1>
+
+      <section className={styles.section}>
+        <div className={styles.sectionLabel}>List</div>
+        {listsLoading ? (
+          <div className={styles.listPlaceholder} />
+        ) : noLists ? (
+          <div className={styles.noLists}>
+            No lists yet. <Link to="/lists" className={styles.link}>Create one in Lists</Link> to get started.
+          </div>
+        ) : (
+          <select
+            className={styles.listSelect}
+            value={selectedListId}
+            onChange={e => { setSelectedListId(e.target.value); setResult(null); }}
+          >
+            {lists.map(l => (
+              <option key={l.id} value={l.id}>{l.name} ({l.commander_count})</option>
+            ))}
+          </select>
+        )}
+      </section>
 
       <section className={styles.section}>
         <div className={styles.sectionLabel}>Colour Identity</div>
@@ -155,24 +180,18 @@ export default function Generator() {
         </div>
       </section>
 
-      <button
-        className={styles.rollBtn}
-        onClick={generate}
-        disabled={loading}
-      >
-        {loading ? (
-          <span className="spin" style={{ display: 'inline-block', width: 18, height: 18, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%' }} />
-        ) : (
-          <>⚄ Roll Commander</>
-        )}
+      <button className={styles.rollBtn} onClick={generate} disabled={loading || !selectedListId}>
+        {loading
+          ? <span className="spin" style={{ display: 'inline-block', width: 18, height: 18, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%' }} />
+          : <>⚄ Roll Commander</>
+        }
       </button>
 
       {error && <div className={styles.error}>{error}</div>}
 
       {result && !result.single && !result.partners && (
         <div className={styles.empty}>
-          No commanders match the selected colours.
-          <span> Add more in <a href="/settings" className={styles.link}>Settings</a>.</span>
+          No commanders in this list match the selected colours.
         </div>
       )}
 
@@ -193,9 +212,7 @@ export default function Generator() {
               </div>
             </div>
           )}
-          <button className={styles.rollAgain} onClick={generate} disabled={loading}>
-            Roll again
-          </button>
+          <button className={styles.rollAgain} onClick={generate} disabled={loading}>Roll again</button>
         </div>
       )}
     </div>

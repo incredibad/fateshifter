@@ -7,7 +7,7 @@ import { dirname, join } from 'path';
 import { existsSync } from 'fs';
 import pool, { initDb } from './db/index.js';
 import authRouter from './routes/auth.js';
-import commandersRouter from './routes/commanders.js';
+import listsRouter from './routes/lists.js';
 import generateRouter from './routes/generate.js';
 import { requireAuth } from './middleware/requireAuth.js';
 
@@ -36,7 +36,7 @@ app.use(session({
 }));
 
 app.use('/api/auth', authRouter);
-app.use('/api/commanders', requireAuth, commandersRouter);
+app.use('/api/lists', requireAuth, listsRouter);
 app.use('/api/generate', requireAuth, generateRouter);
 
 app.get('/health', (_, res) => res.json({ ok: true }));
