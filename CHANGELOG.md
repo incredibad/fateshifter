@@ -1,3 +1,9 @@
+## [0.8.11] — 2026-05-25
+
+### Changed
+
+- Slot spin easing changed from `cubic-bezier(0,0,0.15,1)` to `cubic-bezier(0,0,0.4,1)` — same fast launch but the slow-approach tail at the end is compressed so cards settle decisively rather than drifting in
+
 ## [0.8.10] — 2026-05-25
 
 ### Added
