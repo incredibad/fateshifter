@@ -1,3 +1,9 @@
+## [0.8.28] — 2026-05-25
+
+### Changed
+
+- Bounce animation replaced with Framer Motion spring physics (`stiffness: 400, damping: 10`) — natural oscillation replaces hand-crafted CSS keyframes
+
 ## [0.8.27] — 2026-05-25
 
 ### Fixed

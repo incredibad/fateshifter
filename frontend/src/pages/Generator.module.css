@@ -443,21 +443,6 @@
   animation: shimmerLTR 0.75s ease-in-out 0.55s both;
 }
 
-@keyframes cardBounce {
-  0%   { transform: translateY(0);                                      animation-timing-function: ease-out; }
-  20%  { transform: translateY(calc(var(--card-w, 300px) * -26 / 63)); animation-timing-function: ease-in; }
-  37%  { transform: translateY(0);                                      animation-timing-function: ease-out; }
-  51%  { transform: translateY(calc(var(--card-w, 300px) * -8 / 63));  animation-timing-function: ease-in; }
-  62%  { transform: translateY(0);                                      animation-timing-function: ease-out; }
-  71%  { transform: translateY(calc(var(--card-w, 300px) * -3 / 63));  animation-timing-function: ease-in; }
-  79%  { transform: translateY(0);                                      animation-timing-function: ease-out; }
-  86%  { transform: translateY(calc(var(--card-w, 300px) * -1 / 63));  animation-timing-function: ease-in; }
-  100% { transform: translateY(0); }
-}
-
-.frameBouncing {
-  animation: cardBounce 0.85s linear forwards;
-}
 
 
 /* ─── Empty / error ─── */
