@@ -83,7 +83,24 @@ router.get('/', async (req, res) => {
       ...validPairs.map(([a, b]) => ({ type: 'pair', a, b })),
     ];
 
-    res.json({ result: pick(candidates) });
+    const { excludeType, excludeIds: excludeIdsParam } = req.query;
+    const excludeIds = excludeIdsParam ? excludeIdsParam.split(',') : [];
+    let pool = candidates;
+    if (candidates.length > 1 && excludeType) {
+      const filtered = candidates.filter(c => {
+        if (c.type === 'single' && excludeType === 'single')
+          return String(c.commander.id) !== excludeIds[0];
+        if (c.type === 'pair' && excludeType === 'pair' && excludeIds.length === 2) {
+          const cIds = [String(c.a.id), String(c.b.id)].sort().join(',');
+          const eIds = [...excludeIds].sort().join(',');
+          return cIds !== eIds;
+        }
+        return true;
+      });
+      if (filtered.length) pool = filtered;
+    }
+
+    res.json({ result: pick(pool) });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 

@@ -111,12 +111,20 @@ export default function Generator() {
     return [...selectedColors].sort().join(',') === [...preset.colors].sort().join(',');
   }
 
+  function excludeFromResult(res) {
+    if (!res?.result) return null;
+    if (res.result.type === 'single') return { type: 'single', id: res.result.commander.id };
+    if (res.result.type === 'pair') return { type: 'pair', ids: [res.result.a.id, res.result.b.id] };
+    return null;
+  }
+
   async function generate() {
     if (!selectedListId) return;
     setError(null);
     setLoading(true);
     try {
-      setResult(await api.generate(selectedListId, selectedColors));
+      const next = await api.generate(selectedListId, selectedColors, excludeFromResult(result));
+      setResult(next);
     } catch (e) {
       setError(e.message);
     } finally {

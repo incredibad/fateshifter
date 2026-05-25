@@ -1,3 +1,9 @@
+## [0.3.1] — 2026-05-25
+
+### Changed
+
+- Generator will not repeat the same commander or pairing on consecutive rolls; if only one valid result exists it is returned as normal
+
 ## [0.3.0] — 2026-05-25
 
 ### Added
