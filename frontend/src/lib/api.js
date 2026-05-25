@@ -40,11 +40,14 @@ export const api = {
   updateSettings: (data) => req('PUT', '/settings', data),
 
   // Generate
-  generateCandidates: (listId, colors) =>
-    req('GET', `/generate/candidates?listId=${listId}&colors=${colors.join(',')}`),
+  generateCandidates: (listId, colors) => {
+    const c = colors === null ? 'any' : colors.join(',');
+    return req('GET', `/generate/candidates?listId=${listId}&colors=${c}`);
+  },
 
   generate: (listId, colors, exclude) => {
-    let url = `/generate?listId=${listId}&colors=${colors.join(',')}`;
+    const c = colors === null ? 'any' : colors.join(',');
+    let url = `/generate?listId=${listId}&colors=${c}`;
     if (exclude?.type === 'single') url += `&excludeType=single&excludeIds=${exclude.id}`;
     if (exclude?.type === 'pair') url += `&excludeType=pair&excludeIds=${exclude.ids.join(',')}`;
     return req('GET', url);

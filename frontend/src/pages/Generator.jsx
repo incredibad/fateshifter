@@ -13,7 +13,6 @@ const PRESETS = [
   { label: 'Mono-B', colors: ['B'] },
   { label: 'Mono-R', colors: ['R'] },
   { label: 'Mono-G', colors: ['G'] },
-  null,
   { label: 'Azorius', colors: ['W', 'U'] },
   { label: 'Dimir', colors: ['U', 'B'] },
   { label: 'Rakdos', colors: ['B', 'R'] },
@@ -24,7 +23,6 @@ const PRESETS = [
   { label: 'Golgari', colors: ['B', 'G'] },
   { label: 'Boros', colors: ['R', 'W'] },
   { label: 'Simic', colors: ['G', 'U'] },
-  null,
   { label: 'Bant', colors: ['G', 'W', 'U'] },
   { label: 'Esper', colors: ['W', 'U', 'B'] },
   { label: 'Grixis', colors: ['U', 'B', 'R'] },
@@ -35,15 +33,16 @@ const PRESETS = [
   { label: 'Sultai', colors: ['B', 'G', 'U'] },
   { label: 'Mardu', colors: ['R', 'W', 'B'] },
   { label: 'Temur', colors: ['G', 'U', 'R'] },
-  null,
   { label: 'Non-Green', colors: ['W', 'U', 'B', 'R'] },
   { label: 'Non-White', colors: ['U', 'B', 'R', 'G'] },
   { label: 'Non-Blue', colors: ['W', 'B', 'R', 'G'] },
   { label: 'Non-Black', colors: ['W', 'U', 'R', 'G'] },
   { label: 'Non-Red', colors: ['W', 'U', 'B', 'G'] },
-  null,
   { label: 'Five-Color', colors: ['W', 'U', 'B', 'R', 'G'] },
 ];
+
+const ANY_PRESET = { label: 'Any', colors: null };
+const ALL_PRESETS = [ANY_PRESET, ...PRESETS];
 
 const FRAME_HEIGHT = 300;
 const SCROLL_FRAMES = 20;
@@ -95,6 +94,85 @@ async function preloadImages(frames) {
     img.onload = img.onerror = resolve;
     img.src = url;
   })));
+}
+
+function matchesPresetColors(preset, selectedColors) {
+  if (preset.label === 'Any') return selectedColors === null;
+  if (selectedColors === null) return false;
+  return [...selectedColors].sort().join(',') === [...preset.colors].sort().join(',');
+}
+
+function ChevronDown({ open }) {
+  return (
+    <svg
+      width="14" height="14" viewBox="0 0 14 14" fill="none"
+      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+      style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease', flexShrink: 0 }}
+    >
+      <polyline points="2,4 7,10 12,4"/>
+    </svg>
+  );
+}
+
+function PresetDropdown({ selectedColors, onApply }) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const containerRef = useRef(null);
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    searchRef.current?.focus();
+    function handleClick(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+        setQuery('');
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [open]);
+
+  const currentLabel = ALL_PRESETS.find(p => matchesPresetColors(p, selectedColors))?.label ?? 'Custom';
+  const filtered = query
+    ? ALL_PRESETS.filter(p => p.label.toLowerCase().includes(query.toLowerCase()))
+    : ALL_PRESETS;
+
+  return (
+    <div className={styles.presetDropdown} ref={containerRef}>
+      <button
+        className={styles.presetTrigger}
+        onClick={() => setOpen(o => !o)}
+      >
+        <span>{currentLabel}</span>
+        <ChevronDown open={open} />
+      </button>
+      {open && (
+        <div className={styles.presetPanel}>
+          <input
+            ref={searchRef}
+            className={styles.presetSearch}
+            type="text"
+            placeholder="Search presets…"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+          />
+          <div className={styles.presetList}>
+            {filtered.map(preset => (
+              <button
+                key={preset.label}
+                className={`${styles.presetOption} ${matchesPresetColors(preset, selectedColors) ? styles.presetOptionActive : ''}`}
+                onClick={() => { onApply(preset); setOpen(false); setQuery(''); }}
+              >
+                {preset.label}
+              </button>
+            ))}
+            {filtered.length === 0 && <div className={styles.presetNoResults}>No presets match</div>}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 function ManaPips({ colors }) {
@@ -155,9 +233,9 @@ function ReelFrame({ frame }) {
 export default function Generator() {
   const [lists, setLists] = useState([]);
   const [selectedListId, setSelectedListId] = useState('');
-  const [selectedColors, setSelectedColors] = useState(['W', 'U', 'B']);
+  const [selectedColors, setSelectedColors] = useState(null); // null = Any
   const [listsLoading, setListsLoading] = useState(true);
-
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [spinDuration, setSpinDuration] = useState(5);
 
   const [phase, setPhase] = useState('idle'); // idle | fetching | spinning | done
@@ -185,7 +263,6 @@ export default function Generator() {
     return () => { if (spinTimerRef.current) clearTimeout(spinTimerRef.current); };
   }, []);
 
-  // Trigger CSS translateY animation when reel mounts in spinning phase
   useEffect(() => {
     if (phase !== 'spinning' || !stripRef.current || !reelFrames.length) return;
     const el = stripRef.current;
@@ -205,18 +282,23 @@ export default function Generator() {
   }
 
   function toggleColor(c) {
-    setSelectedColors(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c]);
+    setSelectedColors(prev => {
+      if (prev === null) return [c];
+      return prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c];
+    });
     resetResult();
   }
 
   function applyPreset(preset) {
-    setSelectedColors([...preset.colors]);
+    setSelectedColors(preset.colors === null ? null : [...preset.colors]);
     resetResult();
   }
 
-  function matchesPreset(preset) {
-    return [...selectedColors].sort().join(',') === [...preset.colors].sort().join(',');
-  }
+  const currentFilterLabel = (() => {
+    if (selectedColors === null) return 'Any';
+    const match = PRESETS.find(p => matchesPresetColors(p, selectedColors));
+    return match ? match.label : 'Custom';
+  })();
 
   async function roll() {
     if (phase === 'fetching' || phase === 'spinning') return;
@@ -277,64 +359,68 @@ export default function Generator() {
 
   return (
     <div className={styles.page} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-      <h1 className={styles.heading}>Commander Generator</h1>
+      <h1 className={styles.heading}>Fate Shifter</h1>
 
       <section className={styles.section}>
-        <div className={styles.sectionLabel}>List</div>
-        {listsLoading ? (
-          <div className={styles.listPlaceholder} />
-        ) : noLists ? (
-          <div className={styles.noLists}>
-            No lists yet. <Link to="/lists" className={styles.link}>Create one in Lists</Link> to get started.
-          </div>
-        ) : (
-          <select
-            className={styles.listSelect}
-            value={selectedListId}
-            onChange={e => { setSelectedListId(e.target.value); resetResult(); }}
-          >
-            {lists.map(l => (
-              <option key={l.id} value={l.id}>{l.name} ({l.commander_count})</option>
-            ))}
-          </select>
-        )}
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.sectionLabel}>Colour Identity</div>
-        <div className={styles.colorRow}>
-          {COLORS.map(c => (
-            <button
-              key={c}
-              className={`${styles.colorBtn} ${selectedColors.includes(c) ? styles.colorBtnOn : ''} ${styles[`color${c}`]}`}
-              onClick={() => toggleColor(c)}
-              title={COLOR_LABELS[c]}
+        <div className={styles.listRow}>
+          {listsLoading ? (
+            <div className={styles.listPlaceholder} />
+          ) : noLists ? (
+            <div className={styles.noLists}>
+              No lists yet. <Link to="/lists" className={styles.link}>Create one in Lists</Link> to get started.
+            </div>
+          ) : (
+            <select
+              className={styles.listSelect}
+              value={selectedListId}
+              onChange={e => { setSelectedListId(e.target.value); resetResult(); }}
             >
-              <span className={`mana-pip mana-${c}`}>{c}</span>
-              <span className={styles.colorName}>{COLOR_LABELS[c]}</span>
-            </button>
-          ))}
+              {lists.map(l => (
+                <option key={l.id} value={l.id}>{l.name} ({l.commander_count})</option>
+              ))}
+            </select>
+          )}
+          <button
+            className={`${styles.filtersToggle} ${filtersOpen ? styles.filtersToggleOpen : ''}`}
+            onClick={() => setFiltersOpen(f => !f)}
+          >
+            <span>{currentFilterLabel}</span>
+            <ChevronDown open={filtersOpen} />
+          </button>
         </div>
       </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionLabel}>Presets</div>
-        <div className={styles.presets}>
-          {PRESETS.map((preset, i) =>
-            preset === null ? (
-              <div key={`div-${i}`} className={styles.presetDivider} />
-            ) : (
+      <div className={`${styles.accordion} ${filtersOpen ? styles.accordionOpen : ''}`}>
+        <div className={styles.accordionInner}>
+          <section className={styles.section}>
+            <div className={styles.sectionLabel}>Colour Identity</div>
+            <div className={styles.colorRow}>
               <button
-                key={preset.label}
-                className={`${styles.preset} ${matchesPreset(preset) ? styles.presetActive : ''}`}
-                onClick={() => applyPreset(preset)}
+                className={`${styles.colorBtn} ${selectedColors === null ? styles.colorBtnAny : ''}`}
+                onClick={() => { setSelectedColors(null); resetResult(); }}
               >
-                {preset.label}
+                Any
               </button>
-            )
-          )}
+              {COLORS.map(c => (
+                <button
+                  key={c}
+                  className={`${styles.colorBtn} ${selectedColors !== null && selectedColors.includes(c) ? styles.colorBtnOn : ''} ${styles[`color${c}`]}`}
+                  onClick={() => toggleColor(c)}
+                  title={COLOR_LABELS[c]}
+                >
+                  <span className={`mana-pip mana-${c}`}>{c}</span>
+                  <span className={styles.colorName}>{COLOR_LABELS[c]}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section className={styles.section}>
+            <div className={styles.sectionLabel}>Preset</div>
+            <PresetDropdown selectedColors={selectedColors} onApply={applyPreset} />
+          </section>
         </div>
-      </section>
+      </div>
 
       <button className={styles.rollBtn} onClick={roll} disabled={!canRoll}>
         {phase === 'fetching'
@@ -360,7 +446,10 @@ export default function Generator() {
 
       {phase === 'done' && noResults && (
         <div className={styles.empty}>
-          No commanders in this list exactly match the selected colours.
+          {selectedColors === null
+            ? 'No commanders in this list.'
+            : 'No commanders in this list exactly match the selected colours.'
+          }
         </div>
       )}
 

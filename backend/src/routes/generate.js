@@ -17,15 +17,29 @@ function setUnion(a, b) {
   return [...new Set([...a, ...b])];
 }
 
+function parseColors(colorsParam) {
+  if (!colorsParam || colorsParam === 'any') return null;
+  return colorsParam.split(',').filter(c => ['W', 'U', 'B', 'R', 'G'].includes(c));
+}
+
 async function buildCandidates(listId, selectedColors) {
-  const { rows: eligible } = await pool.query(
-    `SELECT * FROM commanders WHERE list_id = $1 AND color_identity <@ $2::TEXT[]`,
-    [listId, selectedColors]
-  );
+  let eligible;
+  if (selectedColors === null) {
+    const { rows } = await pool.query(`SELECT * FROM commanders WHERE list_id = $1`, [listId]);
+    eligible = rows;
+  } else {
+    const { rows } = await pool.query(
+      `SELECT * FROM commanders WHERE list_id = $1 AND color_identity <@ $2::TEXT[]`,
+      [listId, selectedColors]
+    );
+    eligible = rows;
+  }
 
   if (!eligible.length) return [];
 
-  const validSingles = eligible.filter(c => setsEqual(c.color_identity, selectedColors));
+  const validSingles = selectedColors === null
+    ? eligible
+    : eligible.filter(c => setsEqual(c.color_identity, selectedColors));
 
   const allPairs = [];
 
@@ -61,20 +75,14 @@ async function buildCandidates(listId, selectedColors) {
     for (const doc of timeLordDoctors)
       allPairs.push([comp, doc]);
 
-  const validPairs = allPairs.filter(([a, b]) =>
-    setsEqual(setUnion(a.color_identity, b.color_identity), selectedColors)
-  );
+  const validPairs = selectedColors === null
+    ? allPairs
+    : allPairs.filter(([a, b]) => setsEqual(setUnion(a.color_identity, b.color_identity), selectedColors));
 
   return [
     ...validSingles.map(c => ({ type: 'single', commander: c })),
     ...validPairs.map(([a, b]) => ({ type: 'pair', a, b })),
   ];
-}
-
-function parseColors(colorsParam) {
-  return colorsParam
-    ? colorsParam.split(',').filter(c => ['W', 'U', 'B', 'R', 'G'].includes(c))
-    : [];
 }
 
 router.get('/candidates', async (req, res) => {
