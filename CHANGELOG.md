@@ -1,3 +1,9 @@
+## [0.8.32] — 2026-05-25
+
+### Changed
+
+- Card shimmer rotated 30° clockwise (`skewX(20deg)`); window shimmer mirrored in the opposite direction (`skewX(-20deg)`)
+
 ## [0.8.31] — 2026-05-25
 
 ### Changed
