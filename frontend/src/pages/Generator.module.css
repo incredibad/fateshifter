@@ -4,8 +4,15 @@
   gap: 28px;
 }
 
-/* ─── List selector ─── */
-.listSelect { max-width: 320px; }
+/* ─── List row ─── */
+.listRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.listSelect { flex: 1; max-width: 320px; min-width: 0; }
 
 .listPlaceholder {
   height: 38px; width: 200px; background: var(--bg3);
@@ -15,6 +22,48 @@
 
 .noLists { font-size: 14px; color: var(--text2); }
 
+.filtersToggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.filtersToggle:hover { background: var(--bg4); color: var(--text); }
+.filtersToggleOpen {
+  background: var(--bg4);
+  color: var(--text);
+  border-color: var(--accent-border);
+}
+
+/* ─── Accordion ─── */
+.accordion {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+  margin-top: -4px;
+}
+.accordionOpen {
+  grid-template-rows: 1fr;
+}
+.accordionInner {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 4px;
+}
+
+/* ─── Headings ─── */
 .heading {
   font-size: 22px;
   font-weight: 700;
@@ -55,16 +104,19 @@
   font-weight: 500;
   transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
-
-.colorBtn:hover {
-  background: var(--bg4);
-  color: var(--text);
-}
+.colorBtn:hover { background: var(--bg4); color: var(--text); }
 
 .colorBtnOn {
   background: var(--bg4);
   color: var(--text);
 }
+.colorBtnAny {
+  background: var(--accent-light);
+  border-color: var(--accent-border);
+  color: var(--accent);
+  padding: 8px 14px;
+}
+.colorBtnAny:hover { background: var(--accent-hover); color: var(--accent); }
 
 .colorBtnOn.colorW { border-color: var(--mana-w-bg); }
 .colorBtnOn.colorU { border-color: var(--mana-u-bg); }
@@ -72,50 +124,87 @@
 .colorBtnOn.colorR { border-color: var(--mana-r-bg); }
 .colorBtnOn.colorG { border-color: var(--mana-g-bg); }
 
-.colorName {
-  font-size: 13px;
+.colorName { font-size: 13px; }
+
+/* ─── Preset dropdown ─── */
+.presetDropdown {
+  position: relative;
+  max-width: 320px;
 }
 
-/* ─── Presets ─── */
-.presets {
+.presetTrigger {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
   align-items: center;
-}
-
-.preset {
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
   background: var(--bg3);
-  color: var(--text2);
-  font-size: 12px;
-  font-weight: 500;
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
-}
-
-.preset:hover {
-  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   color: var(--text);
+  font-size: 14px;
+  text-align: left;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.presetTrigger:hover { border-color: var(--accent); }
+
+.presetPanel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  min-width: 200px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-2);
+  z-index: 50;
+  overflow: hidden;
 }
 
-.presetActive {
+.presetSearch {
+  border: none;
+  border-bottom: 1px solid var(--divider);
+  border-radius: 0;
+  padding: 9px 12px;
+  font-size: 13px;
+  background: var(--bg3);
+  width: 100%;
+}
+.presetSearch:focus {
+  box-shadow: none;
+  border-color: var(--divider);
+}
+
+.presetList {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.presetOption {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 13px;
+  color: var(--text2);
+  background: none;
+  transition: background 0.1s, color 0.1s;
+}
+.presetOption:hover { background: var(--bg3); color: var(--text); }
+
+.presetOptionActive {
+  color: var(--accent);
   background: var(--accent-light);
-  border-color: var(--accent-border);
-  color: var(--accent);
 }
+.presetOptionActive:hover { background: var(--accent-hover); color: var(--accent); }
 
-.presetActive:hover {
-  background: var(--accent-hover);
-  color: var(--accent);
-}
-
-.presetDivider {
-  width: 1px;
-  height: 20px;
-  background: var(--divider);
-  margin: 0 2px;
+.presetNoResults {
+  padding: 12px;
+  font-size: 13px;
+  color: var(--text3);
+  text-align: center;
 }
 
 /* ─── Roll button ─── */
@@ -135,7 +224,6 @@
   align-self: flex-start;
   box-shadow: 0 4px 16px rgba(168,85,247,0.35);
 }
-
 .rollBtn:hover { opacity: 0.88; }
 .rollBtn:active { transform: scale(0.98); }
 .rollBtn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }

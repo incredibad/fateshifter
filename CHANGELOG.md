@@ -1,3 +1,18 @@
+## [0.7.0] — 2026-05-25
+
+### Added
+
+- Collapsible sidebar nav with hamburger button on mobile; fixed top bar (52 px) so page content is no longer pushed below the nav
+- Version number shown at the bottom of the nav sidebar
+- Filters accordion on Generator page — colour identity and preset controls are hidden by default and toggle open via a button inline with the list selector
+- Searchable preset dropdown replaces the pill grid; type to filter all 32 presets
+- "Any" colour identity option — no colour filter applied, returns all commanders in the list; this is now the default
+
+### Changed
+
+- Renamed "Generator" / "Commander Generator" to "Fate Shifter" throughout
+- Nav logo replaced with a six-slice MTG-colour pie SVG and Cinzel Decorative wordmark
+
 ## [0.6.0] — 2026-05-25
 
 ### Added
