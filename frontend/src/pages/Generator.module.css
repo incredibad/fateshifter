@@ -1,0 +1,265 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.heading {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text3);
+}
+
+/* ─── Colour buttons ─── */
+.colorRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.colorBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 8px 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 500;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.colorBtn:hover {
+  background: var(--bg4);
+  color: var(--text);
+}
+
+.colorBtnOn {
+  background: var(--bg4);
+  color: var(--text);
+}
+
+.colorBtnOn.colorW { border-color: var(--mana-w-bg); }
+.colorBtnOn.colorU { border-color: var(--mana-u-bg); }
+.colorBtnOn.colorB { border-color: rgba(200,200,200,0.3); }
+.colorBtnOn.colorR { border-color: var(--mana-r-bg); }
+.colorBtnOn.colorG { border-color: var(--mana-g-bg); }
+
+.colorName {
+  font-size: 13px;
+}
+
+/* ─── Presets ─── */
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.preset {
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.preset:hover {
+  background: var(--bg4);
+  color: var(--text);
+}
+
+.presetActive {
+  background: var(--accent-light);
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+.presetActive:hover {
+  background: var(--accent-hover);
+  color: var(--accent);
+}
+
+.presetDivider {
+  width: 1px;
+  height: 20px;
+  background: var(--divider);
+  margin: 0 2px;
+}
+
+/* ─── Roll button ─── */
+.rollBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: var(--accent);
+  color: white;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: opacity 0.15s, transform 0.1s;
+  align-self: flex-start;
+  box-shadow: 0 4px 16px rgba(168,85,247,0.35);
+}
+
+.rollBtn:hover { opacity: 0.88; }
+.rollBtn:active { transform: scale(0.98); }
+.rollBtn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* ─── Results ─── */
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.resultGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.commanderCard {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--elevation-1);
+}
+
+.commanderCardAccent {
+  border-color: var(--accent-border);
+  background: linear-gradient(135deg, var(--bg2), rgba(168,85,247,0.04));
+}
+
+.cardLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+}
+
+.cardName {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pips {
+  display: flex;
+  gap: 4px;
+}
+
+.pip {
+  width: 22px;
+  height: 22px;
+  font-size: 11px;
+}
+
+.partnerBadge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+}
+
+/* ─── Partner pair ─── */
+.partnerPairLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+}
+
+.partnerPair {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.partnerPair .commanderCard {
+  flex: 1;
+}
+
+.partnerPlus {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text3);
+  flex-shrink: 0;
+}
+
+/* ─── Roll again ─── */
+.rollAgain {
+  color: var(--text2);
+  font-size: 13px;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  align-self: flex-start;
+}
+
+.rollAgain:hover { color: var(--text); }
+
+/* ─── Empty / error ─── */
+.empty {
+  color: var(--text2);
+  font-size: 14px;
+  padding: 20px 0;
+}
+
+.link { color: var(--accent); text-decoration: underline; }
+
+.error {
+  background: var(--red-bg);
+  border: 1px solid rgba(248,113,113,0.25);
+  color: var(--red);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .partnerPair { flex-direction: column; }
+  .partnerPlus { transform: rotate(90deg); }
+  .cardName { font-size: 17px; }
+}
