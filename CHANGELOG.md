@@ -1,3 +1,10 @@
+## [0.8.6] — 2026-05-25
+
+### Changed
+
+- Card size in the slot window is now dynamic: a ResizeObserver computes `min(viewportWidth − 60, (viewportHeight − 60) × 63/88)` and sets `--card-w` on the viewport element; all card styles (single, pair front/back, placeholder, border-radius) derive from this variable so cards fill the available space with 30 px clearance on the binding edge
+- Removed hardcoded mobile card-size overrides (now handled automatically)
+
 ## [0.8.5] — 2026-05-25
 
 ### Added

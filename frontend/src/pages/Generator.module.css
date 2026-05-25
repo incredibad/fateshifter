@@ -317,13 +317,13 @@
 
 .pairFrame {
   position: relative;
-  width: 300px;
-  height: 420px;
+  width: var(--card-w, 300px);
+  height: calc(var(--card-w, 300px) * 88 / 63);
 }
 
 .cardImg {
-  width: 300px;
-  border-radius: 13px;
+  width: var(--card-w, 300px);
+  border-radius: calc(var(--card-w, 300px) * 0.044);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   display: block;
   user-select: none;
@@ -332,30 +332,30 @@
 
 .cardFront {
   position: absolute;
-  width: 250px;
+  width: calc(var(--card-w, 300px) * 0.833);
   left: 0;
   bottom: 0;
   z-index: 2;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
-  border-radius: 12px;
+  border-radius: calc(var(--card-w, 300px) * 0.04);
 }
 
 .cardBack {
   position: absolute;
-  width: 250px;
+  width: calc(var(--card-w, 300px) * 0.833);
   right: 0;
   top: 0;
   z-index: 1;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
-  border-radius: 12px;
+  border-radius: calc(var(--card-w, 300px) * 0.04);
 }
 
 .cardPlaceholder {
-  width: 300px;
-  height: 418px;
+  width: var(--card-w, 300px);
+  height: calc(var(--card-w, 300px) * 88 / 63);
   background: var(--bg3);
   border: 1px solid var(--border);
-  border-radius: 13px;
+  border-radius: calc(var(--card-w, 300px) * 0.044);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -417,8 +417,4 @@
 
 @media (max-width: 600px) {
   .rollBtn { align-self: stretch; animation: none; }
-  .cardImg { width: 230px; }
-  .cardFront { width: 195px; }
-  .cardBack { width: 195px; }
-  .pairFrame { width: 235px; height: 330px; }
 }
