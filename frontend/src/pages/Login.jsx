@@ -34,7 +34,7 @@ export default function Login() {
     <div className={styles.page}>
       <div className={styles.card}>
         <div className={styles.logo}>
-          <span className={styles.logoIcon}>⚄</span>
+          <img src="/logo.png" width="48" height="48" className={styles.logoImg} alt="" />
           <span className={styles.logoText}>Fateshifter</span>
         </div>
         <h1 className={styles.title}>{isSetup ? 'Create Account' : 'Sign In'}</h1>

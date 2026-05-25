@@ -1,3 +1,9 @@
+## [0.9.9] — 2026-05-26
+
+### Changed
+
+- Logo: replace placeholder SVG/emoji with the new logo image (`logo.png`) in nav header, login page, and favicon
+
 ## [0.9.8] — 2026-05-26
 
 ### Changed
