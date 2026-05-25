@@ -4,12 +4,10 @@ Random Commander generator for Magic: The Gathering Commander format.
 
 ## Versioning
 
-**SUSPENDED — do not bump versions until explicitly told to resume.**
+Bump `frontend/package.json` and `backend/package.json` (keep them in sync) before every commit.
 
-When versioning resumes: bump `frontend/package.json` and `backend/package.json` (keep them in sync) before every commit.
-
-- Bug fixes and visual/UI changes → patch bump (1.x.**Y**)
-- New features or behaviour changes → minor bump (1.**Y**.0)
+- Bug fixes and visual/UI changes → patch bump (0.1.**Y**)
+- New features or behaviour changes → minor bump (0.**Y**.0)
 
 ## Changelog
 
