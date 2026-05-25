@@ -1,3 +1,9 @@
+## [0.2.1] — 2026-05-25
+
+### Fixed
+
+- Friends Forever cards detected as generic Partner because Scryfall stores the ability as keyword `"Partner"` only; detection now checks oracle text as a fallback
+
 ## [0.2.0] — 2026-05-25
 
 ### Changed

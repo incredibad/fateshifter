@@ -26,7 +26,7 @@ function parseCard(card) {
   let partner_type = 'none';
   let partner_with_name = null;
 
-  if (keywords.some(k => /friends forever/i.test(k))) {
+  if (keywords.some(k => /friends forever/i.test(k)) || /\bfriends forever\b/i.test(oracleText)) {
     partner_type = 'friends_forever';
   } else if (keywords.some(k => /partner with/i.test(k)) || /Partner with [A-Z]/m.test(oracleText)) {
     partner_type = 'partner_with';
