@@ -1,3 +1,9 @@
+## [0.8.37] — 2026-05-25
+
+### Fixed
+
+- Tempt Fate button: rotating dots border now visible — `isolation: isolate` + explicit z-index layering (dots z-1, dark bg z-2, glow z-3, content z-10) so `::before` covers the dot interior leaving only the 1px outer ring; switched to flex layout for correct sparkle+text side-by-side alignment
+
 ## [0.8.36] — 2026-05-25
 
 ### Fixed
