@@ -36,14 +36,21 @@
   gap: 7px;
   padding: 8px 12px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+  border: 1px solid transparent;
+  border-image:
+    repeating-linear-gradient(90deg,
+      rgba(210,175,100,0.28) 0,   rgba(210,175,100,0.28) 9px,
+      transparent              9px,  transparent              15px,
+      rgba(210,175,100,0.14) 15px, rgba(210,175,100,0.14) 25px,
+      transparent              25px, transparent              32px
+    ) 1;
   background: var(--bg3);
   color: var(--text2);
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  transition: background 0.12s, color 0.12s;
 }
 .filtersToggle:hover { background: var(--bg4); color: var(--text); }
 .filtersToggleOpen {
@@ -100,12 +107,19 @@
   gap: 8px;
   padding: 8px 14px 8px 10px;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
+  border: 1px solid transparent;
+  border-image:
+    repeating-linear-gradient(90deg,
+      rgba(210,175,100,0.32) 0,   rgba(210,175,100,0.32) 8px,
+      transparent              8px,  transparent              13px,
+      rgba(210,175,100,0.16) 13px, rgba(210,175,100,0.16) 22px,
+      transparent              22px, transparent              28px
+    ) 1;
   background: var(--bg3);
   color: var(--text2);
   font-size: 13px;
   font-weight: 500;
-  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
 .colorBtn:hover { background: var(--bg4); color: var(--text); }
 
@@ -290,7 +304,7 @@
   overflow: hidden;
   border-radius: var(--radius-lg);
   background: radial-gradient(ellipse at 50% 45%, #0c0916 0%, #080608 55%, #050304 100%);
-  border: 1px solid rgba(210,175,100,0.14);
+  border: none;
   box-shadow:
     inset 0 2px 0 rgba(255,255,255,0.03),
     inset 0 -2px 0 rgba(0,0,0,0.5),
@@ -299,18 +313,57 @@
   transition: box-shadow 0.4s ease;
 }
 
-/* Diagonal scratch lines */
+/* Fragmented borders + scratch lines */
 .reelViewport::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    -52deg,
-    transparent 0px,
-    transparent 28px,
-    rgba(255,255,255,0.007) 28px,
-    rgba(255,255,255,0.007) 29px
-  );
+  background:
+    /* Top — starts visible, varies */
+    repeating-linear-gradient(90deg,
+      rgba(210,175,100,0.48) 0,   rgba(210,175,100,0.48) 15px,
+      transparent              15px, transparent              24px,
+      rgba(210,175,100,0.20) 24px, rgba(210,175,100,0.20) 36px,
+      transparent              36px, transparent              46px,
+      rgba(210,175,100,0.42) 46px, rgba(210,175,100,0.42) 60px,
+      transparent              60px, transparent              72px
+    ) top / 100% 1px no-repeat,
+    /* Bottom — starts with a gap */
+    repeating-linear-gradient(90deg,
+      transparent              0,   transparent              13px,
+      rgba(210,175,100,0.38) 13px, rgba(210,175,100,0.38) 27px,
+      transparent              27px, transparent              38px,
+      rgba(210,175,100,0.52) 38px, rgba(210,175,100,0.52) 54px,
+      transparent              54px, transparent              66px,
+      rgba(210,175,100,0.22) 66px, rgba(210,175,100,0.22) 76px,
+      transparent              76px, transparent              90px
+    ) bottom / 100% 1px no-repeat,
+    /* Left */
+    repeating-linear-gradient(180deg,
+      rgba(210,175,100,0.42) 0,   rgba(210,175,100,0.42) 13px,
+      transparent              13px, transparent              22px,
+      rgba(210,175,100,0.20) 22px, rgba(210,175,100,0.20) 35px,
+      transparent              35px, transparent              46px,
+      rgba(210,175,100,0.48) 46px, rgba(210,175,100,0.48) 60px,
+      transparent              60px, transparent              72px
+    ) left / 1px 100% no-repeat,
+    /* Right — offset phase */
+    repeating-linear-gradient(180deg,
+      transparent              0,   transparent              20px,
+      rgba(210,175,100,0.32) 20px, rgba(210,175,100,0.32) 34px,
+      transparent              34px, transparent              45px,
+      rgba(210,175,100,0.48) 45px, rgba(210,175,100,0.48) 60px,
+      transparent              60px, transparent              73px,
+      rgba(210,175,100,0.18) 73px, rgba(210,175,100,0.18) 83px,
+      transparent              83px, transparent              98px
+    ) right / 1px 100% no-repeat,
+    /* Diagonal scratch lines */
+    repeating-linear-gradient(-52deg,
+      transparent 0px,
+      transparent 28px,
+      rgba(255,255,255,0.007) 28px,
+      rgba(255,255,255,0.007) 29px
+    );
   pointer-events: none;
   z-index: 0;
 }

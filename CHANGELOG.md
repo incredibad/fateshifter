@@ -1,3 +1,9 @@
+## [0.9.3] — 2026-05-26
+
+### Changed
+
+- Replaced solid borders with fragmented/dashed-look borders using `repeating-linear-gradient` — applied to nav sidebar right edge, inputs, modals, filter toggle, colour buttons, and reel viewport frame — reinforces the distressed dungeon aesthetic
+
 ## [0.9.2] — 2026-05-25
 
 ### Changed
