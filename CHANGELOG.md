@@ -1,3 +1,9 @@
+## [1.0.5] — 2026-05-26
+
+### Fixed
+
+- Mobile: list select and filter toggle fill full row width together (select flex-grows, toggle keeps natural width), equal height
+
 ## [1.0.4] — 2026-05-26
 
 ### Fixed
