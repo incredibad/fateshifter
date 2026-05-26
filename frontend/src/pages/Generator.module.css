@@ -589,7 +589,6 @@
 
 @media (max-width: 600px) {
   .rollBtn { align-self: stretch; animation: none; }
-  .listRow { flex-direction: column; align-items: stretch; }
   .listSelect { max-width: none; height: 42px; }
   .filtersToggle { height: 42px; }
 }
