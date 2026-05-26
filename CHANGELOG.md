@@ -1,3 +1,9 @@
+## [1.0.7] — 2026-05-26
+
+### Fixed
+
+- Doctor+Companion pairs now appear under any colour filter that contains the Doctor's colours; previously Clara's colorless identity meant the combined pair never matched any exact colour filter
+
 ## [1.0.6] — 2026-05-26
 
 ### Fixed
