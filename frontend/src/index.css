@@ -42,8 +42,8 @@
   --radius-sm: 0px;
   --radius-lg: 1px;
 
-  --font:         system-ui, -apple-system, sans-serif;
-  --font-heading: 'Cinzel', Georgia, serif;
+  --font:         'Inter', system-ui, sans-serif;
+  --font-heading: 'Raleway', system-ui, sans-serif;
   --font-mono:    'Menlo', 'Monaco', monospace;
 
   --elevation-1: 0 3px 8px rgba(0,0,0,0.80), 0 0 0 1px rgba(160,126,232,0.07);
