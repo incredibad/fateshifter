@@ -82,7 +82,13 @@ async function buildCandidates(listId, selectedColors) {
                           (a.partner_type === 'doctor_companion' && b.partner_type === 'time_lord_doctor');
         if (isDocPair) {
           const doc = a.partner_type === 'time_lord_doctor' ? a : b;
-          return doc.color_identity.every(c => selectedColors.includes(c));
+          const comp = a.partner_type === 'doctor_companion' ? a : b;
+          if (comp.color_identity.length === 0) {
+            // Colorless companion (e.g. Clara) can take any single colour;
+            // valid when Doctor covers the filter with at most one gap
+            return selectedColors.filter(c => !doc.color_identity.includes(c)).length <= 1;
+          }
+          return setsEqual(setUnion(doc.color_identity, comp.color_identity), selectedColors);
         }
         return setsEqual(setUnion(a.color_identity, b.color_identity), selectedColors);
       });
