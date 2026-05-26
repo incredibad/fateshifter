@@ -1,3 +1,9 @@
+## [1.0.3] — 2026-05-26
+
+### Fixed
+
+- Roll button shimmer: fade opacity to zero concurrent with position reaching 200%, eliminating corner clipping from the 105° angled gradient
+
 ## [1.0.2] — 2026-05-26
 
 ### Fixed

@@ -243,9 +243,9 @@
 }
 @keyframes rollBtnShimmer {
   0%   { background-position: -200% center; opacity: 1; }
-  20%  { background-position:  200% center; opacity: 1; }
-  22%  { background-position:  200% center; opacity: 0; }
-  23%  { background-position: -200% center; opacity: 0; }
+  14%  { background-position:  100% center; opacity: 1; }
+  17%  { background-position:  200% center; opacity: 0; }
+  18%  { background-position: -200% center; opacity: 0; }
   100% { background-position: -200% center; opacity: 0; }
 }
 
