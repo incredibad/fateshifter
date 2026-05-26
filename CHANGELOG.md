@@ -1,3 +1,9 @@
+## [1.1.2] — 2026-05-26
+
+### Changed
+
+- Remove max-width constraint from main layout container so all pages use full available width
+
 ## [1.1.1] — 2026-05-26
 
 ### Changed
