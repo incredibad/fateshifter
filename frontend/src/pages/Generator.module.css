@@ -142,6 +142,7 @@
 .colorBtnAny::before { border-color: var(--accent-border); }
 .colorBtnAny:hover { background: var(--accent-hover); color: var(--accent); }
 
+.colorBtnOn.colorC::before { border-color: rgba(180,175,190,0.55); }
 .colorBtnOn.colorW::before { border-color: var(--mana-w-bg); }
 .colorBtnOn.colorU::before { border-color: var(--mana-u-bg); }
 .colorBtnOn.colorB::before { border-color: rgba(200,200,200,0.3); }

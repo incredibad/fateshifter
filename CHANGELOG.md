@@ -1,3 +1,9 @@
+## [1.0.6] — 2026-05-26
+
+### Fixed
+
+- Add Colorless button to colour identity filter (was missing from UI; backend already supported it via empty array)
+
 ## [1.0.5] — 2026-05-26
 
 ### Fixed

@@ -507,6 +507,14 @@ export default function Generator() {
               >
                 Any
               </button>
+              <button
+                className={`${styles.colorBtn} ${selectedColors !== null && selectedColors.length === 0 ? `${styles.colorBtnOn} ${styles.colorC}` : ''}`}
+                onClick={() => { setSelectedColors([]); resetResult(); }}
+                title="Colorless"
+              >
+                <i className="ms ms-c ms-cost mana-pip" />
+                <span className={styles.colorName}>Colorless</span>
+              </button>
               {COLORS.map(c => (
                 <button
                   key={c}
