@@ -1,3 +1,9 @@
+## [1.1.0] — 2026-05-26
+
+### Added
+
+- Generator remembers the last selected list across sessions using localStorage; falls back to the first list if the saved ID no longer exists
+
 ## [1.0.7] — 2026-05-26
 
 ### Fixed
