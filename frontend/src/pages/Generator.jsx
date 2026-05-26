@@ -323,8 +323,10 @@ export default function Generator() {
     api.getLists().then(data => {
       setLists(data);
       if (data.length > 0) {
-        setSelectedListId(String(data[0].id));
-        setSelectedColors(data[0].default_colors ?? null);
+        const savedId = localStorage.getItem('fateshifter_last_list');
+        const list = (savedId && data.find(l => String(l.id) === savedId)) || data[0];
+        setSelectedListId(String(list.id));
+        setSelectedColors(list.default_colors ?? null);
       }
     }).catch(() => {}).finally(() => setListsLoading(false));
     api.getSettings().then(s => {
@@ -476,6 +478,7 @@ export default function Generator() {
               onChange={e => {
                 const newId = e.target.value;
                 setSelectedListId(newId);
+                localStorage.setItem('fateshifter_last_list', newId);
                 const list = lists.find(l => String(l.id) === newId);
                 setSelectedColors(list?.default_colors ?? null);
                 resetResult();
