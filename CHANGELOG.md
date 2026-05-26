@@ -2,7 +2,7 @@
 
 ### Fixed
 
-- Doctor+Companion pairs now appear under any colour filter that contains the Doctor's colours; previously Clara's colorless identity meant the combined pair never matched any exact colour filter
+- Doctor+Companion pairs now use correct colour matching: a colorless companion (Clara) can fill at most one colour gap in the selected filter, so a W/U Doctor appears under Esper but not under Five-Colour; fixed-colour companions still use exact union matching
 
 ## [1.0.6] — 2026-05-26
 
