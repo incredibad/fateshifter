@@ -1,3 +1,9 @@
+## [1.0.4] — 2026-05-26
+
+### Fixed
+
+- Mobile: list select and filter toggle now full width and equal height (42px) on narrow viewports
+
 ## [1.0.3] — 2026-05-26
 
 ### Fixed
