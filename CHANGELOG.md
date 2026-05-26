@@ -1,3 +1,9 @@
+## [1.0.2] — 2026-05-26
+
+### Fixed
+
+- Roll button shimmer: fade opacity to zero before snapping position back, eliminating ghost shimmers; now exactly 1 shimmer per 5s
+
 ## [1.0.1] — 2026-05-26
 
 ### Changed
