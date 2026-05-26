@@ -1,3 +1,10 @@
+## [1.0.0] — 2026-05-26
+
+### Changed
+
+- Fonts: replace Cinzel/Cinzel Decorative (serif) with Raleway (headings) + Inter (body)
+- Nav logo glow reduced
+
 ## [0.9.9] — 2026-05-26
 
 ### Changed

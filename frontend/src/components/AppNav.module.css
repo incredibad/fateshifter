@@ -45,11 +45,11 @@
 
 .logoImg {
   flex-shrink: 0;
-  filter: drop-shadow(0 0 8px rgba(160,126,232,0.45));
+  filter: drop-shadow(0 0 6px rgba(160,126,232,0.18));
 }
 
 .logoText {
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Raleway', sans-serif;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.08em;
