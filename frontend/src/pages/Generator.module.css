@@ -20,7 +20,7 @@
   flex-wrap: wrap;
 }
 
-.listSelect { flex: 1; max-width: 320px; min-width: 0; }
+.listSelect { flex: 1; min-width: 0; }
 
 .listPlaceholder {
   height: 38px; width: 200px; background: var(--bg3);
@@ -154,7 +154,6 @@
 /* ─── Preset dropdown ─── */
 .presetDropdown {
   position: relative;
-  max-width: 320px;
 }
 
 .presetTrigger {
@@ -269,7 +268,7 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   transition: box-shadow 0.2s, transform 0.15s;
-  align-self: flex-start;
+  align-self: stretch;
   position: relative;
   overflow: hidden;
   animation: rollBtnPulse 2.5s ease-in-out infinite;
@@ -589,8 +588,8 @@
 }
 
 @media (max-width: 600px) {
-  .rollBtn { align-self: stretch; animation: none; }
-  .listSelect { max-width: none; height: 42px; }
+  .rollBtn { animation: none; }
+  .listSelect { height: 42px; }
   .filtersToggle { height: 42px; }
 }
 
