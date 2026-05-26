@@ -2,7 +2,7 @@
 
 ### Fixed
 
-- Doctor+Companion pairs now use correct colour matching: a colorless companion (Clara) can fill at most one colour gap in the selected filter, so a W/U Doctor appears under Esper but not under Five-Colour; fixed-colour companions still use exact union matching
+- Pairs where one card is colorless (e.g. Clara, some Baldur's Gate cards) now use gap-of-1 colour matching: the colorless card can take any single colour, so the pair is valid when the fixed card leaves at most one gap in the selected filter; applies across all pair types
 
 ## [1.0.6] — 2026-05-26
 
