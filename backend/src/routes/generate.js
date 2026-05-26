@@ -77,7 +77,15 @@ async function buildCandidates(listId, selectedColors) {
 
   const validPairs = selectedColors === null
     ? allPairs
-    : allPairs.filter(([a, b]) => setsEqual(setUnion(a.color_identity, b.color_identity), selectedColors));
+    : allPairs.filter(([a, b]) => {
+        const isDocPair = (a.partner_type === 'time_lord_doctor' && b.partner_type === 'doctor_companion') ||
+                          (a.partner_type === 'doctor_companion' && b.partner_type === 'time_lord_doctor');
+        if (isDocPair) {
+          const doc = a.partner_type === 'time_lord_doctor' ? a : b;
+          return doc.color_identity.every(c => selectedColors.includes(c));
+        }
+        return setsEqual(setUnion(a.color_identity, b.color_identity), selectedColors);
+      });
 
   return [
     ...validSingles.map(c => ({ type: 'single', commander: c })),
