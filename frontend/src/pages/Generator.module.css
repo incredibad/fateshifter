@@ -243,7 +243,9 @@
 }
 @keyframes rollBtnShimmer {
   0%   { background-position: -200% center; }
-  100% { background-position:  200% center; }
+  15%  { background-position:  200% center; }
+  16%  { background-position: -200% center; }
+  100% { background-position: -200% center; }
 }
 
 .rollBtn {
@@ -276,7 +278,7 @@
   inset: 0;
   background: linear-gradient(105deg, transparent 40%, rgba(196,176,240,0.28) 50%, transparent 60%);
   background-size: 200% 100%;
-  animation: rollBtnShimmer 3s linear infinite;
+  animation: rollBtnShimmer 8s linear infinite;
   pointer-events: none;
 }
 .rollBtn:hover {

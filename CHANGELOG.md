@@ -1,3 +1,10 @@
+## [1.0.1] — 2026-05-26
+
+### Changed
+
+- Roll button shimmer: faster sweep (~1.2s) with a longer gap between passes (~6.8s) using compressed keyframes
+- Roll button rune cluster: tightened each rune ~3px toward centre
+
 ## [1.0.0] — 2026-05-26
 
 ### Changed

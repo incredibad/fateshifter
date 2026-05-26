@@ -532,10 +532,10 @@ export default function Generator() {
 
       <button className={styles.rollBtn} onClick={roll} disabled={!canRoll}>
         <span className={styles.rollBtnRuneCluster} aria-hidden="true">
-          <span style={{ top: '0px',  left: '1px',  fontSize: '14px', opacity: 0.82 }}>ᛉ</span>
-          <span style={{ top: '1px',  left: '15px', fontSize: '11px', opacity: 0.62 }}>ᛏ</span>
-          <span style={{ top: '15px', left: '3px',  fontSize: '8px',  opacity: 0.38 }}>ᚦ</span>
-          <span style={{ top: '17px', left: '14px', fontSize: '10px', opacity: 0.58 }}>ᛒ</span>
+          <span style={{ top: '2px',  left: '4px',  fontSize: '14px', opacity: 0.82 }}>ᛉ</span>
+          <span style={{ top: '2px',  left: '12px', fontSize: '11px', opacity: 0.62 }}>ᛏ</span>
+          <span style={{ top: '13px', left: '6px',  fontSize: '8px',  opacity: 0.38 }}>ᚦ</span>
+          <span style={{ top: '14px', left: '11px', fontSize: '10px', opacity: 0.58 }}>ᛒ</span>
         </span>
         {phase === 'fetching'
           ? <span style={{ display: 'inline-block', width: 16, height: 16, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
