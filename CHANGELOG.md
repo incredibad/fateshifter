@@ -1,3 +1,9 @@
+## [1.1.1] — 2026-05-26
+
+### Changed
+
+- Generator page: all elements (list select, filter toggle, roll button, preset dropdown) now stretch to full container width on desktop; list select and filter toggle remain on the same row
+
 ## [1.1.0] — 2026-05-26
 
 ### Added
