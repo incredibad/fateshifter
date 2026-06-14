@@ -63,18 +63,34 @@ function shuffle(arr) {
 }
 
 function pickExcluding(candidates, prev) {
-  if (candidates.length <= 1 || !prev) return pick(candidates);
-  const filtered = candidates.filter(c => {
-    if (c.type === 'single' && prev.type === 'single')
-      return c.commander.id !== prev.commander.id;
-    if (c.type === 'pair' && prev.type === 'pair') {
-      const cIds = [String(c.a.id), String(c.b.id)].sort().join(',');
-      const eIds = [String(prev.a.id), String(prev.b.id)].sort().join(',');
-      return cIds !== eIds;
+  // Group by unique commander so each commander has equal weight regardless
+  // of how many valid partner combinations they appear in.
+  const cmdSlots = new Map();
+  for (const c of candidates) {
+    if (c.type === 'single') {
+      const id = c.commander.id;
+      if (!cmdSlots.has(id)) cmdSlots.set(id, []);
+      cmdSlots.get(id).push(c);
+    } else {
+      for (const cmd of [c.a, c.b]) {
+        if (!cmdSlots.has(cmd.id)) cmdSlots.set(cmd.id, []);
+        cmdSlots.get(cmd.id).push(c);
+      }
     }
-    return true;
-  });
-  return pick(filtered.length ? filtered : candidates);
+  }
+
+  let entries = [...cmdSlots.entries()];
+
+  if (prev && entries.length > 1) {
+    const prevIds = prev.type === 'single'
+      ? new Set([prev.commander.id])
+      : new Set([prev.a.id, prev.b.id]);
+    const filtered = entries.filter(([id]) => !prevIds.has(id));
+    if (filtered.length) entries = filtered;
+  }
+
+  const [, results] = pick(entries);
+  return pick(results);
 }
 
 function buildReel(candidates, result, scrollFrames) {

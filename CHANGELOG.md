@@ -1,3 +1,9 @@
+## [1.2.2] — 2026-06-14
+
+### Fixed
+
+- Partner pairs no longer dominate rolls: pick now selects by unique commander (each gets equal weight) then resolves their result, eliminating the combinatorial inflation where N partners produced C(N,2) pair candidates vs 1 candidate per single
+
 ## [1.2.1] — 2026-06-14
 
 ### Fixed
