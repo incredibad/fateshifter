@@ -448,6 +448,7 @@ export default function Generator() {
     if (phase === 'fetching' || phase === 'spinning') return;
     setError(null);
     setNoResults(false);
+    setFocusedPartner(0);
     setPhase('fetching');
     setFiltersOpen(false);
 

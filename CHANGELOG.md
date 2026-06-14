@@ -1,3 +1,9 @@
+## [1.2.4] — 2026-06-14
+
+### Fixed
+
+- Partner card focus resets to default (bottom-left card on top) at the start of every new roll, not just when filters change
+
 ## [1.2.3] — 2026-06-14
 
 ### Fixed
