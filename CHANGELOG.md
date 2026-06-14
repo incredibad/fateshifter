@@ -1,3 +1,9 @@
+## [1.2.0] — 2026-06-14
+
+### Added
+
+- Partner results: clicking the back card in the slot window swaps it to the front, letting you inspect both partners; hover lifts and highlights the back card to indicate it's interactive
+
 ## [1.1.2] — 2026-05-26
 
 ### Changed
