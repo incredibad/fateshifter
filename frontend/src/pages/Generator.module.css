@@ -271,7 +271,6 @@
   align-self: stretch;
   position: relative;
   overflow: hidden;
-  animation: rollBtnPulse 2.5s ease-in-out infinite;
 }
 .rollBtn::after {
   content: '';
@@ -288,7 +287,6 @@
               0 0 0 1px rgba(160,126,232,0.65),
               0 1px 0 rgba(200,180,255,0.25) inset;
   transform: translateY(-2px);
-  animation: none;
 }
 .rollBtn:hover::after { animation: none; }
 .rollBtn:active { transform: scale(0.97) translateY(0); }
@@ -592,7 +590,6 @@
 }
 
 @media (max-width: 600px) {
-  .rollBtn { animation: none; }
   .listSelect { height: 42px; }
   .filtersToggle { height: 42px; }
 }

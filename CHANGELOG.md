@@ -1,3 +1,9 @@
+## [1.2.3] — 2026-06-14
+
+### Fixed
+
+- Roll button glow only appears on hover; removed the continuous idle pulse animation that fired at random-looking intervals
+
 ## [1.2.2] — 2026-06-14
 
 ### Fixed
