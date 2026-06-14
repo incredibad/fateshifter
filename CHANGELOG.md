@@ -1,3 +1,9 @@
+## [1.2.1] — 2026-06-14
+
+### Fixed
+
+- Partner card focus: cards stay in their original positions; clicking a card raises it to the front via z-index only, no position swap; removed hover effect (click/tap only)
+
 ## [1.2.0] — 2026-06-14
 
 ### Added

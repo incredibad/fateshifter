@@ -426,14 +426,8 @@
   border-radius: calc(var(--card-w, 300px) * 0.04);
 }
 
-.cardBackInteractive {
+.cardInteractive {
   cursor: pointer;
-  transition: filter 0.15s, transform 0.15s;
-}
-.cardBackInteractive:hover {
-  filter: brightness(1.18) drop-shadow(0 0 14px rgba(160,126,232,0.60));
-  transform: translate(3px, -4px);
-  z-index: 3;
 }
 
 .cardPlaceholder {
