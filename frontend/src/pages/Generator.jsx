@@ -62,22 +62,29 @@ function shuffle(arr) {
   return a;
 }
 
-function pickExcluding(candidates, prev) {
+function pickExcluding(candidates, prev, excludedIds = new Set()) {
   // Group by unique commander so each commander has equal weight regardless
   // of how many valid partner combinations they appear in.
+  // Commanders in excludedIds (roll history cooldown) are skipped entirely;
+  // pairs where either commander is excluded are also skipped.
   const cmdSlots = new Map();
   for (const c of candidates) {
     if (c.type === 'single') {
+      if (excludedIds.has(c.commander.id)) continue;
       const id = c.commander.id;
       if (!cmdSlots.has(id)) cmdSlots.set(id, []);
       cmdSlots.get(id).push(c);
     } else {
+      if (excludedIds.has(c.a.id) || excludedIds.has(c.b.id)) continue;
       for (const cmd of [c.a, c.b]) {
         if (!cmdSlots.has(cmd.id)) cmdSlots.set(cmd.id, []);
         cmdSlots.get(cmd.id).push(c);
       }
     }
   }
+
+  // If history has excluded everything, retry without cooldown restrictions
+  if (!cmdSlots.size) return pickExcluding(candidates, prev);
 
   let entries = [...cmdSlots.entries()];
 
@@ -453,7 +460,7 @@ export default function Generator() {
     setFiltersOpen(false);
 
     try {
-      const { candidates } = await api.generateCandidates(selectedListId, selectedColors);
+      const { candidates, recentCommanderIds } = await api.generateCandidates(selectedListId, selectedColors);
 
       if (!candidates.length) {
         setNoResults(true);
@@ -461,7 +468,7 @@ export default function Generator() {
         return;
       }
 
-      const result = pickExcluding(candidates, prevResult);
+      const result = pickExcluding(candidates, prevResult, new Set(recentCommanderIds));
       const frames = buildReel(candidates, result, Math.max(8, Math.round(spinDuration * FRAMES_PER_SECOND)));
 
       await preloadImages(frames);
@@ -469,6 +476,12 @@ export default function Generator() {
       setReelFrames(frames);
       setCurrentResult(result);
       setPhase('spinning');
+
+      // Record the roll server-side for history (fire-and-forget)
+      const cmdIds = result.type === 'single'
+        ? [result.commander.id]
+        : [result.a.id, result.b.id];
+      api.recordRoll(selectedListId, cmdIds).catch(() => {});
 
       if (spinTimerRef.current) clearTimeout(spinTimerRef.current);
       spinTimerRef.current = setTimeout(() => {

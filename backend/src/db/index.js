@@ -64,8 +64,19 @@ export async function initDb() {
   await pool.query(`ALTER TABLE commanders ADD COLUMN IF NOT EXISTS image_uri TEXT;`);
 
   await pool.query(`ALTER TABLE lists ADD COLUMN IF NOT EXISTS default_colors TEXT[];`);
+  await pool.query(`ALTER TABLE lists ADD COLUMN IF NOT EXISTS remember_limit INTEGER NOT NULL DEFAULT 0;`);
   await pool.query(`CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT);`);
   await pool.query(`INSERT INTO settings (key, value) VALUES ('spin_duration', '5') ON CONFLICT DO NOTHING;`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS roll_history (
+      id           SERIAL PRIMARY KEY,
+      list_id      INTEGER NOT NULL REFERENCES lists(id) ON DELETE CASCADE,
+      rolled_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      commander_ids INTEGER[] NOT NULL
+    );
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS roll_history_list_rolled ON roll_history(list_id, rolled_at DESC);`);
 
   console.log('Database initialized');
 }

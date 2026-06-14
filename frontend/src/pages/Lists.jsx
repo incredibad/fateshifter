@@ -11,6 +11,9 @@ export default function Lists() {
   const [editId, setEditId] = useState(null);
   const [editName, setEditName] = useState('');
   const [deleteId, setDeleteId] = useState(null);
+  const [memoryModal, setMemoryModal] = useState(null); // list object
+  const [memoryLimit, setMemoryLimit] = useState(0);
+  const [memorySaving, setMemorySaving] = useState(false);
   const [error, setError] = useState(null);
 
   async function load() {
@@ -48,6 +51,22 @@ export default function Lists() {
       setDeleteId(null);
       await load();
     } catch (e) { setError(e.message); }
+  }
+
+  function openMemoryModal(list) {
+    setMemoryModal(list);
+    setMemoryLimit(list.remember_limit ?? 0);
+  }
+
+  async function saveMemoryLimit() {
+    if (!memoryModal) return;
+    setMemorySaving(true);
+    try {
+      await api.setListRememberLimit(memoryModal.id, memoryLimit);
+      setMemoryModal(null);
+      await load();
+    } catch (e) { setError(e.message); }
+    finally { setMemorySaving(false); }
   }
 
   return (
@@ -109,12 +128,57 @@ export default function Lists() {
                     <button className={styles.renameBtn} onClick={() => { setEditId(list.id); setEditName(list.name); }}>
                       Rename
                     </button>
+                    <button
+                      className={`${styles.memoryBtn} ${list.remember_limit > 0 ? styles.memoryBtnActive : ''}`}
+                      onClick={() => openMemoryModal(list)}
+                      title="Roll memory"
+                    >
+                      {list.remember_limit > 0 ? `↺ ${list.remember_limit}` : '↺'}
+                    </button>
                     <button className={styles.deleteBtn} onClick={() => setDeleteId(list.id)}>✕</button>
                   </div>
                 </>
               )}
             </div>
           ))}
+        </div>
+      )}
+
+      {memoryModal && (
+        <div className="modal-backdrop" onClick={e => e.target === e.currentTarget && setMemoryModal(null)}>
+          <div className="modal-sheet" style={{ maxWidth: 380 }}>
+            <div className="modal-header">
+              <span className="modal-title">Roll Memory — {memoryModal.name}</span>
+              <button className={styles.closeBtn} onClick={() => setMemoryModal(null)}>✕</button>
+            </div>
+            <div className="modal-body">
+              <p className={styles.memoryDesc}>
+                Fateshifter will avoid re-rolling commanders seen in the last <strong>{memoryLimit}</strong> roll{memoryLimit !== 1 ? 's' : ''}.
+                {memoryLimit === 0 ? ' Set above 0 to enable.' : ''}
+              </p>
+              <div className={styles.memorySliderRow}>
+                <span className={styles.memorySliderLabel}>0</span>
+                <input
+                  type="range"
+                  min={0}
+                  max={memoryModal.commander_count || 1}
+                  value={memoryLimit}
+                  onChange={e => setMemoryLimit(Number(e.target.value))}
+                  className={styles.memorySlider}
+                />
+                <span className={styles.memorySliderLabel}>{memoryModal.commander_count}</span>
+              </div>
+              <div className={`${styles.memoryValue} ${memoryLimit === 0 ? styles.memoryValueOff : ''}`}>
+                {memoryLimit === 0 ? 'Off' : memoryLimit}
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className={styles.cancelBtn} onClick={() => setMemoryModal(null)}>Cancel</button>
+              <button className={styles.saveBtn} onClick={saveMemoryLimit} disabled={memorySaving}>
+                {memorySaving ? 'Saving…' : 'Save'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

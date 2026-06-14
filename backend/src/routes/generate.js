@@ -98,8 +98,49 @@ router.get('/candidates', async (req, res) => {
   try {
     const { listId, colors: colorsParam } = req.query;
     if (!listId) return res.status(400).json({ error: 'listId is required' });
-    const candidates = await buildCandidates(listId, parseColors(colorsParam));
-    res.json({ candidates });
+
+    const [candidatesResult, listResult] = await Promise.all([
+      buildCandidates(listId, parseColors(colorsParam)),
+      pool.query('SELECT remember_limit FROM lists WHERE id=$1', [listId]),
+    ]);
+
+    const candidates = candidatesResult;
+    const rememberLimit = listResult.rows[0]?.remember_limit ?? 0;
+
+    let recentCommanderIds = [];
+    if (rememberLimit > 0) {
+      const { rows } = await pool.query(
+        `SELECT commander_ids FROM roll_history WHERE list_id=$1 ORDER BY rolled_at DESC LIMIT $2`,
+        [listId, rememberLimit]
+      );
+      recentCommanderIds = [...new Set(rows.flatMap(r => r.commander_ids))];
+    }
+
+    res.json({ candidates, recentCommanderIds });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+router.post('/record', async (req, res) => {
+  try {
+    const { listId, commanderIds } = req.body;
+    if (!listId || !Array.isArray(commanderIds) || !commanderIds.length)
+      return res.status(400).json({ error: 'listId and commanderIds are required' });
+
+    const { rows } = await pool.query('SELECT remember_limit FROM lists WHERE id=$1', [listId]);
+    const limit = rows[0]?.remember_limit ?? 0;
+    if (limit === 0) return res.json({ ok: true });
+
+    await pool.query(
+      'INSERT INTO roll_history (list_id, commander_ids) VALUES ($1, $2)',
+      [listId, commanderIds]
+    );
+    // Trim to limit
+    await pool.query(`
+      DELETE FROM roll_history WHERE list_id=$1
+      AND id NOT IN (SELECT id FROM roll_history WHERE list_id=$1 ORDER BY rolled_at DESC LIMIT $2)
+    `, [listId, limit]);
+
+    res.json({ ok: true });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 

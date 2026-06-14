@@ -139,3 +139,60 @@
   transition: opacity 0.12s;
 }
 .deleteConfirmBtn:hover { opacity: 0.88; }
+
+.memoryBtn {
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text3);
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  transition: background 0.12s, color 0.12s;
+  min-width: 32px;
+  text-align: center;
+}
+.memoryBtn:hover { background: var(--bg4); color: var(--text2); }
+.memoryBtnActive {
+  color: var(--accent);
+  border-color: var(--accent-border);
+  background: var(--accent-light);
+}
+.memoryBtnActive:hover { background: var(--accent-hover); color: var(--accent); }
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: var(--radius);
+  transition: color 0.12s;
+}
+.closeBtn:hover { color: var(--text); }
+
+.memoryDesc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+.memoryDesc strong { color: var(--text); }
+
+.memorySliderRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.memorySlider { flex: 1; accent-color: var(--accent); }
+.memorySliderLabel { font-size: 11px; color: var(--text3); flex-shrink: 0; font-family: var(--font-mono); }
+
+.memoryValue {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+.memoryValueOff { color: var(--text3); }

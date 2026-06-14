@@ -41,6 +41,28 @@ router.put('/:id', async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+router.put('/:id/remember-limit', async (req, res) => {
+  try {
+    const limit = parseInt(req.body.limit, 10);
+    if (isNaN(limit) || limit < 0) return res.status(400).json({ error: 'limit must be a non-negative integer' });
+    const { rows } = await pool.query(
+      'UPDATE lists SET remember_limit=$1, updated_at=NOW() WHERE id=$2 RETURNING *',
+      [limit, req.params.id]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'List not found' });
+    // Trim history to new limit
+    if (limit > 0) {
+      await pool.query(`
+        DELETE FROM roll_history WHERE list_id=$1
+        AND id NOT IN (SELECT id FROM roll_history WHERE list_id=$1 ORDER BY rolled_at DESC LIMIT $2)
+      `, [req.params.id, limit]);
+    } else {
+      await pool.query('DELETE FROM roll_history WHERE list_id=$1', [req.params.id]);
+    }
+    res.json(rows[0]);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 router.put('/:id/default-colors', async (req, res) => {
   try {
     const { colors } = req.body; // null | string[]
