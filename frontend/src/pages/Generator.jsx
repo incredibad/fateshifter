@@ -212,7 +212,7 @@ function PartnerBadge({ type }) {
   return <span className={styles.partnerBadge}>{labels[type]}</span>;
 }
 
-function ReelFrame({ frame, focusedPartner = 0, onFocusToggle }) {
+function ReelFrame({ frame, focusedPartner = 0, onFocusPartner }) {
   if (frame.type === 'single') {
     const { commander } = frame;
     return (
@@ -226,10 +226,8 @@ function ReelFrame({ frame, focusedPartner = 0, onFocusToggle }) {
   }
 
   const { a, b } = frame;
-  const front = focusedPartner === 0 ? a : b;
-  const back  = focusedPartner === 0 ? b : a;
 
-  if (!front.image_uri && !back.image_uri) {
+  if (!a.image_uri && !b.image_uri) {
     return (
       <div className={styles.singleFrame}>
         <div className={styles.cardPlaceholder}>
@@ -240,21 +238,24 @@ function ReelFrame({ frame, focusedPartner = 0, onFocusToggle }) {
   }
   return (
     <div className={styles.pairFrame}>
-      {back.image_uri && (
+      {b.image_uri && (
         <img
-          src={back.image_uri}
-          className={`${styles.cardImg} ${styles.cardBack}${onFocusToggle ? ` ${styles.cardBackInteractive}` : ''}`}
-          alt={back.name}
+          src={b.image_uri}
+          className={`${styles.cardImg} ${styles.cardBack}${onFocusPartner ? ` ${styles.cardInteractive}` : ''}`}
+          style={focusedPartner === 1 ? { zIndex: 3 } : undefined}
+          alt={b.name}
           draggable={false}
-          onClick={onFocusToggle}
+          onClick={onFocusPartner ? () => onFocusPartner(1) : undefined}
         />
       )}
-      {front.image_uri && (
+      {a.image_uri && (
         <img
-          src={front.image_uri}
-          className={`${styles.cardImg} ${styles.cardFront}`}
-          alt={front.name}
+          src={a.image_uri}
+          className={`${styles.cardImg} ${styles.cardFront}${onFocusPartner ? ` ${styles.cardInteractive}` : ''}`}
+          style={focusedPartner === 1 ? { zIndex: 2 } : undefined}
+          alt={a.name}
           draggable={false}
+          onClick={onFocusPartner ? () => onFocusPartner(0) : undefined}
         />
       )}
     </div>
@@ -586,7 +587,7 @@ export default function Generator() {
                   <ReelFrame
                     frame={frame}
                     focusedPartner={i === 0 ? focusedPartner : 0}
-                    onFocusToggle={i === 0 && phase === 'done' ? () => setFocusedPartner(p => 1 - p) : undefined}
+                    onFocusPartner={i === 0 && phase === 'done' ? setFocusedPartner : undefined}
                   />
                 </div>
               ))}
