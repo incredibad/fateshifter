@@ -212,7 +212,7 @@ function PartnerBadge({ type }) {
   return <span className={styles.partnerBadge}>{labels[type]}</span>;
 }
 
-function ReelFrame({ frame }) {
+function ReelFrame({ frame, focusedPartner = 0, onFocusToggle }) {
   if (frame.type === 'single') {
     const { commander } = frame;
     return (
@@ -226,7 +226,10 @@ function ReelFrame({ frame }) {
   }
 
   const { a, b } = frame;
-  if (!a.image_uri && !b.image_uri) {
+  const front = focusedPartner === 0 ? a : b;
+  const back  = focusedPartner === 0 ? b : a;
+
+  if (!front.image_uri && !back.image_uri) {
     return (
       <div className={styles.singleFrame}>
         <div className={styles.cardPlaceholder}>
@@ -237,8 +240,23 @@ function ReelFrame({ frame }) {
   }
   return (
     <div className={styles.pairFrame}>
-      {b.image_uri && <img src={b.image_uri} className={`${styles.cardImg} ${styles.cardBack}`} alt={b.name} draggable={false} />}
-      {a.image_uri && <img src={a.image_uri} className={`${styles.cardImg} ${styles.cardFront}`} alt={a.name} draggable={false} />}
+      {back.image_uri && (
+        <img
+          src={back.image_uri}
+          className={`${styles.cardImg} ${styles.cardBack}${onFocusToggle ? ` ${styles.cardBackInteractive}` : ''}`}
+          alt={back.name}
+          draggable={false}
+          onClick={onFocusToggle}
+        />
+      )}
+      {front.image_uri && (
+        <img
+          src={front.image_uri}
+          className={`${styles.cardImg} ${styles.cardFront}`}
+          alt={front.name}
+          draggable={false}
+        />
+      )}
     </div>
   );
 }
@@ -312,6 +330,7 @@ export default function Generator() {
   const [currentResult, setCurrentResult] = useState(null);
   const [prevResult, setPrevResult] = useState(null);
   const [noResults, setNoResults] = useState(false);
+  const [focusedPartner, setFocusedPartner] = useState(0); // 0 = a front, 1 = b front
   const [error, setError] = useState(null);
 
   const stripRef = useRef(null);
@@ -385,6 +404,7 @@ export default function Generator() {
     setReelFrames([]);
     setCurrentResult(null);
     setNoResults(false);
+    setFocusedPartner(0);
     if (spinTimerRef.current) clearTimeout(spinTimerRef.current);
   }
 
@@ -563,7 +583,11 @@ export default function Generator() {
             <div className={styles.reelStrip} ref={stripRef}>
               {reelFrames.map((frame, i) => (
                 <div key={i} className={styles.reelFrame}>
-                  <ReelFrame frame={frame} />
+                  <ReelFrame
+                    frame={frame}
+                    focusedPartner={i === 0 ? focusedPartner : 0}
+                    onFocusToggle={i === 0 && phase === 'done' ? () => setFocusedPartner(p => 1 - p) : undefined}
+                  />
                 </div>
               ))}
             </div>
