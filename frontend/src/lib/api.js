@@ -24,6 +24,7 @@ export const api = {
   createList: (name) => req('POST', '/lists', { name }),
   updateList: (id, name) => req('PUT', `/lists/${id}`, { name }),
   setListDefaultColors: (id, colors) => req('PUT', `/lists/${id}/default-colors`, { colors }),
+  setListRememberLimit: (id, limit) => req('PUT', `/lists/${id}/remember-limit`, { limit }),
   deleteList: (id) => req('DELETE', `/lists/${id}`),
 
   // Commanders within a list
@@ -39,6 +40,8 @@ export const api = {
   // Settings
   getSettings: () => req('GET', '/settings'),
   updateSettings: (data) => req('PUT', '/settings', data),
+
+  recordRoll: (listId, commanderIds) => req('POST', '/generate/record', { listId, commanderIds }),
 
   // Generate
   generateCandidates: (listId, colors) => {

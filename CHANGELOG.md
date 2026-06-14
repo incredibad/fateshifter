@@ -1,3 +1,9 @@
+## [1.3.0] — 2026-06-14
+
+### Added
+
+- Per-list roll memory: set a remember limit (0 = off, up to the list size) via the ↺ button on each list card; Fateshifter will avoid re-rolling any commander seen within the last N rolls, with history stored server-side and persisted across sessions
+
 ## [1.2.4] — 2026-06-14
 
 ### Fixed
