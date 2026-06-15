@@ -222,10 +222,10 @@ function PresetDropdown({ selectedColors, onApply }) {
 
 function ManaPips({ colors }) {
   if (!colors || colors.length === 0)
-    return <span className={`mana-pip mana-C ${styles.pip}`}>C</span>;
+    return <span className={styles.pips}><i className={`ms ms-c ms-cost ${styles.pip}`} /></span>;
   return (
     <span className={styles.pips}>
-      {colors.map(c => <span key={c} className={`mana-pip mana-${c} ${styles.pip}`}>{c}</span>)}
+      {colors.map(c => <i key={c} className={`ms ms-${c.toLowerCase()} ms-cost ${styles.pip}`} />)}
     </span>
   );
 }

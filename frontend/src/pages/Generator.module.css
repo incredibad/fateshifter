@@ -648,6 +648,17 @@
   min-width: 0;
 }
 
+.pips {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.pip {
+  font-size: 13px;
+}
+
 .historyEntryPartnerLabel {
   font-size: 9px;
   font-weight: 700;
