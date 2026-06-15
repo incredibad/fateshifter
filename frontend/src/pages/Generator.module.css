@@ -571,6 +571,133 @@
 
 
 
+/* ─── History button (overlay inside reelViewport) ─── */
+.historyBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(12, 9, 22, 0.72);
+  border: 1px solid rgba(160, 126, 232, 0.28);
+  border-radius: var(--radius);
+  color: var(--text3);
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+  backdrop-filter: blur(6px);
+}
+.historyBtn:hover {
+  color: var(--text2);
+  border-color: rgba(160, 126, 232, 0.55);
+  background: rgba(20, 14, 36, 0.88);
+}
+.historyBtnActive {
+  color: var(--accent) !important;
+  border-color: var(--accent-border) !important;
+  background: rgba(110, 60, 200, 0.18) !important;
+}
+
+/* ─── History panel (portal, position: fixed via inline style) ─── */
+.historyPanel {
+  width: 260px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-2);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  max-height: 380px;
+  overflow: hidden;
+}
+
+.historyPanelHeader {
+  padding: 10px 14px 9px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  font-family: var(--font-heading);
+}
+
+.historyList {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.historyEntry {
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--divider);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.historyEntry:last-child { border-bottom: none; }
+
+.historyEntryRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.historyEntryPartnerLabel {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+  width: 10px;
+}
+
+.historyEntryName {
+  font-size: 12px;
+  color: var(--text);
+  font-weight: 500;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.historyEmpty {
+  padding: 18px 14px;
+  font-size: 13px;
+  color: var(--text3);
+  text-align: center;
+}
+
+.historyPanelFooter {
+  padding: 8px 10px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.historyClearBtn {
+  width: 100%;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+  border-radius: var(--radius);
+  font-size: 12px;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.historyClearBtn:hover:not(:disabled) {
+  background: var(--red-bg);
+  color: var(--red);
+  border-color: rgba(248, 113, 113, 0.3);
+}
+.historyClearBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
 /* ─── Empty / error ─── */
 .empty {
   color: var(--text2);
