@@ -127,6 +127,15 @@ function matchesPresetColors(preset, selectedColors) {
   return [...selectedColors].sort().join(',') === [...preset.colors].sort().join(',');
 }
 
+function ClockIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="6.5" cy="6.5" r="5.5"/>
+      <polyline points="6.5,3.5 6.5,6.5 8.5,8.5"/>
+    </svg>
+  );
+}
+
 function ChevronDown({ open }) {
   return (
     <svg
@@ -357,10 +366,18 @@ export default function Generator() {
   const [focusedPartner, setFocusedPartner] = useState(0); // 0 = a front, 1 = b front
   const [error, setError] = useState(null);
 
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [rollHistory, setRollHistory] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyClearing, setHistoryClearing] = useState(false);
+  const [historyPanelPos, setHistoryPanelPos] = useState(null);
+
   const stripRef = useRef(null);
   const reelViewportRef = useRef(null);
   const spinTimerRef = useRef(null);
   const touchStartY = useRef(null);
+  const historyBtnRef = useRef(null);
+  const historyPanelRef = useRef(null);
 
   useEffect(() => {
     api.getLists().then(data => {
@@ -423,6 +440,45 @@ export default function Generator() {
     return () => el.removeEventListener('transitionend', onEnd);
   }, [phase, reelFrames, spinDuration]);
 
+  const currentList = lists.find(l => String(l.id) === selectedListId);
+  const hasMemory = (currentList?.remember_limit ?? 0) > 0;
+
+  useEffect(() => { setHistoryOpen(false); }, [selectedListId]);
+
+  useEffect(() => {
+    if (!historyOpen) return;
+    function onMouseDown(e) {
+      if (!historyBtnRef.current?.contains(e.target) && !historyPanelRef.current?.contains(e.target)) {
+        setHistoryOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
+  }, [historyOpen]);
+
+  async function openHistory() {
+    if (historyOpen) { setHistoryOpen(false); return; }
+    const rect = historyBtnRef.current.getBoundingClientRect();
+    setHistoryPanelPos({ top: rect.bottom + 6, right: window.innerWidth - rect.right });
+    setHistoryOpen(true);
+    setHistoryLoading(true);
+    try {
+      const data = await api.getRollHistory(selectedListId);
+      setRollHistory(data);
+    } catch {}
+    setHistoryLoading(false);
+  }
+
+  async function clearHistory() {
+    setHistoryClearing(true);
+    try {
+      await api.clearRollHistory(selectedListId);
+      setRollHistory([]);
+    } catch {}
+    setHistoryClearing(false);
+    setHistoryOpen(false);
+  }
+
   function resetResult() {
     setPhase('idle');
     setReelFrames([]);
@@ -456,6 +512,7 @@ export default function Generator() {
     setError(null);
     setNoResults(false);
     setFocusedPartner(0);
+    setHistoryOpen(false);
     setPhase('fetching');
     setFiltersOpen(false);
 
@@ -609,6 +666,16 @@ export default function Generator() {
 
       <div className={styles.reelViewport} ref={reelViewportRef}>
         <RuneField />
+        {hasMemory && (
+          <button
+            ref={historyBtnRef}
+            className={`${styles.historyBtn}${historyOpen ? ` ${styles.historyBtnActive}` : ''}`}
+            onClick={openHistory}
+            title="Roll history"
+          >
+            <ClockIcon />
+          </button>
+        )}
         {showReel ? (
           <>
             <div className={styles.reelStrip} ref={stripRef}>
@@ -654,6 +721,47 @@ export default function Generator() {
           </>
         )}
       </div>
+
+      {historyOpen && historyPanelPos && createPortal(
+        <div
+          ref={historyPanelRef}
+          className={styles.historyPanel}
+          style={{ position: 'fixed', top: historyPanelPos.top, right: historyPanelPos.right }}
+        >
+          <div className={styles.historyPanelHeader}>Roll History</div>
+          {historyLoading ? (
+            <div className={styles.historyEmpty}>Loading…</div>
+          ) : rollHistory.filter(e => e.commanders?.length).length === 0 ? (
+            <div className={styles.historyEmpty}>No rolls recorded yet.</div>
+          ) : (
+            <div className={styles.historyList}>
+              {rollHistory.filter(e => e.commanders?.length).map(entry => (
+                <div key={entry.id} className={styles.historyEntry}>
+                  {entry.commanders.map((c, i) => (
+                    <div key={c.id} className={styles.historyEntryRow}>
+                      {entry.commanders.length > 1 && (
+                        <span className={styles.historyEntryPartnerLabel}>{i === 0 ? 'a' : 'b'}</span>
+                      )}
+                      <span className={styles.historyEntryName}>{c.name}</span>
+                      <ManaPips colors={c.color_identity} />
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
+          <div className={styles.historyPanelFooter}>
+            <button
+              className={styles.historyClearBtn}
+              onClick={clearHistory}
+              disabled={historyClearing || rollHistory.filter(e => e.commanders?.length).length === 0}
+            >
+              {historyClearing ? 'Clearing…' : 'Clear History'}
+            </button>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }

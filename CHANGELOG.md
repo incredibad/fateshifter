@@ -1,3 +1,9 @@
+## [1.4.0] — 2026-06-15
+
+### Added
+
+- Roll history dropdown: a clock icon button in the top-right corner of the spin window shows all recently rolled commanders (up to the list's remember limit), with a Clear History button at the bottom to reset the cooldown buffer
+
 ## [1.3.0] — 2026-06-14
 
 ### Added

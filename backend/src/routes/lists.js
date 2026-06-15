@@ -63,6 +63,39 @@ router.put('/:id/remember-limit', async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+router.get('/:id/roll-history', async (req, res) => {
+  try {
+    const { rows: listRows } = await pool.query('SELECT remember_limit FROM lists WHERE id=$1', [req.params.id]);
+    if (!listRows.length) return res.status(404).json({ error: 'List not found' });
+    const limit = listRows[0].remember_limit;
+    if (limit === 0) return res.json([]);
+
+    const { rows } = await pool.query(`
+      SELECT rh.id, rh.rolled_at,
+        COALESCE(
+          (SELECT json_agg(
+            json_build_object('id', c.id, 'name', c.name, 'color_identity', c.color_identity)
+            ORDER BY array_position(rh.commander_ids, c.id)
+          ) FROM commanders c WHERE c.id = ANY(rh.commander_ids)),
+          '[]'::json
+        ) AS commanders
+      FROM roll_history rh
+      WHERE rh.list_id = $1
+      ORDER BY rh.rolled_at DESC
+      LIMIT $2
+    `, [req.params.id, limit]);
+
+    res.json(rows);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+router.delete('/:id/roll-history', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM roll_history WHERE list_id=$1', [req.params.id]);
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 router.put('/:id/default-colors', async (req, res) => {
   try {
     const { colors } = req.body; // null | string[]

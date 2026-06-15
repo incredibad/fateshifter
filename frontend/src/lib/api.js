@@ -25,6 +25,8 @@ export const api = {
   updateList: (id, name) => req('PUT', `/lists/${id}`, { name }),
   setListDefaultColors: (id, colors) => req('PUT', `/lists/${id}/default-colors`, { colors }),
   setListRememberLimit: (id, limit) => req('PUT', `/lists/${id}/remember-limit`, { limit }),
+  getRollHistory: (id) => req('GET', `/lists/${id}/roll-history`),
+  clearRollHistory: (id) => req('DELETE', `/lists/${id}/roll-history`),
   deleteList: (id) => req('DELETE', `/lists/${id}`),
 
   // Commanders within a list
