@@ -1,3 +1,9 @@
+## [1.4.1] — 2026-06-15
+
+### Fixed
+
+- Roll history dropdown: replaced text letters with proper MTG mana symbol icons for colour identity display
+
 ## [1.4.0] — 2026-06-15
 
 ### Added
