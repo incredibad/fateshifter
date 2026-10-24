@@ -1,5 +1,5 @@
 # Stage 1: Build frontend
-FROM node:20-alpine AS frontend-builder
+FROM node:22-alpine AS frontend-builder
 WORKDIR /app
 COPY frontend/package.json .
 RUN npm install
@@ -7,7 +7,7 @@ COPY frontend/ .
 RUN npm run build
 
 # Stage 2: Production
-FROM node:20-alpine
+FROM node:22-alpine
 RUN apk add --no-cache postgresql16 postgresql16-client su-exec && \
     mkdir -p /var/lib/postgresql/data /run/postgresql && \
     chown -R postgres:postgres /var/lib/postgresql /run/postgresql
